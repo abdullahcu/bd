@@ -1,783 +1,935 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform, animate } from "motion/react";
-import {
-  ArrowRight, ArrowUpRight, Menu, X, Moon, Sun, Star, Mail, Phone,
-  Linkedin, Facebook, MessageCircle, MapPin, ChevronUp,
-  Target, TrendingUp, Search, Megaphone, MapPinned, Share2,
-  MousePointerClick, LineChart, BarChart3, Sparkles,
-} from "lucide-react";
-import portrait from "@/assets/portrait.jpg";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alex Morgan — Digital Marketing Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; transition: background .3s, color .3s; }
+img { max-width: 100%; display: block; }
+button, a { cursor: pointer; text-decoration: none; }
+button { background: none; border: none; font-family: inherit; }
 
-const NAV = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "services", label: "Services" },
-  { id: "portfolio", label: "Portfolio" },
-  { id: "skills", label: "Skills" },
-  { id: "blog", label: "Blog" },
-  { id: "contact", label: "Contact" },
-];
+/* ── Tokens (light) ── */
+:root {
+  --bg: #ffffff;
+  --surface: #f8f8fb;
+  --surface-el: #f2f2f8;
+  --border: #e4e4ef;
+  --fg: #0f0f14;
+  --muted: #6b6b80;
+  --accent-bg: #f0f0f8;
+  --accent-fg: #4a4a6a;
+  --primary: #6c47ff;
+  --primary-fg: #ffffff;
+  --grad-primary: linear-gradient(135deg,#6c47ff 0%,#a855f7 100%);
+  --grad-hero: linear-gradient(135deg,#f0edff 0%,#faf0ff 100%);
+  --shadow-soft: 0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-el: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-glow: 0 4px 20px rgba(108,71,255,.35);
+}
+html.dark {
+  --bg: #0d0d12;
+  --surface: #131318;
+  --surface-el: #1a1a22;
+  --border: #2a2a38;
+  --fg: #f0f0f8;
+  --muted: #8888a8;
+  --accent-bg: #1e1e2c;
+  --accent-fg: #a0a0c8;
+  --grad-hero: linear-gradient(135deg,#1a153a 0%,#1a0f2e 100%);
+}
 
+body { background: var(--bg); color: var(--fg); }
+
+/* ── Typography ── */
+.font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* ── Scroll progress ── */
+#progress-bar {
+  position: fixed; inset-inline: 0; top: 0; height: 3px; z-index: 60;
+  background: var(--grad-primary); transform-origin: left; transform: scaleX(0);
+  transition: transform .05s linear;
+}
+
+/* ── Glass card ── */
+.glass-card {
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+html.dark .glass-card {
+  background: rgba(20,20,30,.75);
+}
+
+/* ── Gradient helpers ── */
+.gradient-text {
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--grad-primary); color: var(--primary-fg);
+  border-radius: .75rem; padding: .7rem 1.25rem;
+  font-size: .875rem; font-weight: 600;
+  box-shadow: var(--shadow-glow);
+  transition: transform .2s; border: none;
+}
+.btn-primary:hover { transform: scale(1.03); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: color-mix(in srgb, var(--surface-el) 60%, transparent);
+  color: var(--fg); border: 1px solid var(--border);
+  border-radius: .75rem; padding: .7rem 1.25rem;
+  font-size: .875rem; font-weight: 600;
+  backdrop-filter: blur(8px); transition: background .2s;
+}
+.btn-ghost:hover { background: var(--accent-bg); }
+
+/* ── Layout ── */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+.section { padding: 6rem 1.5rem; scroll-margin-top: 6rem; }
+.section > .container { max-width: 1280px; margin: 0 auto; }
+
+/* ── Eyebrow ── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: .5rem;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+  border-radius: 9999px; padding: .25rem .75rem;
+  font-size: .7rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted); backdrop-filter: blur(8px);
+}
+.eyebrow::before { content:''; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink:0; }
+
+/* ── Nav ── */
+header {
+  position: fixed; inset-inline: 0; top: 0; z-index: 50;
+  padding: 1.25rem 0; transition: padding .3s;
+}
+header.scrolled { padding: .75rem 0; }
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .75rem 1rem; border-radius: 1rem;
+  transition: all .3s;
+}
+header.scrolled .nav-inner { background: rgba(255,255,255,.8); backdrop-filter: blur(16px); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
+html.dark header.scrolled .nav-inner { background: rgba(15,15,22,.85); }
+.nav-logo { display: flex; align-items: center; gap: .5rem; font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--fg); }
+.nav-logo-icon { width: 2rem; height: 2rem; border-radius: .5rem; background: var(--grad-primary); display: grid; place-items: center; color: #fff; flex-shrink:0; box-shadow: var(--shadow-glow); }
+.nav-links { display: flex; gap: .25rem; }
+.nav-links button { padding: .5rem .75rem; border-radius: .5rem; font-size: .875rem; font-weight: 500; color: var(--muted); transition: background .2s, color .2s; }
+.nav-links button:hover { background: var(--accent-bg); color: var(--fg); }
+.nav-actions { display: flex; align-items: center; gap: .5rem; }
+.icon-btn { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: .5rem; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 60%, transparent); color: var(--muted); transition: color .2s; }
+.icon-btn:hover { color: var(--fg); }
+.btn-talk { background: var(--fg); color: var(--bg); border-radius: .5rem; padding: .5rem 1rem; font-size: .875rem; font-weight: 500; transition: transform .2s; }
+.btn-talk:hover { transform: scale(1.03); }
+.hamburger { display: none; }
+.mobile-menu { display: none; flex-direction: column; gap: .25rem; margin-top: .5rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu button { text-align: left; padding: .75rem 1rem; border-radius: .75rem; font-size: .875rem; font-weight: 500; color: var(--fg); }
+.mobile-menu button:hover { background: var(--accent-bg); }
+
+@media (max-width: 1023px) { .nav-links { display: none; } .hamburger { display: grid; } .btn-talk { display: none; } }
+
+/* ── Hero ── */
+#home {
+  position: relative; padding-top: 9rem; padding-bottom: 6rem; overflow: hidden;
+}
+#home::before {
+  content:''; position: absolute; inset: 0; z-index: -1;
+  background: var(--grad-hero);
+}
+.hero-grid { display: grid; align-items: center; gap: 3rem; }
+@media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.15fr .85fr; } }
+.hero-h1 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(2.2rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; margin-top: 1.5rem; }
+.hero-sub { margin-top: 1.5rem; font-size: 1.125rem; line-height: 1.7; color: var(--muted); max-width: 36rem; }
+.hero-btns { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 1.5rem 2rem; margin-top: 3rem; align-items: center; font-size: .875rem; color: var(--muted); }
+.hero-stat-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--fg); }
+.hero-stat-divider { width: 1px; height: 1rem; background: var(--border); }
+.portrait-wrap { position: relative; max-width: 28rem; margin: 0 auto; width: 100%; }
+.portrait-glow { position: absolute; inset: -1rem; border-radius: 2rem; background: var(--grad-primary); opacity: .15; filter: blur(2rem); }
+.portrait-card { position: relative; border-radius: 2rem; overflow: hidden; padding: .5rem; }
+.portrait-img { aspect-ratio: 4/5; width: 100%; border-radius: 1.5rem; object-fit: cover; background: var(--surface-el); }
+/* portrait placeholder */
+.portrait-placeholder { aspect-ratio: 4/5; width: 100%; border-radius: 1.5rem; background: var(--grad-hero); display: grid; place-items: center; }
+.portrait-placeholder-inner { text-align: center; color: var(--muted); }
+.float-card {
+  position: absolute; border-radius: 1rem; padding: 1rem; display: flex; align-items: center; gap: .75rem;
+  background: rgba(255,255,255,.85); backdrop-filter: blur(12px); border: 1px solid var(--border);
+  box-shadow: var(--shadow-el); animation-duration: 4s; animation-iteration-count: infinite; animation-timing-function: ease-in-out;
+}
+html.dark .float-card { background: rgba(20,20,30,.9); }
+.float-card-icon { width: 2.5rem; height: 2.5rem; border-radius: .75rem; display: grid; place-items: center; flex-shrink:0; }
+.float-card-icon.primary { background: var(--grad-primary); color: #fff; box-shadow: var(--shadow-glow); }
+.float-card-icon.accent { background: var(--accent-bg); color: var(--accent-fg); }
+.float-card-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; line-height: 1; }
+.float-card-label { font-size: .75rem; color: var(--muted); margin-top: .15rem; }
+.float-bottom { bottom: -1rem; left: -1rem; }
+.float-top { top: 2.5rem; right: -1rem; }
+@keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+.float-bottom { animation-name: floatA; }
+.float-top { animation-name: floatB; animation-duration: 4.5s; }
+@media (max-width: 639px) { .float-card { display: none; } }
+
+/* ── About ── */
+#about { background: color-mix(in srgb, var(--surface) 50%, var(--bg)); }
+.about-grid { display: grid; gap: 3rem; }
+@media (min-width: 1024px) { .about-grid { grid-template-columns: .9fr 1.1fr; } }
+.about-h2 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(1.75rem, 3.5vw, 3rem); font-weight: 700; letter-spacing: -.02em; margin-top: 1rem; }
+.about-text { font-size: 1.125rem; line-height: 1.75; color: var(--muted); }
+.about-text strong { color: var(--fg); font-weight: 600; }
+.pill-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
+@media (min-width: 640px) { .pill-grid { grid-template-columns: repeat(3, 1fr); } }
+.pill { border: 1px solid var(--border); background: var(--surface-el); border-radius: .75rem; padding: .75rem 1rem; font-size: .875rem; font-weight: 500; text-align: center; color: var(--fg); }
+
+/* ── Services ── */
+.section-header { margin-bottom: 3.5rem; max-width: 40rem; }
+.section-h2 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(1.75rem, 3.5vw, 3rem); font-weight: 700; letter-spacing: -.02em; margin-top: 1rem; }
+.section-sub { margin-top: 1rem; font-size: 1.125rem; color: var(--muted); }
+.services-grid { display: grid; gap: 1.25rem; }
+@media (min-width: 640px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+.service-card {
+  border: 1px solid var(--border); background: var(--surface-el);
+  border-radius: 1.25rem; padding: 1.5rem; box-shadow: var(--shadow-soft);
+  transition: transform .3s, box-shadow .3s; height: 100%;
+}
+.service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-el); }
+.service-icon { width: 3rem; height: 3rem; border-radius: .75rem; background: var(--accent-bg); color: var(--accent-fg); display: grid; place-items: center; margin-bottom: 1.25rem; transition: background .3s, color .3s; }
+.service-card:hover .service-icon { background: var(--grad-primary); color: #fff; }
+.service-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.05rem; font-weight: 600; letter-spacing: -.01em; }
+.service-desc { margin-top: .5rem; font-size: .875rem; line-height: 1.6; color: var(--muted); }
+
+/* ── Stats ── */
+.stats-section { background: color-mix(in srgb, var(--surface) 50%, var(--bg)); }
+.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem 1rem; }
+@media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .stats-grid { grid-template-columns: repeat(5, 1fr); } }
+.stat-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; }
+.stat-label { margin-top: .5rem; font-size: .875rem; color: var(--muted); }
+
+/* ── Portfolio ── */
+.cases-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 1024px) { .cases-grid { grid-template-columns: repeat(3, 1fr); } }
+.case-card {
+  border: 1px solid var(--border); background: var(--surface-el);
+  border-radius: 1.25rem; overflow: hidden; box-shadow: var(--shadow-soft);
+  transition: transform .3s, box-shadow .3s; display: flex; flex-direction: column;
+}
+.case-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-el); }
+.case-thumb { aspect-ratio: 16/10; background: var(--grad-hero); position: relative; overflow: hidden; }
+.case-thumb::after { content:''; position:absolute;inset:0;background:var(--grad-primary);opacity:.1; }
+.case-badge { position: absolute; left: 1.25rem; top: 1.25rem; background: rgba(255,255,255,.8); backdrop-filter: blur(8px); border-radius: 9999px; padding: .25rem .75rem; font-size: .75rem; font-weight: 500; color: var(--fg); z-index:1; }
+html.dark .case-badge { background: rgba(20,20,30,.8); }
+.case-metric { position: absolute; bottom: 1.25rem; right: 1.25rem; background: var(--fg); color: var(--bg); border-radius: .75rem; padding: .5rem 1rem; font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1rem; font-weight: 700; z-index:1; }
+.case-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+.case-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em; }
+.case-dl { margin-top: 1rem; display: flex; flex-direction: column; gap: .75rem; font-size: .875rem; }
+.case-dt { font-weight: 600; color: var(--fg); }
+.case-dd { margin-top: .25rem; color: var(--muted); }
+.case-compare { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 1.25rem; background: var(--surface); border-radius: .75rem; padding: 1rem; }
+.case-before-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--muted); text-decoration: line-through; margin-top: .25rem; }
+.case-after-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; margin-top: .25rem; }
+.case-compare-label { font-size: .625rem; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.case-compare-label.after { color: var(--primary); }
+.case-meta { font-size: .75rem; color: var(--muted); margin-top: .25rem; }
+.case-link { display: inline-flex; align-items: center; gap: .5rem; font-size: .875rem; font-weight: 600; color: var(--primary); margin-top: 1.5rem; align-self: flex-start; transition: transform .2s; }
+.case-card:hover .case-link { transform: translateX(4px); }
+
+/* ── Skills ── */
+#skills { background: color-mix(in srgb, var(--surface) 50%, var(--bg)); }
+.skills-grid { display: grid; gap: 1.5rem 2.5rem; }
+@media (min-width: 640px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .skills-grid { grid-template-columns: repeat(3, 1fr); } }
+.skill-row-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .5rem; font-size: .9rem; }
+.skill-name { font-weight: 500; }
+.skill-pct { font-family: 'Plus Jakarta Sans',sans-serif; font-size: .8rem; font-weight: 600; color: var(--muted); }
+.skill-track { height: 8px; border-radius: 9999px; background: var(--accent-bg); overflow: hidden; }
+.skill-fill { height: 100%; border-radius: 9999px; background: var(--grad-primary); width: 0; transition: width 1.2s cubic-bezier(.22,1,.36,1); }
+
+/* ── Testimonials ── */
+.testi-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 768px) { .testi-grid { grid-template-columns: repeat(3, 1fr); } }
+.testi-card { border: 1px solid var(--border); background: var(--surface-el); border-radius: 1.25rem; padding: 1.5rem; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; height: 100%; }
+.stars { display: flex; gap: .25rem; color: var(--primary); }
+.testi-quote { margin-top: 1rem; flex: 1; font-size: 1rem; line-height: 1.65; }
+.testi-footer { display: flex; align-items: center; gap: .75rem; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.testi-avatar { width: 2.75rem; height: 2.75rem; border-radius: 9999px; background: var(--grad-primary); display: grid; place-items: center; font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 700; color: #fff; flex-shrink:0; }
+.testi-name { font-weight: 600; font-size: .9rem; }
+.testi-role { font-size: .75rem; color: var(--muted); }
+
+/* ── Blog ── */
+#blog { background: color-mix(in srgb, var(--surface) 50%, var(--bg)); }
+.blog-header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 3.5rem; }
+.blog-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 768px) { .blog-grid { grid-template-columns: repeat(3, 1fr); } }
+.blog-card {
+  border: 1px solid var(--border); background: var(--surface-el);
+  border-radius: 1.25rem; overflow: hidden; box-shadow: var(--shadow-soft);
+  transition: transform .3s, box-shadow .3s; display: flex; flex-direction: column;
+}
+.blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-el); }
+.blog-thumb { aspect-ratio: 16/9; background: var(--grad-hero); position: relative; }
+.blog-thumb::after { content:'';position:absolute;inset:0;background:var(--grad-primary);opacity:.12; }
+.blog-tag { position: absolute; left: 1.25rem; top: 1.25rem; background: rgba(255,255,255,.8); backdrop-filter: blur(8px); border-radius: 9999px; padding: .25rem .75rem; font-size: .75rem; font-weight: 500; z-index:1; }
+html.dark .blog-tag { background: rgba(20,20,30,.8); }
+.blog-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+.blog-date { font-size: .75rem; color: var(--muted); }
+.blog-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.05rem; font-weight: 600; line-height: 1.3; margin-top: .5rem; letter-spacing: -.01em; }
+.blog-excerpt { margin-top: .5rem; font-size: .875rem; color: var(--muted); flex: 1; }
+.blog-link { display: inline-flex; align-items: center; gap: .5rem; font-size: .875rem; font-weight: 600; color: var(--primary); margin-top: 1rem; align-self: flex-start; transition: transform .2s; }
+.blog-card:hover .blog-link { transform: translateX(4px); }
+.link-all { display: inline-flex; align-items: center; gap: .5rem; font-size: .875rem; font-weight: 600; color: var(--primary); }
+
+/* ── Contact ── */
+.contact-grid { display: grid; gap: 3rem; }
+@media (min-width: 1024px) { .contact-grid { grid-template-columns: 1fr 1.1fr; } }
+.contact-list { list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+.contact-item { display: flex; align-items: center; gap: .75rem; font-size: .875rem; font-weight: 500; }
+.contact-icon { width: 2.5rem; height: 2.5rem; border-radius: .75rem; background: var(--accent-bg); color: var(--accent-fg); display: grid; place-items: center; flex-shrink:0; }
+.social-row { display: flex; gap: .75rem; margin-top: 2rem; }
+.social-btn { width: 2.75rem; height: 2.75rem; border-radius: .75rem; border: 1px solid var(--border); background: var(--surface-el); color: var(--fg); display: grid; place-items: center; transition: transform .2s, background .2s, color .2s; }
+.social-btn:hover { background: var(--grad-primary); color: #fff; transform: translateY(-2px); }
+.map-placeholder { margin-top: 2rem; aspect-ratio: 16/9; border-radius: 1.25rem; border: 1px solid var(--border); background: var(--grad-hero); overflow: hidden; position: relative; }
+.map-pin-label { position: absolute; inset: 0; display: grid; place-items: center; }
+.map-pin-pill { display: flex; align-items: center; gap: .5rem; background: rgba(255,255,255,.85); backdrop-filter: blur(8px); border-radius: 9999px; padding: .5rem 1rem; font-size: .875rem; font-weight: 500; }
+html.dark .map-pin-pill { background: rgba(15,15,22,.85); }
+.map-grid-svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .25; color: var(--muted); }
+.contact-form { border-radius: 1.5rem; padding: 2rem; }
+.form-row { display: grid; gap: 1rem; }
+@media (min-width: 640px) { .form-row { grid-template-columns: 1fr 1fr; } }
+.form-row + .form-row { margin-top: 1rem; }
+.field-label { display: block; font-size: .7rem; font-weight: 500; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: .5rem; }
+.field-input, .field-textarea {
+  width: 100%; border: 1px solid var(--border); background: var(--bg);
+  border-radius: .75rem; padding: .75rem 1rem; font-size: .875rem; font-family: inherit;
+  color: var(--fg); outline: none; transition: border .2s, box-shadow .2s;
+}
+.field-input::placeholder, .field-textarea::placeholder { color: var(--muted); }
+.field-input:focus, .field-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108,71,255,.15); }
+.field-textarea { resize: none; }
+.full-mt { margin-top: 1rem; }
+.btn-submit {
+  display: flex; align-items: center; justify-content: center; gap: .5rem; width: 100%;
+  background: var(--grad-primary); color: #fff; border-radius: .75rem; padding: .9rem;
+  font-size: .875rem; font-weight: 600; margin-top: 1.5rem; box-shadow: var(--shadow-glow);
+  transition: transform .2s; border: none; cursor: pointer; font-family: inherit;
+}
+.btn-submit:hover { transform: scale(1.01); }
+
+/* ── Footer ── */
+footer { border-top: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 50%, var(--bg)); padding: 3rem 1.5rem; }
+.footer-grid { display: grid; gap: 2.5rem; }
+@media (min-width: 768px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; } }
+.footer-desc { margin-top: 1rem; font-size: .875rem; color: var(--muted); max-width: 22rem; }
+.footer-heading { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; margin-bottom: .75rem; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+.footer-links button, .footer-links a { font-size: .875rem; color: var(--muted); background: none; border: none; font-family: inherit; cursor: pointer; text-decoration: none; transition: color .2s; }
+.footer-links button:hover, .footer-links a:hover { color: var(--fg); }
+.footer-social { display: flex; gap: .75rem; margin-top: 1.5rem; }
+.footer-social-btn { width: 2.25rem; height: 2.25rem; border-radius: .5rem; border: 1px solid var(--border); background: var(--surface-el); color: var(--muted); display: grid; place-items: center; transition: color .2s; }
+.footer-social-btn:hover { color: var(--fg); }
+.footer-bottom { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: .75rem; color: var(--muted); }
+
+/* ── Back to top ── */
+#back-top {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
+  width: 3rem; height: 3rem; border-radius: 9999px;
+  background: var(--grad-primary); color: #fff;
+  display: none; place-items: center; cursor: pointer; border: none;
+  box-shadow: var(--shadow-glow); transition: transform .2s;
+}
+#back-top:hover { transform: scale(1.1); }
+#back-top.visible { display: grid; }
+
+/* ── Fade-in on scroll ── */
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1); }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Toast ── */
+#toast {
+  position: fixed; bottom: 5rem; left: 50%; transform: translateX(-50%) translateY(1rem);
+  background: var(--fg); color: var(--bg); border-radius: .75rem; padding: .75rem 1.5rem;
+  font-size: .875rem; font-weight: 500; z-index: 99; opacity: 0;
+  transition: opacity .3s, transform .3s; pointer-events: none;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="toast">Thanks! I'll be in touch shortly. 🎉</div>
+
+<!-- NAV -->
+<header id="header">
+  <div class="container">
+    <nav class="nav-inner">
+      <button class="nav-logo" onclick="scrollTo('home')">
+        <span class="nav-logo-icon"><i data-lucide="sparkles" style="width:16px;height:16px"></i></span>
+        Alex Morgan
+      </button>
+      <div class="nav-links" id="nav-links">
+        <button onclick="scrollTo('home')">Home</button>
+        <button onclick="scrollTo('about')">About</button>
+        <button onclick="scrollTo('services')">Services</button>
+        <button onclick="scrollTo('portfolio')">Portfolio</button>
+        <button onclick="scrollTo('skills')">Skills</button>
+        <button onclick="scrollTo('blog')">Blog</button>
+        <button onclick="scrollTo('contact')">Contact</button>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme" onclick="toggleDark()">
+          <i data-lucide="moon" id="theme-icon" style="width:16px;height:16px"></i>
+        </button>
+        <button class="btn-talk" onclick="scrollTo('contact')">Let's talk</button>
+        <button class="icon-btn hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+          <i data-lucide="menu" id="hamburger-icon" style="width:16px;height:16px"></i>
+        </button>
+      </div>
+    </nav>
+    <div class="mobile-menu glass-card" id="mobile-menu" style="border-radius:1rem;padding:.75rem;">
+      <button onclick="scrollTo('home')">Home</button>
+      <button onclick="scrollTo('about')">About</button>
+      <button onclick="scrollTo('services')">Services</button>
+      <button onclick="scrollTo('portfolio')">Portfolio</button>
+      <button onclick="scrollTo('skills')">Skills</button>
+      <button onclick="scrollTo('blog')">Blog</button>
+      <button onclick="scrollTo('contact')">Contact</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="home" class="section" style="padding-top:9rem;">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="fade-up"><span class="eyebrow">Digital Marketing Specialist</span></div>
+        <div class="fade-up" style="transition-delay:.05s">
+          <h1 class="hero-h1 font-display">
+            Helping businesses grow through <span class="gradient-text">data-driven</span> digital marketing.
+          </h1>
+        </div>
+        <div class="fade-up" style="transition-delay:.1s">
+          <p class="hero-sub">I build performance marketing systems that turn ad spend into predictable, profitable pipelines — across Meta, Google, SEO and lead generation.</p>
+        </div>
+        <div class="fade-up hero-btns" style="transition-delay:.15s">
+          <button class="btn-primary" onclick="scrollTo('portfolio')">View my work <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+          <button class="btn-ghost" onclick="scrollTo('contact')">Get in touch</button>
+        </div>
+        <div class="fade-up hero-stats" style="transition-delay:.25s">
+          <div><span class="hero-stat-val">8+</span> years experience</div>
+          <div class="hero-stat-divider"></div>
+          <div><span class="hero-stat-val">140+</span> clients served</div>
+          <div class="hero-stat-divider"></div>
+          <div><span class="hero-stat-val">$12M+</span> ad spend</div>
+        </div>
+      </div>
+      <div class="fade-up" style="transition-delay:.1s">
+        <div class="portrait-wrap">
+          <div class="portrait-glow"></div>
+          <div class="portrait-card glass-card">
+            <div class="portrait-placeholder">
+              <div class="portrait-placeholder-inner">
+                <i data-lucide="user" style="width:64px;height:64px;margin:0 auto;opacity:.3"></i>
+                <p style="font-size:.8rem;margin-top:.5rem;opacity:.5">Portrait photo</p>
+              </div>
+            </div>
+          </div>
+          <div class="float-card float-bottom">
+            <div class="float-card-icon primary"><i data-lucide="trending-up" style="width:20px;height:20px"></i></div>
+            <div>
+              <div class="float-card-val">+345%</div>
+              <div class="float-card-label">avg ROAS lift</div>
+            </div>
+          </div>
+          <div class="float-card float-top">
+            <div class="float-card-icon accent"><i data-lucide="line-chart" style="width:20px;height:20px"></i></div>
+            <div>
+              <div class="float-card-val">48K+</div>
+              <div class="float-card-label">leads generated</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="fade-up">
+        <span class="eyebrow">About</span>
+        <h2 class="about-h2 font-display">Strategy, execution and measurable growth — under one roof.</h2>
+      </div>
+      <div>
+        <div class="fade-up" style="transition-delay:.05s">
+          <p class="about-text"><strong>8+ years</strong> of experience scaling brands across e-commerce, SaaS, healthcare, real estate and local services.</p>
+        </div>
+        <div class="fade-up" style="transition-delay:.1s;margin-top:1.5rem;">
+          <p class="about-text">My philosophy is simple: <strong>marketing should make money</strong>. Every campaign, landing page and email I build is tied to a clear business metric — revenue, qualified leads or customer lifetime value.</p>
+        </div>
+        <div class="fade-up pill-grid" style="transition-delay:.15s">
+          <div class="pill">E-commerce</div>
+          <div class="pill">SaaS</div>
+          <div class="pill">Healthcare</div>
+          <div class="pill">Real Estate</div>
+          <div class="pill">Local Services</div>
+          <div class="pill">B2B</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="fade-up"><span class="eyebrow">Services</span></div>
+      <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Full-stack marketing, built for outcomes.</h2></div>
+      <div class="fade-up" style="transition-delay:.1s"><p class="section-sub">Nine capabilities, one accountable partner. Engage me for a single channel or an end-to-end growth engine.</p></div>
+    </div>
+    <div class="services-grid" id="services-grid"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid" id="stats-grid"></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="fade-up"><span class="eyebrow">Case Studies</span></div>
+      <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Selected work that moved the needle.</h2></div>
+    </div>
+    <div class="cases-grid" id="cases-grid"></div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="fade-up"><span class="eyebrow">Skills & Tools</span></div>
+      <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">The stack behind the results.</h2></div>
+    </div>
+    <div class="skills-grid" id="skills-grid"></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="fade-up"><span class="eyebrow">Testimonials</span></div>
+      <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Trusted by founders and marketing leaders.</h2></div>
+    </div>
+    <div class="testi-grid" id="testi-grid"></div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog" class="section">
+  <div class="container">
+    <div class="blog-header">
+      <div>
+        <div class="fade-up"><span class="eyebrow">Blog</span></div>
+        <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Notes from the field.</h2></div>
+      </div>
+      <div class="fade-up" style="transition-delay:.1s">
+        <button class="link-all">All articles <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+      </div>
+    </div>
+    <div class="blog-grid" id="blog-grid"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <div class="fade-up"><span class="eyebrow">Contact</span></div>
+        <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Let's build your growth engine.</h2></div>
+        <div class="fade-up" style="transition-delay:.1s"><p class="section-sub">Tell me about your business and what you'd like to achieve. I'll respond within one business day.</p></div>
+        <div class="fade-up" style="transition-delay:.15s">
+          <ul class="contact-list">
+            <li class="contact-item"><span class="contact-icon"><i data-lucide="mail" style="width:16px;height:16px"></i></span> hello@alexmorgan.co</li>
+            <li class="contact-item"><span class="contact-icon"><i data-lucide="phone" style="width:16px;height:16px"></i></span> +1 (415) 555-0142</li>
+            <li class="contact-item"><span class="contact-icon"><i data-lucide="map-pin" style="width:16px;height:16px"></i></span> San Francisco, CA — Remote worldwide</li>
+          </ul>
+        </div>
+        <div class="fade-up" style="transition-delay:.2s">
+          <div class="social-row">
+            <a href="#" class="social-btn" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+            <a href="#" class="social-btn" aria-label="Facebook"><i data-lucide="facebook" style="width:16px;height:16px"></i></a>
+            <a href="#" class="social-btn" aria-label="Message"><i data-lucide="message-circle" style="width:16px;height:16px"></i></a>
+          </div>
+        </div>
+        <div class="fade-up map-placeholder" style="transition-delay:.25s">
+          <svg class="map-grid-svg" xmlns="http://www.w3.org/2000/svg">
+            <defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0L0 0 0 32" fill="none" stroke="currentColor" stroke-width=".5"/></pattern></defs>
+            <rect width="100%" height="100%" fill="url(#grid)"/>
+          </svg>
+          <div class="map-pin-label">
+            <div class="map-pin-pill"><i data-lucide="map-pin" style="width:14px;height:14px;color:var(--primary)"></i> San Francisco, CA</div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-up" style="transition-delay:.1s">
+        <form class="contact-form glass-card" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div><label class="field-label">Name</label><input class="field-input" type="text" name="name" placeholder="Jane Doe" /></div>
+            <div><label class="field-label">Email</label><input class="field-input" type="email" name="email" placeholder="jane@company.com" /></div>
+          </div>
+          <div class="form-row" style="margin-top:1rem">
+            <div><label class="field-label">Company</label><input class="field-input" type="text" name="company" placeholder="Acme Inc" /></div>
+            <div><label class="field-label">Budget</label><input class="field-input" type="text" name="budget" placeholder="$5k – $25k / mo" /></div>
+          </div>
+          <div class="full-mt">
+            <label class="field-label">Project details</label>
+            <textarea class="field-input field-textarea" rows="5" placeholder="Tell me about your goals, channels and timeline..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send message <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="nav-logo" style="display:inline-flex">
+          <span class="nav-logo-icon"><i data-lucide="sparkles" style="width:16px;height:16px"></i></span>
+          Alex Morgan
+        </div>
+        <p class="footer-desc">Performance marketing for ambitious businesses. Strategy, execution and measurable growth.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Quick links</div>
+        <ul class="footer-links">
+          <li><button onclick="scrollTo('home')">Home</button></li>
+          <li><button onclick="scrollTo('about')">About</button></li>
+          <li><button onclick="scrollTo('services')">Services</button></li>
+          <li><button onclick="scrollTo('portfolio')">Portfolio</button></li>
+          <li><button onclick="scrollTo('skills')">Skills</button></li>
+          <li><button onclick="scrollTo('blog')">Blog</button></li>
+          <li><button onclick="scrollTo('contact')">Contact</button></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+        <div class="footer-social">
+          <a href="#" class="footer-social-btn" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+          <a href="#" class="footer-social-btn" aria-label="Facebook"><i data-lucide="facebook" style="width:16px;height:16px"></i></a>
+          <a href="#" class="footer-social-btn" aria-label="Message"><i data-lucide="message-circle" style="width:16px;height:16px"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© <span id="year"></span> Alex Morgan. All rights reserved.</div>
+      <div>Crafted with care.</div>
+    </div>
+  </div>
+</footer>
+
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <i data-lucide="chevron-up" style="width:20px;height:20px"></i>
+</button>
+
+<script>
+// ── Data ──────────────────────────────────────────────────────────
 const SERVICES = [
-  { icon: Facebook, title: "Facebook & Instagram Ads", desc: "Full-funnel Meta campaigns engineered for ROAS, from creative testing to scale." },
-  { icon: Target, title: "Google Ads", desc: "Search, Performance Max and YouTube campaigns dialed in for high-intent conversions." },
-  { icon: MousePointerClick, title: "Lead Generation", desc: "Predictable B2B and B2C lead pipelines with qualified, sales-ready prospects." },
-  { icon: MapPinned, title: "Local Business Marketing", desc: "Google Business Profile, local SEO and geo-targeted ads that fill your calendar." },
-  { icon: Search, title: "SEO", desc: "Technical SEO, content strategy and link building for compounding organic growth." },
-  { icon: Share2, title: "Social Media Marketing", desc: "Brand-building content systems that turn followers into customers." },
-  { icon: TrendingUp, title: "Conversion Rate Optimization", desc: "Landing pages and funnels A/B tested to lift conversion without raising spend." },
-  { icon: Megaphone, title: "Marketing Strategy", desc: "Positioning, messaging and a 90-day roadmap built around your business goals." },
-  { icon: BarChart3, title: "Analytics & Reporting", desc: "GA4, GTM and dashboards that turn data into clear, profitable decisions." },
-];
-
-const SKILLS = [
-  { name: "Meta Ads", level: 95 },
-  { name: "Google Ads", level: 93 },
-  { name: "Google Analytics", level: 92 },
-  { name: "Google Tag Manager", level: 88 },
-  { name: "SEO", level: 90 },
-  { name: "Email Marketing", level: 85 },
-  { name: "Copywriting", level: 87 },
-  { name: "Canva", level: 82 },
-  { name: "WordPress", level: 84 },
-  { name: "HubSpot", level: 88 },
-  { name: "CRM", level: 86 },
-  { name: "Marketing Automation", level: 89 },
-];
-
-const CASES = [
-  {
-    title: "Scaling a DTC Skincare Brand",
-    industry: "E-commerce / Beauty",
-    challenge: "Stagnant revenue with rising ad costs and inconsistent ROAS.",
-    strategy: "Restructured Meta and Google accounts, launched UGC creative testing, rebuilt funnel.",
-    before: { label: "Monthly Revenue", value: "$42K" },
-    after: { label: "Monthly Revenue", value: "$187K" },
-    metric: "+345% ROAS",
-  },
-  {
-    title: "B2B SaaS Lead Engine",
-    industry: "SaaS / B2B",
-    challenge: "High CPL and unqualified demo requests draining the sales pipeline.",
-    strategy: "LinkedIn + Google intent campaigns paired with lead scoring and nurture sequences.",
-    before: { label: "Cost per Lead", value: "$184" },
-    after: { label: "Cost per Lead", value: "$47" },
-    metric: "-74% CPL",
-  },
-  {
-    title: "Local Dental Practice Growth",
-    industry: "Healthcare / Local",
-    challenge: "Empty appointment book and weak local visibility against competitors.",
-    strategy: "Local SEO overhaul, GBP optimization, and geo-targeted Meta lead ads.",
-    before: { label: "New Patients / mo", value: "12" },
-    after: { label: "New Patients / mo", value: "68" },
-    metric: "+466% Bookings",
-  },
-];
-
-const TESTIMONIALS = [
-  { name: "Sarah Chen", role: "Founder", company: "Luma Skincare", rating: 5, quote: "Alex turned our ads from a money pit into our most reliable growth channel. We 4x'd revenue in six months." },
-  { name: "Marcus Reid", role: "VP Marketing", company: "Northwind SaaS", rating: 5, quote: "The strategic clarity and execution speed are unmatched. Our pipeline has never been healthier." },
-  { name: "Dr. Priya Shah", role: "Owner", company: "Bright Smile Dental", rating: 5, quote: "We finally have a predictable flow of new patients. Worth every dollar, ten times over." },
+  { icon: 'facebook', title: 'Facebook & Instagram Ads', desc: 'Full-funnel Meta campaigns engineered for ROAS, from creative testing to scale.' },
+  { icon: 'target', title: 'Google Ads', desc: 'Search, Performance Max and YouTube campaigns dialed in for high-intent conversions.' },
+  { icon: 'mouse-pointer-click', title: 'Lead Generation', desc: 'Predictable B2B and B2C lead pipelines with qualified, sales-ready prospects.' },
+  { icon: 'map-pin', title: 'Local Business Marketing', desc: 'Google Business Profile, local SEO and geo-targeted ads that fill your calendar.' },
+  { icon: 'search', title: 'SEO', desc: 'Technical SEO, content strategy and link building for compounding organic growth.' },
+  { icon: 'share-2', title: 'Social Media Marketing', desc: 'Brand-building content systems that turn followers into customers.' },
+  { icon: 'trending-up', title: 'Conversion Rate Optimization', desc: 'Landing pages and funnels A/B tested to lift conversion without raising spend.' },
+  { icon: 'megaphone', title: 'Marketing Strategy', desc: 'Positioning, messaging and a 90-day roadmap built around your business goals.' },
+  { icon: 'bar-chart-3', title: 'Analytics & Reporting', desc: 'GA4, GTM and dashboards that turn data into clear, profitable decisions.' },
 ];
 
 const STATS = [
-  { label: "Campaigns Managed", value: 320, suffix: "+" },
-  { label: "Leads Generated", value: 48000, suffix: "+" },
-  { label: "Ad Spend Managed", value: 12, prefix: "$", suffix: "M+" },
-  { label: "Average ROI", value: 410, suffix: "%" },
-  { label: "Happy Clients", value: 140, suffix: "+" },
+  { label: 'Campaigns Managed', value: 320, suffix: '+' },
+  { label: 'Leads Generated', value: 48000, suffix: '+' },
+  { label: 'Ad Spend Managed', value: 12, prefix: '$', suffix: 'M+' },
+  { label: 'Average ROI', value: 410, suffix: '%' },
+  { label: 'Happy Clients', value: 140, suffix: '+' },
+];
+
+const CASES = [
+  { title: 'Scaling a DTC Skincare Brand', industry: 'E-commerce / Beauty', challenge: 'Stagnant revenue with rising ad costs and inconsistent ROAS.', strategy: 'Restructured Meta and Google accounts, launched UGC creative testing, rebuilt funnel.', before: { label: 'Monthly Revenue', value: '$42K' }, after: { label: 'Monthly Revenue', value: '$187K' }, metric: '+345% ROAS' },
+  { title: 'B2B SaaS Lead Engine', industry: 'SaaS / B2B', challenge: 'High CPL and unqualified demo requests draining the sales pipeline.', strategy: 'LinkedIn + Google intent campaigns paired with lead scoring and nurture sequences.', before: { label: 'Cost per Lead', value: '$184' }, after: { label: 'Cost per Lead', value: '$47' }, metric: '-74% CPL' },
+  { title: 'Local Dental Practice Growth', industry: 'Healthcare / Local', challenge: 'Empty appointment book and weak local visibility against competitors.', strategy: 'Local SEO overhaul, GBP optimization, and geo-targeted Meta lead ads.', before: { label: 'New Patients / mo', value: '12' }, after: { label: 'New Patients / mo', value: '68' }, metric: '+466% Bookings' },
+];
+
+const SKILLS = [
+  { name: 'Meta Ads', level: 95 }, { name: 'Google Ads', level: 93 },
+  { name: 'Google Analytics', level: 92 }, { name: 'Google Tag Manager', level: 88 },
+  { name: 'SEO', level: 90 }, { name: 'Email Marketing', level: 85 },
+  { name: 'Copywriting', level: 87 }, { name: 'Canva', level: 82 },
+  { name: 'WordPress', level: 84 }, { name: 'HubSpot', level: 88 },
+  { name: 'CRM', level: 86 }, { name: 'Marketing Automation', level: 89 },
+];
+
+const TESTIMONIALS = [
+  { name: 'Sarah Chen', role: 'Founder', company: 'Luma Skincare', rating: 5, quote: 'Alex turned our ads from a money pit into our most reliable growth channel. We 4x\'d revenue in six months.' },
+  { name: 'Marcus Reid', role: 'VP Marketing', company: 'Northwind SaaS', rating: 5, quote: 'The strategic clarity and execution speed are unmatched. Our pipeline has never been healthier.' },
+  { name: 'Dr. Priya Shah', role: 'Owner', company: 'Bright Smile Dental', rating: 5, quote: 'We finally have a predictable flow of new patients. Worth every dollar, ten times over.' },
 ];
 
 const POSTS = [
-  { title: "The 2026 Performance Marketing Playbook", excerpt: "How AI-assisted creative testing is reshaping paid media efficiency.", tag: "Strategy", date: "May 28, 2026" },
-  { title: "Why Your CPL Keeps Climbing (And How to Fix It)", excerpt: "A diagnostic framework for restoring lead-gen efficiency in saturated markets.", tag: "Lead Gen", date: "May 12, 2026" },
-  { title: "GA4 + Server-Side Tracking: A Practical Guide", excerpt: "Reclaim attribution accuracy with a clean, privacy-first measurement stack.", tag: "Analytics", date: "April 30, 2026" },
+  { title: 'The 2026 Performance Marketing Playbook', excerpt: 'How AI-assisted creative testing is reshaping paid media efficiency.', tag: 'Strategy', date: 'May 28, 2026' },
+  { title: 'Why Your CPL Keeps Climbing (And How to Fix It)', excerpt: 'A diagnostic framework for restoring lead-gen efficiency in saturated markets.', tag: 'Lead Gen', date: 'May 12, 2026' },
+  { title: 'GA4 + Server-Side Tracking: A Practical Guide', excerpt: 'Reclaim attribution accuracy with a clean, privacy-first measurement stack.', tag: 'Analytics', date: 'April 30, 2026' },
 ];
 
-function useDarkMode() {
-  const [dark, setDark] = useState(false);
-  useEffect(() => {
-    const root = document.documentElement;
-    dark ? root.classList.add("dark") : root.classList.remove("dark");
-  }, [dark]);
-  return [dark, setDark] as const;
-}
-
-function Counter({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  const [display, setDisplay] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    const controls = animate(0, value, {
-      duration: 2,
-      ease: "easeOut",
-      onUpdate: (v) => setDisplay(Math.round(v)),
-    });
-    return () => controls.stop();
-  }, [inView, value]);
-  return (
-    <span ref={ref}>
-      {prefix}{display.toLocaleString()}{suffix}
-    </span>
-  );
-}
-
-function Section({ id, children, className = "" }: { id?: string; children: React.ReactNode; className?: string }) {
-  return (
-    <section id={id} className={`scroll-mt-24 px-6 py-24 sm:py-32 md:px-10 ${className}`}>
-      <div className="mx-auto max-w-7xl">{children}</div>
-    </section>
-  );
-}
-
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground backdrop-blur">
-      <span className="size-1.5 rounded-full bg-primary" />
-      {children}
+// ── Render helpers ────────────────────────────────────────────────
+function renderServices() {
+  const grid = document.getElementById('services-grid');
+  grid.innerHTML = SERVICES.map((s, i) => `
+    <div class="service-card fade-up" style="transition-delay:${i * 0.04}s">
+      <div class="service-icon"><i data-lucide="${s.icon}" style="width:20px;height:20px"></i></div>
+      <div class="service-title font-display">${s.title}</div>
+      <p class="service-desc">${s.desc}</p>
     </div>
-  );
+  `).join('');
 }
 
-function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay }}
-    >
-      {children}
-    </motion.div>
-  );
+function renderStats() {
+  const grid = document.getElementById('stats-grid');
+  grid.innerHTML = STATS.map((s, i) => `
+    <div class="fade-up" style="transition-delay:${i * 0.05}s">
+      <div class="stat-val font-display" data-count="${s.value}" data-prefix="${s.prefix||''}" data-suffix="${s.suffix||''}">${s.prefix||''}0${s.suffix||''}</div>
+      <div class="stat-label">${s.label}</div>
+    </div>
+  `).join('');
 }
 
-export default function Portfolio() {
-  const [dark, setDark] = useDarkMode();
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [showTop, setShowTop] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+function renderCases() {
+  const grid = document.getElementById('cases-grid');
+  grid.innerHTML = CASES.map((c, i) => `
+    <article class="case-card fade-up" style="transition-delay:${i * 0.08}s">
+      <div class="case-thumb">
+        <span class="case-badge">${c.industry}</span>
+        <div class="case-metric">${c.metric}</div>
+      </div>
+      <div class="case-body">
+        <div class="case-title font-display">${c.title}</div>
+        <dl class="case-dl">
+          <div><dt class="case-dt">Challenge</dt><dd class="case-dd">${c.challenge}</dd></div>
+          <div><dt class="case-dt">Strategy</dt><dd class="case-dd">${c.strategy}</dd></div>
+        </dl>
+        <div class="case-compare">
+          <div>
+            <div class="case-compare-label">Before</div>
+            <div class="case-before-val">${c.before.value}</div>
+            <div class="case-meta">${c.before.label}</div>
+          </div>
+          <div>
+            <div class="case-compare-label after">After</div>
+            <div class="case-after-val">${c.after.value}</div>
+            <div class="case-meta">${c.after.label}</div>
+          </div>
+        </div>
+        <button class="case-link">View details <i data-lucide="arrow-up-right" style="width:16px;height:16px"></i></button>
+      </div>
+    </article>
+  `).join('');
+}
 
-  useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 24);
-      setShowTop(window.scrollY > 600);
+function renderSkills() {
+  const grid = document.getElementById('skills-grid');
+  grid.innerHTML = SKILLS.map((s, i) => `
+    <div class="fade-up" style="transition-delay:${i * 0.03}s">
+      <div class="skill-row-header">
+        <span class="skill-name">${s.name}</span>
+        <span class="skill-pct">${s.level}%</span>
+      </div>
+      <div class="skill-track"><div class="skill-fill" data-level="${s.level}"></div></div>
+    </div>
+  `).join('');
+}
+
+function renderTestimonials() {
+  const grid = document.getElementById('testi-grid');
+  grid.innerHTML = TESTIMONIALS.map((t, i) => `
+    <div class="testi-card fade-up" style="transition-delay:${i * 0.08}s">
+      <div class="stars">${'<i data-lucide="star" style="width:16px;height:16px;fill:currentColor"></i>'.repeat(t.rating)}</div>
+      <p class="testi-quote">"${t.quote}"</p>
+      <div class="testi-footer">
+        <div class="testi-avatar">${t.name.split(' ').map(n=>n[0]).join('')}</div>
+        <div>
+          <div class="testi-name">${t.name}</div>
+          <div class="testi-role">${t.role}, ${t.company}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderBlog() {
+  const grid = document.getElementById('blog-grid');
+  grid.innerHTML = POSTS.map((p, i) => `
+    <article class="blog-card fade-up" style="transition-delay:${i * 0.08}s">
+      <div class="blog-thumb"><span class="blog-tag">${p.tag}</span></div>
+      <div class="blog-body">
+        <div class="blog-date">${p.date}</div>
+        <h3 class="blog-title font-display">${p.title}</h3>
+        <p class="blog-excerpt">${p.excerpt}</p>
+        <button class="blog-link">Read more <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+      </div>
+    </article>
+  `).join('');
+}
+
+// ── Scroll progress ───────────────────────────────────────────────
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+  document.getElementById('progress-bar').style.transform = `scaleX(${progress})`;
+}
+
+// ── Scroll-triggered fades ────────────────────────────────────────
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObserver.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '-60px 0px' });
+
+function observeFades() {
+  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+}
+
+// ── Animated counters ─────────────────────────────────────────────
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = +el.dataset.count;
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = prefix + Math.round(eased * target).toLocaleString() + suffix;
+      if (t < 1) requestAnimationFrame(step);
     };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    requestAnimationFrame(step);
+    counterObserver.unobserve(el);
+  });
+}, { threshold: 0.3 });
 
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setOpen(false);
-  };
-
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Scroll progress */}
-      <motion.div
-        style={{ width: progressWidth }}
-        className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-primary"
-      />
-
-      {/* Nav */}
-      <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? "py-3" : "py-5"
-        }`}
-      >
-        <div className="mx-auto max-w-7xl px-6 md:px-10">
-          <nav
-            className={`flex items-center justify-between rounded-2xl px-4 py-3 transition-all duration-300 ${
-              scrolled ? "glass-card" : ""
-            }`}
-          >
-            <button onClick={() => scrollTo("home")} className="flex items-center gap-2 font-display text-lg font-bold tracking-tight">
-              <span className="grid size-8 place-items-center rounded-lg bg-[image:var(--gradient-primary)] text-primary-foreground shadow-[var(--shadow-glow)]">
-                <Sparkles className="size-4" />
-              </span>
-              Alex Morgan
-            </button>
-            <div className="hidden items-center gap-1 lg:flex">
-              {NAV.map((n) => (
-                <button
-                  key={n.id}
-                  onClick={() => scrollTo(n.id)}
-                  className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                >
-                  {n.label}
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setDark(!dark)}
-                aria-label="Toggle theme"
-                className="grid size-9 place-items-center rounded-lg border border-border bg-surface/60 text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
-              </button>
-              <button
-                onClick={() => scrollTo("contact")}
-                className="hidden rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-transform hover:scale-[1.03] sm:inline-flex"
-              >
-                Let's talk
-              </button>
-              <button
-                onClick={() => setOpen((o) => !o)}
-                aria-label="Menu"
-                className="grid size-9 place-items-center rounded-lg border border-border bg-surface/60 lg:hidden"
-              >
-                {open ? <X className="size-4" /> : <Menu className="size-4" />}
-              </button>
-            </div>
-          </nav>
-          {open && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="glass-card mt-2 grid gap-1 rounded-2xl p-3 lg:hidden"
-            >
-              {NAV.map((n) => (
-                <button
-                  key={n.id}
-                  onClick={() => scrollTo(n.id)}
-                  className="rounded-lg px-3 py-3 text-left text-sm font-medium text-foreground hover:bg-accent"
-                >
-                  {n.label}
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </div>
-      </header>
-
-      {/* Hero */}
-      <Section id="home" className="relative pt-36 sm:pt-44">
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{ background: "var(--gradient-hero)" }}
-        />
-        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-          <div>
-            <FadeUp>
-              <Eyebrow>Digital Marketing Specialist</Eyebrow>
-            </FadeUp>
-            <FadeUp delay={0.05}>
-              <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-                Helping businesses grow through{" "}
-                <span className="gradient-text">data-driven</span> digital marketing.
-              </h1>
-            </FadeUp>
-            <FadeUp delay={0.1}>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-                I build performance marketing systems that turn ad spend into predictable, profitable
-                pipelines — across Meta, Google, SEO and lead generation.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.15}>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <button
-                  onClick={() => scrollTo("portfolio")}
-                  className="group inline-flex items-center gap-2 rounded-xl bg-[image:var(--gradient-primary)] px-5 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-[1.03]"
-                >
-                  View my work
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-                </button>
-                <button
-                  onClick={() => scrollTo("contact")}
-                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface/60 px-5 py-3 text-sm font-semibold text-foreground backdrop-blur transition-colors hover:bg-accent"
-                >
-                  Get in touch
-                </button>
-              </div>
-            </FadeUp>
-            <FadeUp delay={0.25}>
-              <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm text-muted-foreground">
-                <div><span className="font-display text-2xl font-bold text-foreground">8+</span> years experience</div>
-                <div className="h-4 w-px bg-border" />
-                <div><span className="font-display text-2xl font-bold text-foreground">140+</span> clients served</div>
-                <div className="h-4 w-px bg-border" />
-                <div><span className="font-display text-2xl font-bold text-foreground">$12M+</span> ad spend</div>
-              </div>
-            </FadeUp>
-          </div>
-          <FadeUp delay={0.1}>
-            <div className="relative mx-auto w-full max-w-md">
-              <div className="absolute -inset-4 rounded-[2rem] bg-[image:var(--gradient-primary)] opacity-20 blur-2xl" />
-              <div className="glass-card relative overflow-hidden rounded-[2rem] p-2">
-                <img
-                  src={portrait}
-                  alt="Alex Morgan portrait"
-                  width={896}
-                  height={1152}
-                  className="aspect-[4/5] w-full rounded-[1.5rem] object-cover"
-                />
-              </div>
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="glass-card absolute -bottom-4 -left-4 hidden rounded-2xl p-4 sm:block"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="grid size-10 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground">
-                    <TrendingUp className="size-5" />
-                  </div>
-                  <div>
-                    <div className="font-display text-lg font-bold leading-none">+345%</div>
-                    <div className="text-xs text-muted-foreground">avg ROAS lift</div>
-                  </div>
-                </div>
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                className="glass-card absolute -right-4 top-10 hidden rounded-2xl p-4 sm:block"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
-                    <LineChart className="size-5" />
-                  </div>
-                  <div>
-                    <div className="font-display text-lg font-bold leading-none">48K+</div>
-                    <div className="text-xs text-muted-foreground">leads generated</div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </FadeUp>
-        </div>
-      </Section>
-
-      {/* About */}
-      <Section id="about" className="bg-surface/50">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-          <FadeUp>
-            <Eyebrow>About</Eyebrow>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-              Strategy, execution and measurable growth — under one roof.
-            </h2>
-          </FadeUp>
-          <div className="space-y-6 text-lg leading-relaxed text-muted-foreground">
-            <FadeUp delay={0.05}>
-              <p>
-                I'm a senior digital marketing consultant with <span className="font-semibold text-foreground">8+ years</span> of
-                experience scaling brands across e-commerce, SaaS, healthcare, real estate and local services.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.1}>
-              <p>
-                My philosophy is simple: <span className="font-semibold text-foreground">marketing should make money</span>.
-                Every campaign, landing page and email I build is tied to a clear business metric — revenue, qualified leads
-                or customer lifetime value.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.15}>
-              <div className="grid grid-cols-2 gap-4 pt-4 sm:grid-cols-3">
-                {["E-commerce", "SaaS", "Healthcare", "Real Estate", "Local Services", "B2B"].map((i) => (
-                  <div key={i} className="rounded-xl border border-border bg-surface-elevated px-4 py-3 text-sm font-medium text-foreground">
-                    {i}
-                  </div>
-                ))}
-              </div>
-            </FadeUp>
-          </div>
-        </div>
-      </Section>
-
-      {/* Services */}
-      <Section id="services">
-        <div className="mb-14 max-w-2xl">
-          <FadeUp><Eyebrow>Services</Eyebrow></FadeUp>
-          <FadeUp delay={0.05}>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-              Full-stack marketing, built for outcomes.
-            </h2>
-          </FadeUp>
-          <FadeUp delay={0.1}>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Nine capabilities, one accountable partner. Engage me for a single channel or an end-to-end growth engine.
-            </p>
-          </FadeUp>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((s, i) => (
-            <FadeUp key={s.title} delay={i * 0.04}>
-              <div className="group h-full rounded-2xl border border-border bg-surface-elevated p-6 shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)]">
-                <div className="mb-5 inline-grid size-12 place-items-center rounded-xl bg-accent text-accent-foreground transition-colors group-hover:bg-[image:var(--gradient-primary)] group-hover:text-primary-foreground">
-                  <s.icon className="size-5" />
-                </div>
-                <h3 className="font-display text-lg font-semibold tracking-tight">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
-
-      {/* Stats */}
-      <Section className="bg-surface/50">
-        <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
-          {STATS.map((s, i) => (
-            <FadeUp key={s.label} delay={i * 0.05}>
-              <div className="text-center sm:text-left">
-                <div className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
-                  <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} />
-                </div>
-                <div className="mt-2 text-sm text-muted-foreground">{s.label}</div>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
-
-      {/* Portfolio */}
-      <Section id="portfolio">
-        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <FadeUp><Eyebrow>Case Studies</Eyebrow></FadeUp>
-            <FadeUp delay={0.05}>
-              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-                Selected work that moved the needle.
-              </h2>
-            </FadeUp>
-          </div>
-        </div>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {CASES.map((c, i) => (
-            <FadeUp key={c.title} delay={i * 0.08}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)]">
-                <div className="relative aspect-[16/10] overflow-hidden bg-[image:var(--gradient-hero)]">
-                  <div className="absolute inset-0 bg-[image:var(--gradient-primary)] opacity-10" />
-                  <div className="absolute left-5 top-5">
-                    <span className="rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
-                      {c.industry}
-                    </span>
-                  </div>
-                  <div className="absolute bottom-5 right-5 rounded-xl bg-foreground px-4 py-2 font-display text-lg font-bold text-background">
-                    {c.metric}
-                  </div>
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="font-display text-xl font-semibold tracking-tight">{c.title}</h3>
-                  <dl className="mt-4 space-y-3 text-sm">
-                    <div>
-                      <dt className="font-semibold text-foreground">Challenge</dt>
-                      <dd className="mt-1 text-muted-foreground">{c.challenge}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-semibold text-foreground">Strategy</dt>
-                      <dd className="mt-1 text-muted-foreground">{c.strategy}</dd>
-                    </div>
-                  </dl>
-                  <div className="mt-5 grid grid-cols-2 gap-3 rounded-xl bg-surface p-4">
-                    <div>
-                      <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Before</div>
-                      <div className="mt-1 font-display text-lg font-bold text-muted-foreground line-through decoration-1">{c.before.value}</div>
-                      <div className="text-xs text-muted-foreground">{c.before.label}</div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-medium uppercase tracking-wider text-primary">After</div>
-                      <div className="mt-1 font-display text-lg font-bold text-foreground">{c.after.value}</div>
-                      <div className="text-xs text-muted-foreground">{c.after.label}</div>
-                    </div>
-                  </div>
-                  <button className="mt-6 inline-flex items-center gap-2 self-start text-sm font-semibold text-primary transition-transform group-hover:translate-x-1">
-                    View details <ArrowUpRight className="size-4" />
-                  </button>
-                </div>
-              </article>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
-
-      {/* Skills */}
-      <Section id="skills" className="bg-surface/50">
-        <div className="mb-14 max-w-2xl">
-          <FadeUp><Eyebrow>Skills & Tools</Eyebrow></FadeUp>
-          <FadeUp delay={0.05}>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-              The stack behind the results.
-            </h2>
-          </FadeUp>
-        </div>
-        <div className="grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SKILLS.map((s, i) => (
-            <FadeUp key={s.name} delay={i * 0.03}>
-              <div>
-                <div className="mb-2 flex items-baseline justify-between">
-                  <span className="font-medium text-foreground">{s.name}</span>
-                  <span className="font-display text-sm font-semibold text-muted-foreground">{s.level}%</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-accent">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${s.level}%` }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="h-full rounded-full bg-[image:var(--gradient-primary)]"
-                  />
-                </div>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
-
-      {/* Testimonials */}
-      <Section>
-        <div className="mb-14 max-w-2xl">
-          <FadeUp><Eyebrow>Testimonials</Eyebrow></FadeUp>
-          <FadeUp delay={0.05}>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-              Trusted by founders and marketing leaders.
-            </h2>
-          </FadeUp>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
-            <FadeUp key={t.name} delay={i * 0.08}>
-              <div className="flex h-full flex-col rounded-2xl border border-border bg-surface-elevated p-6 shadow-[var(--shadow-soft)]">
-                <div className="flex gap-1 text-primary">
-                  {Array.from({ length: t.rating }).map((_, k) => (
-                    <Star key={k} className="size-4 fill-current" />
-                  ))}
-                </div>
-                <p className="mt-4 flex-1 text-base leading-relaxed text-foreground">"{t.quote}"</p>
-                <div className="mt-6 flex items-center gap-3 border-t border-border pt-5">
-                  <div className="grid size-11 place-items-center rounded-full bg-[image:var(--gradient-primary)] font-display font-bold text-primary-foreground">
-                    {t.name.split(" ").map((n) => n[0]).join("")}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground">{t.name}</div>
-                    <div className="text-xs text-muted-foreground">{t.role}, {t.company}</div>
-                  </div>
-                </div>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
-
-      {/* Blog */}
-      <Section id="blog" className="bg-surface/50">
-        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <FadeUp><Eyebrow>Blog</Eyebrow></FadeUp>
-            <FadeUp delay={0.05}>
-              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-                Notes from the field.
-              </h2>
-            </FadeUp>
-          </div>
-          <FadeUp delay={0.1}>
-            <button className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-              All articles <ArrowRight className="size-4" />
-            </button>
-          </FadeUp>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {POSTS.map((p, i) => (
-            <FadeUp key={p.title} delay={i * 0.08}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)]">
-                <div className="aspect-[16/9] bg-[image:var(--gradient-hero)] relative">
-                  <div className="absolute inset-0 bg-[image:var(--gradient-primary)] opacity-15" />
-                  <span className="absolute left-5 top-5 rounded-full bg-background/80 px-3 py-1 text-xs font-medium backdrop-blur">{p.tag}</span>
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="text-xs text-muted-foreground">{p.date}</div>
-                  <h3 className="mt-2 font-display text-lg font-semibold leading-snug tracking-tight">{p.title}</h3>
-                  <p className="mt-2 flex-1 text-sm text-muted-foreground">{p.excerpt}</p>
-                  <button className="mt-4 inline-flex items-center gap-2 self-start text-sm font-semibold text-primary transition-transform group-hover:translate-x-1">
-                    Read more <ArrowRight className="size-4" />
-                  </button>
-                </div>
-              </article>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
-
-      {/* Contact */}
-      <Section id="contact">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr]">
-          <div>
-            <FadeUp><Eyebrow>Contact</Eyebrow></FadeUp>
-            <FadeUp delay={0.05}>
-              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-                Let's build your growth engine.
-              </h2>
-            </FadeUp>
-            <FadeUp delay={0.1}>
-              <p className="mt-4 text-lg text-muted-foreground">
-                Tell me about your business and what you'd like to achieve. I'll respond within one business day.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.15}>
-              <ul className="mt-8 space-y-4 text-sm">
-                {[
-                  { icon: Mail, label: "hello@alexmorgan.co" },
-                  { icon: Phone, label: "+1 (415) 555-0142" },
-                  { icon: MapPin, label: "San Francisco, CA — Remote worldwide" },
-                ].map((x) => (
-                  <li key={x.label} className="flex items-center gap-3">
-                    <span className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
-                      <x.icon className="size-4" />
-                    </span>
-                    <span className="font-medium text-foreground">{x.label}</span>
-                  </li>
-                ))}
-              </ul>
-            </FadeUp>
-            <FadeUp delay={0.2}>
-              <div className="mt-8 flex gap-3">
-                {[Linkedin, Facebook, MessageCircle].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    aria-label="Social"
-                    className="grid size-11 place-items-center rounded-xl border border-border bg-surface-elevated text-foreground transition-all hover:-translate-y-0.5 hover:bg-[image:var(--gradient-primary)] hover:text-primary-foreground"
-                  >
-                    <Icon className="size-4" />
-                  </a>
-                ))}
-              </div>
-            </FadeUp>
-            <FadeUp delay={0.25}>
-              <div className="mt-8 aspect-[16/9] overflow-hidden rounded-2xl border border-border bg-surface-elevated">
-                <div className="relative h-full w-full bg-[image:var(--gradient-hero)]">
-                  <div className="absolute inset-0 grid place-items-center">
-                    <div className="flex items-center gap-2 rounded-full bg-background/80 px-4 py-2 text-sm font-medium backdrop-blur">
-                      <MapPin className="size-4 text-primary" /> San Francisco, CA
-                    </div>
-                  </div>
-                  <svg className="absolute inset-0 h-full w-full opacity-30" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-                        <path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                      </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grid)" />
-                  </svg>
-                </div>
-              </div>
-            </FadeUp>
-          </div>
-
-          <FadeUp delay={0.1}>
-            <form
-              onSubmit={(e) => { e.preventDefault(); alert("Thanks! I'll be in touch shortly."); }}
-              className="glass-card rounded-3xl p-6 sm:p-8"
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Name" name="name" placeholder="Jane Doe" />
-                <Field label="Email" name="email" type="email" placeholder="jane@company.com" />
-              </div>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                <Field label="Company" name="company" placeholder="Acme Inc" />
-                <Field label="Budget" name="budget" placeholder="$5k – $25k / mo" />
-              </div>
-              <div className="mt-4">
-                <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  Project details
-                </label>
-                <textarea
-                  rows={5}
-                  placeholder="Tell me about your goals, channels and timeline..."
-                  className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                />
-              </div>
-              <button
-                type="submit"
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[image:var(--gradient-primary)] px-5 py-3.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-[1.01]"
-              >
-                Send message <ArrowRight className="size-4" />
-              </button>
-            </form>
-          </FadeUp>
-        </div>
-      </Section>
-
-      {/* Footer */}
-      <footer className="border-t border-border bg-surface/50 px-6 py-12 md:px-10">
-        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
-          <div>
-            <div className="flex items-center gap-2 font-display text-lg font-bold">
-              <span className="grid size-8 place-items-center rounded-lg bg-[image:var(--gradient-primary)] text-primary-foreground">
-                <Sparkles className="size-4" />
-              </span>
-              Alex Morgan
-            </div>
-            <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-              Performance marketing for ambitious businesses. Strategy, execution and measurable growth.
-            </p>
-          </div>
-          <div>
-            <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground">Quick links</div>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              {NAV.map((n) => (
-                <li key={n.id}>
-                  <button onClick={() => scrollTo(n.id)} className="hover:text-foreground">{n.label}</button>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground">Legal</div>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-foreground">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-foreground">Terms</a></li>
-            </ul>
-            <div className="mt-6 flex gap-3">
-              {[Linkedin, Facebook, MessageCircle].map((Icon, i) => (
-                <a key={i} href="#" aria-label="Social" className="grid size-9 place-items-center rounded-lg border border-border bg-surface-elevated text-muted-foreground hover:text-foreground">
-                  <Icon className="size-4" />
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="mx-auto mt-10 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
-          <div>© {new Date().getFullYear()} Alex Morgan. All rights reserved.</div>
-          <div>Crafted with care.</div>
-        </div>
-      </footer>
-
-      {/* Back to top */}
-      {showTop && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          aria-label="Back to top"
-          className="fixed bottom-6 right-6 z-50 grid size-12 place-items-center rounded-full bg-[image:var(--gradient-primary)] text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-110"
-        >
-          <ChevronUp className="size-5" />
-        </motion.button>
-      )}
-    </div>
-  );
+function observeCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
 }
 
-function Field({ label, name, type = "text", placeholder }: { label: string; name: string; type?: string; placeholder?: string }) {
-  return (
-    <div>
-      <label htmlFor={name} className="mb-2 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-        {label}
-      </label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-      />
-    </div>
-  );
+// ── Skill bars ────────────────────────────────────────────────────
+const skillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const fill = e.target;
+    fill.style.width = fill.dataset.level + '%';
+    skillObserver.unobserve(fill);
+  });
+}, { threshold: 0.2 });
+
+function observeSkills() {
+  document.querySelectorAll('.skill-fill').forEach(el => skillObserver.observe(el));
 }
+
+// ── Nav scroll ────────────────────────────────────────────────────
+function handleScroll() {
+  updateProgress();
+  const scrolled = window.scrollY > 24;
+  document.getElementById('header').classList.toggle('scrolled', scrolled);
+  document.getElementById('back-top').classList.toggle('visible', window.scrollY > 600);
+}
+
+// ── Smooth scroll ────────────────────────────────────────────────
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('mobile-menu').classList.remove('open');
+  lucide.createIcons();
+}
+
+// ── Dark mode ─────────────────────────────────────────────────────
+function toggleDark() {
+  const isDark = document.documentElement.classList.toggle('dark');
+  const icon = document.getElementById('theme-icon');
+  icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+  lucide.createIcons();
+}
+
+// ── Mobile menu ───────────────────────────────────────────────────
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const icon = document.getElementById('hamburger-icon');
+  const isOpen = menu.classList.toggle('open');
+  icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+  lucide.createIcons();
+}
+
+// ── Contact form ──────────────────────────────────────────────────
+function handleSubmit(e) {
+  e.preventDefault();
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+  e.target.reset();
+}
+
+// ── Init ──────────────────────────────────────────────────────────
+document.getElementById('year').textContent = new Date().getFullYear();
+
+renderServices();
+renderStats();
+renderCases();
+renderSkills();
+renderTestimonials();
+renderBlog();
+
+lucide.createIcons();
+
+observeFades();
+observeCounters();
+observeSkills();
+
+window.addEventListener('scroll', handleScroll, { passive: true });
+handleScroll();
+</script>
+</body>
+</html>
