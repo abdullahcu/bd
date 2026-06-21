@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Creatorium — Digital Marketing — Content Writing</title>
+<title>Abdullah — Digital Marketing Professional</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet" />
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
 /* ── Reset & base ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
 body { font-family: 'Inter', sans-serif; transition: background .3s, color .3s; }
 img { max-width: 100%; display: block; }
 button, a { cursor: pointer; text-decoration: none; }
@@ -47,16 +46,22 @@ html.dark {
   --grad-hero: linear-gradient(135deg,#1a153a 0%,#1a0f2e 100%);
 }
 
-body { background: var(--bg); color: var(--fg); }
+body { background: var(--bg); color: var(--fg); min-height: 100vh; display: flex; flex-direction: column; }
 
 /* ── Typography ── */
 .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-/* ── Scroll progress ── */
-#progress-bar {
-  position: fixed; inset-inline: 0; top: 0; height: 3px; z-index: 60;
-  background: var(--grad-primary); transform-origin: left; transform: scaleX(0);
-  transition: transform .05s linear;
+/* ── SPA Transitions ── */
+.page-section {
+  display: none;
+}
+.page-section.active {
+  display: block;
+  animation: fadeIn 0.4s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Glass card ── */
@@ -98,8 +103,7 @@ html.dark .glass-card {
 
 /* ── Layout ── */
 .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
-.section { padding: 6rem 1.5rem; scroll-margin-top: 6rem; }
-.section > .container { max-width: 1280px; margin: 0 auto; }
+.section { padding: 4rem 1.5rem; }
 
 /* ── Eyebrow ── */
 .eyebrow {
@@ -112,24 +116,20 @@ html.dark .glass-card {
 }
 .eyebrow::before { content:''; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink:0; }
 
-/* ── Nav ── */
+/* ── Header ── */
 header {
-  position: fixed; inset-inline: 0; top: 0; z-index: 50;
-  padding: 1.25rem 0; transition: padding .3s;
+  position: sticky; top: 0; z-index: 50;
+  padding: 1.25rem 0; background: var(--bg); border-bottom: 1px solid var(--border);
 }
-header.scrolled { padding: .75rem 0; }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
-  padding: .75rem 1rem; border-radius: 1rem;
-  transition: all .3s;
 }
-header.scrolled .nav-inner { background: rgba(255,255,255,.8); backdrop-filter: blur(16px); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
-html.dark header.scrolled .nav-inner { background: rgba(15,15,22,.85); }
 .nav-logo { display: flex; align-items: center; gap: .5rem; font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--fg); }
 .nav-logo-icon { width: 2rem; height: 2rem; border-radius: .5rem; background: var(--grad-primary); display: grid; place-items: center; color: #fff; flex-shrink:0; box-shadow: var(--shadow-glow); }
 .nav-links { display: flex; gap: .25rem; }
 .nav-links button { padding: .5rem .75rem; border-radius: .5rem; font-size: .875rem; font-weight: 500; color: var(--muted); transition: background .2s, color .2s; }
 .nav-links button:hover { background: var(--accent-bg); color: var(--fg); }
+.nav-links button.active { background: var(--grad-primary); color: var(--primary-fg); }
 .nav-actions { display: flex; align-items: center; gap: .5rem; }
 .icon-btn { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: .5rem; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 60%, transparent); color: var(--muted); transition: color .2s; }
 .icon-btn:hover { color: var(--fg); }
@@ -140,32 +140,21 @@ html.dark header.scrolled .nav-inner { background: rgba(15,15,22,.85); }
 .mobile-menu.open { display: flex; }
 .mobile-menu button { text-align: left; padding: .75rem 1rem; border-radius: .75rem; font-size: .875rem; font-weight: 500; color: var(--fg); }
 .mobile-menu button:hover { background: var(--accent-bg); }
+.mobile-menu button.active { background: var(--grad-primary); color: var(--primary-fg); }
 
 @media (max-width: 1023px) { .nav-links { display: none; } .hamburger { display: grid; } .btn-talk { display: none; } }
 
-/* ── Hero ── */
-#home {
-  position: relative; padding-top: 9rem; padding-bottom: 6rem; overflow: hidden;
-}
-#home::before {
-  content:''; position: absolute; inset: 0; z-index: -1;
-  background: var(--grad-hero);
-}
+/* ── Hero / About (Home) ── */
+#home { position: relative; overflow: hidden; padding-top: 3rem; }
 .hero-grid { display: grid; align-items: center; gap: 3rem; }
 @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.15fr .85fr; } }
-.hero-h1 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(2.2rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; margin-top: 1.5rem; }
-.hero-sub { margin-top: 1.5rem; font-size: 1.125rem; line-height: 1.7; color: var(--muted); max-width: 36rem; }
+.hero-h1 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -.02em; margin-top: 1.5rem; }
+.hero-sub { margin-top: 1.5rem; font-size: 1.05rem; line-height: 1.7; color: var(--muted); }
 .hero-btns { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
-.hero-stats { display: flex; flex-wrap: wrap; gap: 1.5rem 2rem; margin-top: 3rem; align-items: center; font-size: .875rem; color: var(--muted); }
-.hero-stat-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--fg); }
-.hero-stat-divider { width: 1px; height: 1rem; background: var(--border); }
 .portrait-wrap { position: relative; max-width: 28rem; margin: 0 auto; width: 100%; }
 .portrait-glow { position: absolute; inset: -1rem; border-radius: 2rem; background: var(--grad-primary); opacity: .15; filter: blur(2rem); }
 .portrait-card { position: relative; border-radius: 2rem; overflow: hidden; padding: .5rem; }
 .portrait-img { aspect-ratio: 4/5; width: 100%; border-radius: 1.5rem; object-fit: cover; background: var(--surface-el); }
-/* portrait placeholder */
-.portrait-placeholder { aspect-ratio: 4/5; width: 100%; border-radius: 1.5rem; background: var(--grad-hero); display: grid; place-items: center; }
-.portrait-placeholder-inner { text-align: center; color: var(--muted); }
 .float-card {
   position: absolute; border-radius: 1rem; padding: 1rem; display: flex; align-items: center; gap: .75rem;
   background: rgba(255,255,255,.85); backdrop-filter: blur(12px); border: 1px solid var(--border);
@@ -177,28 +166,15 @@ html.dark .float-card { background: rgba(20,20,30,.9); }
 .float-card-icon.accent { background: var(--accent-bg); color: var(--accent-fg); }
 .float-card-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; line-height: 1; }
 .float-card-label { font-size: .75rem; color: var(--muted); margin-top: .15rem; }
-.float-bottom { bottom: -1rem; left: -1rem; }
-.float-top { top: 2.5rem; right: -1rem; }
+.float-bottom { bottom: -1rem; left: -1rem; animation-name: floatA; }
+.float-top { top: 2.5rem; right: -1rem; animation-name: floatB; animation-duration: 4.5s; }
 @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
 @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
-.float-bottom { animation-name: floatA; }
-.float-top { animation-name: floatB; animation-duration: 4.5s; }
 @media (max-width: 639px) { .float-card { display: none; } }
-
-/* ── About ── */
-#about { background: color-mix(in srgb, var(--surface) 50%, var(--bg)); }
-.about-grid { display: grid; gap: 3rem; }
-@media (min-width: 1024px) { .about-grid { grid-template-columns: .9fr 1.1fr; } }
-.about-h2 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(1.75rem, 3.5vw, 3rem); font-weight: 700; letter-spacing: -.02em; margin-top: 1rem; }
-.about-text { font-size: 1.125rem; line-height: 1.75; color: var(--muted); }
-.about-text strong { color: var(--fg); font-weight: 600; }
-.pill-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
-@media (min-width: 640px) { .pill-grid { grid-template-columns: repeat(3, 1fr); } }
-.pill { border: 1px solid var(--border); background: var(--surface-el); border-radius: .75rem; padding: .75rem 1rem; font-size: .875rem; font-weight: 500; text-align: center; color: var(--fg); }
 
 /* ── Services ── */
 .section-header { margin-bottom: 3.5rem; max-width: 40rem; }
-.section-h2 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(1.75rem, 3.5vw, 3rem); font-weight: 700; letter-spacing: -.02em; margin-top: 1rem; }
+.section-h2 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(1.75rem, 3.5vw, 2.75rem); font-weight: 700; letter-spacing: -.02em; margin-top: 1rem; }
 .section-sub { margin-top: 1rem; font-size: 1.125rem; color: var(--muted); }
 .services-grid { display: grid; gap: 1.25rem; }
 @media (min-width: 640px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -211,20 +187,12 @@ html.dark .float-card { background: rgba(20,20,30,.9); }
 .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-el); }
 .service-icon { width: 3rem; height: 3rem; border-radius: .75rem; background: var(--accent-bg); color: var(--accent-fg); display: grid; place-items: center; margin-bottom: 1.25rem; transition: background .3s, color .3s; }
 .service-card:hover .service-icon { background: var(--grad-primary); color: #fff; }
-.service-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.05rem; font-weight: 600; letter-spacing: -.01em; }
+.service-title { font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 700; font-size: 1.15rem; letter-spacing: -.01em; }
 .service-desc { margin-top: .5rem; font-size: .875rem; line-height: 1.6; color: var(--muted); }
-
-/* ── Stats ── */
-.stats-section { background: color-mix(in srgb, var(--surface) 50%, var(--bg)); }
-.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem 1rem; }
-@media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 1024px) { .stats-grid { grid-template-columns: repeat(5, 1fr); } }
-.stat-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; }
-.stat-label { margin-top: .5rem; font-size: .875rem; color: var(--muted); }
 
 /* ── Portfolio ── */
 .cases-grid { display: grid; gap: 1.5rem; }
-@media (min-width: 1024px) { .cases-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .cases-grid { grid-template-columns: repeat(2, 1fr); } }
 .case-card {
   border: 1px solid var(--border); background: var(--surface-el);
   border-radius: 1.25rem; overflow: hidden; box-shadow: var(--shadow-soft);
@@ -237,7 +205,7 @@ html.dark .float-card { background: rgba(20,20,30,.9); }
 html.dark .case-badge { background: rgba(20,20,30,.8); }
 .case-metric { position: absolute; bottom: 1.25rem; right: 1.25rem; background: var(--fg); color: var(--bg); border-radius: .75rem; padding: .5rem 1rem; font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1rem; font-weight: 700; z-index:1; }
 .case-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
-.case-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em; }
+.case-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: -.01em; }
 .case-dl { margin-top: 1rem; display: flex; flex-direction: column; gap: .75rem; font-size: .875rem; }
 .case-dt { font-weight: 600; color: var(--fg); }
 .case-dd { margin-top: .25rem; color: var(--muted); }
@@ -250,31 +218,18 @@ html.dark .case-badge { background: rgba(20,20,30,.8); }
 .case-link { display: inline-flex; align-items: center; gap: .5rem; font-size: .875rem; font-weight: 600; color: var(--primary); margin-top: 1.5rem; align-self: flex-start; transition: transform .2s; }
 .case-card:hover .case-link { transform: translateX(4px); }
 
-/* ── Skills ── */
-#skills { background: color-mix(in srgb, var(--surface) 50%, var(--bg)); }
-.skills-grid { display: grid; gap: 1.5rem 2.5rem; }
-@media (min-width: 640px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .skills-grid { grid-template-columns: repeat(3, 1fr); } }
-.skill-row-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .5rem; font-size: .9rem; }
-.skill-name { font-weight: 500; }
-.skill-pct { font-family: 'Plus Jakarta Sans',sans-serif; font-size: .8rem; font-weight: 600; color: var(--muted); }
-.skill-track { height: 8px; border-radius: 9999px; background: var(--accent-bg); overflow: hidden; }
-.skill-fill { height: 100%; border-radius: 9999px; background: var(--grad-primary); width: 0; transition: width 1.2s cubic-bezier(.22,1,.36,1); }
-
-/* ── Testimonials ── */
-.testi-grid { display: grid; gap: 1.5rem; }
-@media (min-width: 768px) { .testi-grid { grid-template-columns: repeat(3, 1fr); } }
-.testi-card { border: 1px solid var(--border); background: var(--surface-el); border-radius: 1.25rem; padding: 1.5rem; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; height: 100%; }
-.stars { display: flex; gap: .25rem; color: var(--primary); }
-.testi-quote { margin-top: 1rem; flex: 1; font-size: 1rem; line-height: 1.65; }
-.testi-footer { display: flex; align-items: center; gap: .75rem; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
-.testi-avatar { width: 2.75rem; height: 2.75rem; border-radius: 9999px; background: var(--grad-primary); display: grid; place-items: center; font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 700; color: #fff; flex-shrink:0; }
-.testi-name { font-weight: 600; font-size: .9rem; }
-.testi-role { font-size: .75rem; color: var(--muted); }
+/* ── Activities & Voluntary ── */
+.photo-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 640px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .photo-grid { grid-template-columns: repeat(3, 1fr); } }
+.photo-card { border: 1px solid var(--border); background: var(--surface-el); border-radius: 1.25rem; overflow: hidden; box-shadow: var(--shadow-soft); transition: transform .3s; }
+.photo-card:hover { transform: translateY(-4px); }
+.photo-wrapper { aspect-ratio: 16/11; background: var(--grad-hero); display: grid; place-items: center; position: relative; overflow: hidden; }
+.photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.photo-fallback { text-align: center; color: var(--muted); padding: 1rem; }
+.photo-desc { padding: 1.25rem; font-size: .9rem; line-height: 1.6; color: var(--muted); }
 
 /* ── Blog ── */
-#blog { background: color-mix(in srgb, var(--surface) 50%, var(--bg)); }
-.blog-header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 3.5rem; }
 .blog-grid { display: grid; gap: 1.5rem; }
 @media (min-width: 768px) { .blog-grid { grid-template-columns: repeat(3, 1fr); } }
 .blog-card {
@@ -283,653 +238,702 @@ html.dark .case-badge { background: rgba(20,20,30,.8); }
   transition: transform .3s, box-shadow .3s; display: flex; flex-direction: column;
 }
 .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-el); }
-.blog-thumb { aspect-ratio: 16/9; background: var(--grad-hero); position: relative; }
+.blog-thumb { aspect-ratio: 16/9; background: var(--grad-hero); position: relative; display: grid; place-items: center; }
 .blog-thumb::after { content:'';position:absolute;inset:0;background:var(--grad-primary);opacity:.12; }
 .blog-tag { position: absolute; left: 1.25rem; top: 1.25rem; background: rgba(255,255,255,.8); backdrop-filter: blur(8px); border-radius: 9999px; padding: .25rem .75rem; font-size: .75rem; font-weight: 500; z-index:1; }
 html.dark .blog-tag { background: rgba(20,20,30,.8); }
 .blog-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
 .blog-date { font-size: .75rem; color: var(--muted); }
-.blog-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.05rem; font-weight: 600; line-height: 1.3; margin-top: .5rem; letter-spacing: -.01em; }
-.blog-excerpt { margin-top: .5rem; font-size: .875rem; color: var(--muted); flex: 1; }
-.blog-link { display: inline-flex; align-items: center; gap: .5rem; font-size: .875rem; font-weight: 600; color: var(--primary); margin-top: 1rem; align-self: flex-start; transition: transform .2s; }
+.blog-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; line-height: 1.35; margin-top: .5rem; letter-spacing: -.01em; }
+.blog-excerpt { margin-top: .5rem; font-size: .875rem; color: var(--muted); flex: 1; line-height: 1.6; }
+.blog-link { display: inline-flex; align-items: center; gap: .5rem; font-size: .875rem; font-weight: 600; color: var(--primary); margin-top: 1.25rem; align-self: flex-start; transition: transform .2s; }
 .blog-card:hover .blog-link { transform: translateX(4px); }
-.link-all { display: inline-flex; align-items: center; gap: .5rem; font-size: .875rem; font-weight: 600; color: var(--primary); }
 
-/* ── Contact ── */
-.contact-grid { display: grid; gap: 3rem; }
-@media (min-width: 1024px) { .contact-grid { grid-template-columns: 1fr 1.1fr; } }
-.contact-list { list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
-.contact-item { display: flex; align-items: center; gap: .75rem; font-size: .875rem; font-weight: 500; }
-.contact-icon { width: 2.5rem; height: 2.5rem; border-radius: .75rem; background: var(--accent-bg); color: var(--accent-fg); display: grid; place-items: center; flex-shrink:0; }
-.social-row { display: flex; gap: .75rem; margin-top: 2rem; }
-.social-btn { width: 2.75rem; height: 2.75rem; border-radius: .75rem; border: 1px solid var(--border); background: var(--surface-el); color: var(--fg); display: grid; place-items: center; transition: transform .2s, background .2s, color .2s; }
-.social-btn:hover { background: var(--grad-primary); color: #fff; transform: translateY(-2px); }
-.map-placeholder { margin-top: 2rem; aspect-ratio: 16/9; border-radius: 1.25rem; border: 1px solid var(--border); background: var(--grad-hero); overflow: hidden; position: relative; }
-.map-pin-label { position: absolute; inset: 0; display: grid; place-items: center; }
-.map-pin-pill { display: flex; align-items: center; gap: .5rem; background: rgba(255,255,255,.85); backdrop-filter: blur(8px); border-radius: 9999px; padding: .5rem 1rem; font-size: .875rem; font-weight: 500; }
-html.dark .map-pin-pill { background: rgba(15,15,22,.85); }
-.map-grid-svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .25; color: var(--muted); }
-.contact-form { border-radius: 1.5rem; padding: 2rem; }
-.form-row { display: grid; gap: 1rem; }
-@media (min-width: 640px) { .form-row { grid-template-columns: 1fr 1fr; } }
-.form-row + .form-row { margin-top: 1rem; }
-.field-label { display: block; font-size: .7rem; font-weight: 500; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: .5rem; }
-.field-input, .field-textarea {
-  width: 100%; border: 1px solid var(--border); background: var(--bg);
-  border-radius: .75rem; padding: .75rem 1rem; font-size: .875rem; font-family: inherit;
-  color: var(--fg); outline: none; transition: border .2s, box-shadow .2s;
+/* ── Live Customizer Overlays ── */
+.edit-active [contenteditable="true"] {
+  outline: 2px dashed var(--primary) !important;
+  background: rgba(108, 71, 255, 0.05);
+  border-radius: .25rem;
+  padding: .125rem .25rem;
 }
-.field-input::placeholder, .field-textarea::placeholder { color: var(--muted); }
-.field-input:focus, .field-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108,71,255,.15); }
-.field-textarea { resize: none; }
-.full-mt { margin-top: 1rem; }
-.btn-submit {
-  display: flex; align-items: center; justify-content: center; gap: .5rem; width: 100%;
-  background: var(--grad-primary); color: #fff; border-radius: .75rem; padding: .9rem;
-  font-size: .875rem; font-weight: 600; margin-top: 1.5rem; box-shadow: var(--shadow-glow);
-  transition: transform .2s; border: none; cursor: pointer; font-family: inherit;
+.image-upload-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.6);
+  opacity: 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; color: #fff; cursor: pointer; transition: opacity .2s;
+  font-size: .75rem; font-weight: 600; gap: .5rem; z-index: 10;
 }
-.btn-submit:hover { transform: scale(1.01); }
+.edit-active .portrait-card:hover .image-upload-overlay,
+.edit-active .photo-wrapper:hover .image-upload-overlay {
+  opacity: 1;
+}
+
+/* ── Customizer Panel ── */
+#builder-panel {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100;
+  border-radius: 1.25rem; max-width: 20rem; width: calc(100vw - 3rem);
+  box-shadow: var(--shadow-el); font-size: .875rem;
+}
+.panel-header {
+  padding: .75rem 1.25rem; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.panel-body { padding: 1.25rem; display: flex; flex-direction: column; gap: .75rem; }
+.customizer-btn {
+  background: var(--fg); color: var(--bg); font-weight: 600;
+  border-radius: .5rem; padding: .6rem 1rem; width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+}
+.btn-toggle-edit { background: var(--grad-primary); color: #fff; }
 
 /* ── Footer ── */
-footer { border-top: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 50%, var(--bg)); padding: 3rem 1.5rem; }
-.footer-grid { display: grid; gap: 2.5rem; }
-@media (min-width: 768px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; } }
-.footer-desc { margin-top: 1rem; font-size: .875rem; color: var(--muted); max-width: 22rem; }
-.footer-heading { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; margin-bottom: .75rem; }
-.footer-links { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
-.footer-links button, .footer-links a { font-size: .875rem; color: var(--muted); background: none; border: none; font-family: inherit; cursor: pointer; text-decoration: none; transition: color .2s; }
-.footer-links button:hover, .footer-links a:hover { color: var(--fg); }
-.footer-social { display: flex; gap: .75rem; margin-top: 1.5rem; }
-.footer-social-btn { width: 2.25rem; height: 2.25rem; border-radius: .5rem; border: 1px solid var(--border); background: var(--surface-el); color: var(--muted); display: grid; place-items: center; transition: color .2s; }
-.footer-social-btn:hover { color: var(--fg); }
-.footer-bottom { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: .75rem; color: var(--muted); }
+footer { border-top: 1px solid var(--border); background: var(--surface); padding: 3rem 1.5rem; margin-top: auto; }
+.footer-inner { display: flex; flex-direction: column; gap: 1.5rem; align-items: center; justify-content: space-between; }
+@media (min-width: 768px) { .footer-inner { flex-direction: row; } }
+.footer-desc { font-size: .875rem; color: var(--muted); }
+.footer-social { display: flex; gap: .75rem; }
+.footer-social-btn { width: 2.25rem; height: 2.25rem; border-radius: .5rem; border: 1px solid var(--border); background: var(--bg); color: var(--muted); display: grid; place-items: center; transition: color .2s, transform .2s; }
+.footer-social-btn:hover { color: var(--fg); transform: translateY(-2px); }
 
-/* ── Back to top ── */
-#back-top {
-  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
-  width: 3rem; height: 3rem; border-radius: 9999px;
-  background: var(--grad-primary); color: #fff;
-  display: none; place-items: center; cursor: pointer; border: none;
-  box-shadow: var(--shadow-glow); transition: transform .2s;
-}
-#back-top:hover { transform: scale(1.1); }
-#back-top.visible { display: grid; }
-
-/* ── Fade-in on scroll ── */
-.fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1); }
-.fade-up.visible { opacity: 1; transform: translateY(0); }
-
-/* ── Toast ── */
+/* ── Toast notifications ── */
 #toast {
   position: fixed; bottom: 5rem; left: 50%; transform: translateX(-50%) translateY(1rem);
   background: var(--fg); color: var(--bg); border-radius: .75rem; padding: .75rem 1.5rem;
-  font-size: .875rem; font-weight: 500; z-index: 99; opacity: 0;
+  font-size: .875rem; font-weight: 500; z-index: 150; opacity: 0;
   transition: opacity .3s, transform .3s; pointer-events: none;
 }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800">
 
-<div id="progress-bar"></div>
-<div id="toast">Thanks! I'll be in touch shortly. 🎉</div>
-
-<!-- NAV -->
+<!-- 1. NAVIGATION BAR -->
 <header id="header">
   <div class="container">
     <nav class="nav-inner">
-      <button class="nav-logo" onclick="scrollTo('home')">
-        <span class="nav-logo-icon"><i data-lucide="sparkles" style="width:16px;height:16px"></i></span>
-        Alex Morgan
+      <button class="nav-logo" onclick="navigateTo('home')">
+        <span class="nav-logo-icon"><i data-lucide="smile" style="width:16px;height:16px"></i></span>
+        <span id="site-logo-text" contenteditable="false">Abdullah</span>
       </button>
       <div class="nav-links" id="nav-links">
-        <button onclick="scrollTo('home')">Home</button>
-        <button onclick="scrollTo('about')">About</button>
-        <button onclick="scrollTo('services')">Services</button>
-        <button onclick="scrollTo('portfolio')">Portfolio</button>
-        <button onclick="scrollTo('skills')">Skills</button>
-        <button onclick="scrollTo('blog')">Blog</button>
-        <button onclick="scrollTo('contact')">Contact</button>
+        <button onclick="navigateTo('home')" class="nav-btn active" id="nav-home">Home</button>
+        <button onclick="navigateTo('services')" class="nav-btn" id="nav-services">Services</button>
+        <button onclick="navigateTo('portfolio')" class="nav-btn" id="nav-portfolio">Portfolio</button>
+        <button onclick="navigateTo('blog')" class="nav-btn" id="nav-blog">Blog</button>
+        <button onclick="navigateTo('activities')" class="nav-btn" id="nav-activities">Activities</button>
+        <button onclick="navigateTo('voluntary')" class="nav-btn" id="nav-voluntary">Voluntary</button>
       </div>
       <div class="nav-actions">
         <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme" onclick="toggleDark()">
           <i data-lucide="moon" id="theme-icon" style="width:16px;height:16px"></i>
         </button>
-        <button class="btn-talk" onclick="scrollTo('contact')">Let's talk</button>
+        <button class="btn-talk" onclick="navigateTo('blog')">Read Blog</button>
         <button class="icon-btn hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
           <i data-lucide="menu" id="hamburger-icon" style="width:16px;height:16px"></i>
         </button>
       </div>
     </nav>
     <div class="mobile-menu glass-card" id="mobile-menu" style="border-radius:1rem;padding:.75rem;">
-      <button onclick="scrollTo('home')">Home</button>
-      <button onclick="scrollTo('about')">About</button>
-      <button onclick="scrollTo('services')">Services</button>
-      <button onclick="scrollTo('portfolio')">Portfolio</button>
-      <button onclick="scrollTo('skills')">Skills</button>
-      <button onclick="scrollTo('blog')">Blog</button>
-      <button onclick="scrollTo('contact')">Contact</button>
+      <button onclick="navigateTo('home'); toggleMenu()" class="nav-btn-mobile active" id="m-nav-home">Home</button>
+      <button onclick="navigateTo('services'); toggleMenu()" class="nav-btn-mobile" id="m-nav-services">Services</button>
+      <button onclick="navigateTo('portfolio'); toggleMenu()" class="nav-btn-mobile" id="m-nav-portfolio">Portfolio</button>
+      <button onclick="navigateTo('blog'); toggleMenu()" class="nav-btn-mobile" id="m-nav-blog">Blog</button>
+      <button onclick="navigateTo('activities'); toggleMenu()" class="nav-btn-mobile" id="m-nav-activities">Activities</button>
+      <button onclick="navigateTo('voluntary'); toggleMenu()" class="nav-btn-mobile" id="m-nav-voluntary">Voluntary</button>
     </div>
   </div>
 </header>
 
-<!-- HERO -->
-<section id="home" class="section" style="padding-top:9rem;">
-  <div class="container">
+<main class="flex-grow container">
+
+  <!-- 2. HERO / HOME SECTION -->
+  <section id="home" class="page-section active section">
     <div class="hero-grid">
       <div>
-        <div class="fade-up"><span class="eyebrow">Digital Marketing Specialist</span></div>
-        <div class="fade-up" style="transition-delay:.05s">
-          <h1 class="hero-h1 font-display">
-            Helping businesses grow through <span class="gradient-text">data-driven</span> digital marketing.
-          </h1>
-        </div>
-        <div class="fade-up" style="transition-delay:.1s">
-          <p class="hero-sub">I build performance marketing systems that turn ad spend into predictable, profitable pipelines — across Meta, Google, SEO and lead generation.</p>
-        </div>
-        <div class="fade-up hero-btns" style="transition-delay:.15s">
-          <button class="btn-primary" onclick="scrollTo('portfolio')">View my work <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
-          <button class="btn-ghost" onclick="scrollTo('contact')">Get in touch</button>
-        </div>
-        <div class="fade-up hero-stats" style="transition-delay:.25s">
-          <div><span class="hero-stat-val">8+</span> years experience</div>
-          <div class="hero-stat-divider"></div>
-          <div><span class="hero-stat-val">140+</span> clients served</div>
-          <div class="hero-stat-divider"></div>
-          <div><span class="hero-stat-val">$12M+</span> ad spend</div>
+        <div class="eyebrow">Marketing Specialist</div>
+        <h1 class="hero-h1 font-display">
+          I am a <span class="gradient-text" id="editable-hero-bold" contenteditable="false">Digital Marketing Professional</span>
+        </h1>
+        <p class="hero-sub text-lg text-gray-600 leading-relaxed" id="editable-hero-desc" contenteditable="false">
+          I design world-class digital marketing strategies and drive sales channels through automated ad platforms, search visibility optimization, and performance-driven content copy. I help scale online stores and B2B pipelines cleanly.
+        </p>
+        <p class="hero-sub text-lg text-gray-600 leading-relaxed mt-4" id="editable-hero-desc-sec" contenteditable="false">
+          Specializing in conversion marketing funnels, Meta algorithms, and robust SEO analytics to turn direct advertising investments into predictable, compounding growth portfolios.
+        </p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="navigateTo('services')">Explore Services <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+          <button class="btn-ghost" onclick="navigateTo('portfolio')">View Case Studies</button>
         </div>
       </div>
-      <div class="fade-up" style="transition-delay:.1s">
+      <div>
         <div class="portrait-wrap">
           <div class="portrait-glow"></div>
           <div class="portrait-card glass-card">
-            <div class="portrait-placeholder">
-              <div class="portrait-placeholder-inner">
-                <i data-lucide="user" style="width:64px;height:64px;margin:0 auto;opacity:.3"></i>
-                <p style="font-size:.8rem;margin-top:.5rem;opacity:.5">Portrait photo</p>
-              </div>
+            <!-- image upload helper overlay (visible only on edit mode) -->
+            <div class="image-upload-overlay" onclick="triggerImgUpload('hero-profile-pic')">
+              <i data-lucide="camera" style="width:24px;height:24px"></i>
+              <span>Change Photo</span>
             </div>
+            <img src="https://placehold.co/400x500/eaeafd/4f46e5?text=Abdullah" id="hero-profile-pic" alt="Abdullah Profile Picture" class="portrait-img" />
           </div>
           <div class="float-card float-bottom">
             <div class="float-card-icon primary"><i data-lucide="trending-up" style="width:20px;height:20px"></i></div>
             <div>
-              <div class="float-card-val">+345%</div>
-              <div class="float-card-label">avg ROAS lift</div>
+              <div class="float-card-val" id="editable-float-bottom-val" contenteditable="false">+345%</div>
+              <div class="float-card-label" id="editable-float-bottom-lbl" contenteditable="false">average ROAS lift</div>
             </div>
           </div>
           <div class="float-card float-top">
             <div class="float-card-icon accent"><i data-lucide="line-chart" style="width:20px;height:20px"></i></div>
             <div>
-              <div class="float-card-val">48K+</div>
-              <div class="float-card-label">leads generated</div>
+              <div class="float-card-val" id="editable-float-top-val" contenteditable="false">48K+</div>
+              <div class="float-card-label" id="editable-float-top-lbl" contenteditable="false">leads generated</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ABOUT -->
-<section id="about" class="section">
-  <div class="container">
-    <div class="about-grid">
-      <div class="fade-up">
-        <span class="eyebrow">About</span>
-        <h2 class="about-h2 font-display">Strategy, execution and measurable growth — under one roof.</h2>
-      </div>
-      <div>
-        <div class="fade-up" style="transition-delay:.05s">
-          <p class="about-text"><strong>8+ years</strong> of experience scaling brands across e-commerce, SaaS, healthcare, real estate and local services.</p>
-        </div>
-        <div class="fade-up" style="transition-delay:.1s;margin-top:1.5rem;">
-          <p class="about-text">My philosophy is simple: <strong>marketing should make money</strong>. Every campaign, landing page and email I build is tied to a clear business metric — revenue, qualified leads or customer lifetime value.</p>
-        </div>
-        <div class="fade-up pill-grid" style="transition-delay:.15s">
-          <div class="pill">E-commerce</div>
-          <div class="pill">SaaS</div>
-          <div class="pill">Healthcare</div>
-          <div class="pill">Real Estate</div>
-          <div class="pill">Local Services</div>
-          <div class="pill">B2B</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services" class="section">
-  <div class="container">
+  <!-- 3. SERVICES SECTION -->
+  <section id="services" class="page-section section">
     <div class="section-header">
-      <div class="fade-up"><span class="eyebrow">Services</span></div>
-      <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Full-stack marketing, built for outcomes.</h2></div>
-      <div class="fade-up" style="transition-delay:.1s"><p class="section-sub">Nine capabilities, one accountable partner. Engage me for a single channel or an end-to-end growth engine.</p></div>
+      <span class="eyebrow">Expertise</span>
+      <h2 class="section-h2 font-display" id="services-section-title" contenteditable="false">Core Services I Offer</h2>
+      <p class="section-sub" id="services-section-sub" contenteditable="false">Outcome-focused capabilities designed to generate compounding revenue channels.</p>
     </div>
-    <div class="services-grid" id="services-grid"></div>
-  </div>
-</section>
-
-<!-- STATS -->
-<section class="section stats-section">
-  <div class="container">
-    <div class="stats-grid" id="stats-grid"></div>
-  </div>
-</section>
-
-<!-- PORTFOLIO -->
-<section id="portfolio" class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="fade-up"><span class="eyebrow">Case Studies</span></div>
-      <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Selected work that moved the needle.</h2></div>
-    </div>
-    <div class="cases-grid" id="cases-grid"></div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills" class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="fade-up"><span class="eyebrow">Skills & Tools</span></div>
-      <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">The stack behind the results.</h2></div>
-    </div>
-    <div class="skills-grid" id="skills-grid"></div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="fade-up"><span class="eyebrow">Testimonials</span></div>
-      <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Trusted by founders and marketing leaders.</h2></div>
-    </div>
-    <div class="testi-grid" id="testi-grid"></div>
-  </div>
-</section>
-
-<!-- BLOG -->
-<section id="blog" class="section">
-  <div class="container">
-    <div class="blog-header">
-      <div>
-        <div class="fade-up"><span class="eyebrow">Blog</span></div>
-        <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Notes from the field.</h2></div>
+    
+    <div class="services-grid">
+      <!-- Service 1 -->
+      <div class="service-card">
+        <div class="service-icon"><i data-lucide="facebook" style="width:20px;height:20px"></i></div>
+        <div class="service-title font-display" id="service-t1" contenteditable="false">Meta Ads</div>
+        <p class="service-desc" id="service-d1" contenteditable="false">Full-funnel Facebook and Instagram advertising architectures engineered to scale conversions while driving down acquisition costs.</p>
       </div>
-      <div class="fade-up" style="transition-delay:.1s">
-        <button class="link-all">All articles <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+      <!-- Service 2 -->
+      <div class="service-card">
+        <div class="service-icon"><i data-lucide="share-2" style="width:20px;height:20px"></i></div>
+        <div class="service-title font-display" id="service-t2" contenteditable="false">Social Media Management</div>
+        <p class="service-desc" id="service-d2" contenteditable="false">Cohesive social organic campaigns constructed to maximize customer engagement, retain community followers, and scale organic brand footprint.</p>
+      </div>
+      <!-- Service 3 -->
+      <div class="service-card">
+        <div class="service-icon"><i data-lucide="pen-tool" style="width:20px;height:20px"></i></div>
+        <div class="service-title font-display" id="service-t3" contenteditable="false">Content Writing</div>
+        <p class="service-desc" id="service-d3" contenteditable="false">High-converting SEO blog directories, landing page copy, and direct email templates formatted around natural customer purchase psychology.</p>
+      </div>
+      <!-- Service 4 -->
+      <div class="service-card">
+        <div class="service-icon"><i data-lucide="megaphone" style="width:20px;height:20px"></i></div>
+        <div class="service-title font-display" id="service-t4" contenteditable="false">Content Marketing</div>
+        <p class="service-desc" id="service-d4" contenteditable="false">Strategic distributions frameworks targeted to reach right audiences at optimal timeline milestones with relevant high-impact narratives.</p>
+      </div>
+      <!-- Service 5 -->
+      <div class="service-card">
+        <div class="service-icon"><i data-lucide="trending-up" style="width:20px;height:20px"></i></div>
+        <div class="service-title font-display" id="service-t5" contenteditable="false">Business Consultancy</div>
+        <p class="service-desc" id="service-d5" contenteditable="false">Diagnostics for conversion blocks, growth channels scoping, and ROI blueprint maps built completely around unique business parameters.</p>
       </div>
     </div>
-    <div class="blog-grid" id="blog-grid"></div>
-  </div>
-</section>
+  </section>
 
-<!-- CONTACT -->
-<section id="contact" class="section">
-  <div class="container">
-    <div class="contact-grid">
-      <div>
-        <div class="fade-up"><span class="eyebrow">Contact</span></div>
-        <div class="fade-up" style="transition-delay:.05s"><h2 class="section-h2 font-display">Let's build your growth engine.</h2></div>
-        <div class="fade-up" style="transition-delay:.1s"><p class="section-sub">Tell me about your business and what you'd like to achieve. I'll respond within one business day.</p></div>
-        <div class="fade-up" style="transition-delay:.15s">
-          <ul class="contact-list">
-            <li class="contact-item"><span class="contact-icon"><i data-lucide="mail" style="width:16px;height:16px"></i></span> hello@alexmorgan.co</li>
-            <li class="contact-item"><span class="contact-icon"><i data-lucide="phone" style="width:16px;height:16px"></i></span> +1 (415) 555-0142</li>
-            <li class="contact-item"><span class="contact-icon"><i data-lucide="map-pin" style="width:16px;height:16px"></i></span> San Francisco, CA — Remote worldwide</li>
-          </ul>
+  <!-- 4. PORTFOLIO SECTION -->
+  <section id="portfolio" class="page-section section">
+    <div class="section-header">
+      <span class="eyebrow">Case Studies</span>
+      <h2 class="section-h2 font-display" id="portfolio-section-title" contenteditable="false">Strategic Digital Milestones</h2>
+      <p class="section-sub" id="portfolio-section-sub" contenteditable="false">A transparent look into commercial scale milestones, structured advertising structures, and active client conversions.</p>
+    </div>
+
+    <div class="cases-grid">
+      <!-- Case 1 -->
+      <article class="case-card">
+        <div class="case-thumb">
+          <span class="case-badge" id="case-badge-1" contenteditable="false">E-commerce Brand</span>
+          <div class="case-metric" id="case-metric-1" contenteditable="false">3.8x Return</div>
         </div>
-        <div class="fade-up" style="transition-delay:.2s">
-          <div class="social-row">
-            <a href="#" class="social-btn" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
-            <a href="#" class="social-btn" aria-label="Facebook"><i data-lucide="facebook" style="width:16px;height:16px"></i></a>
-            <a href="#" class="social-btn" aria-label="Message"><i data-lucide="message-circle" style="width:16px;height:16px"></i></a>
+        <div class="case-body">
+          <div class="case-title font-display" id="case-title-1" contenteditable="false">Scaling Online Store Metrics</div>
+          <dl class="case-dl">
+            <div>
+              <dt class="case-dt">Challenge</dt>
+              <dd class="case-dd" id="case-chall-1" contenteditable="false">High cost-per-purchase, inconsistent attribution paths, and plateauing target audience pipelines.</dd>
+            </div>
+            <div>
+              <dt class="case-dt">Strategy</dt>
+              <dd class="case-dd" id="case-strat-1" contenteditable="false">Attribution configuration overhaul, dynamic Meta catalogue sequences, and aggressive landing page speed optimizations.</dd>
+            </div>
+          </dl>
+          <div class="case-compare">
+            <div>
+              <div class="case-compare-label">Monthly Sales</div>
+              <div class="case-before-val" id="case-before-1" contenteditable="false">$12,000</div>
+            </div>
+            <div>
+              <div class="case-compare-label after">Optimized</div>
+              <div class="case-after-val font-display" id="case-after-1" contenteditable="false">$45,000</div>
+            </div>
           </div>
         </div>
-        <div class="fade-up map-placeholder" style="transition-delay:.25s">
-          <svg class="map-grid-svg" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0L0 0 0 32" fill="none" stroke="currentColor" stroke-width=".5"/></pattern></defs>
-            <rect width="100%" height="100%" fill="url(#grid)"/>
-          </svg>
-          <div class="map-pin-label">
-            <div class="map-pin-pill"><i data-lucide="map-pin" style="width:14px;height:14px;color:var(--primary)"></i> San Francisco, CA</div>
+      </article>
+
+      <!-- Case 2 -->
+      <article class="case-card">
+        <div class="case-thumb">
+          <span class="case-badge" id="case-badge-2" contenteditable="false">B2B SaaS</span>
+          <div class="case-metric" id="case-metric-2" contenteditable="false">-64% CPL</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title font-display" id="case-title-2" contenteditable="false">B2B Lead Pipeline Setup</div>
+          <dl class="case-dl">
+            <div>
+              <dt class="case-dt">Challenge</dt>
+              <dd class="case-dd" id="case-chall-2" contenteditable="false">Acquisition funnel suffering from generic messaging and high cost-per-lead structures.</dd>
+            </div>
+            <div>
+              <dt class="case-dt">Strategy</dt>
+              <dd class="case-dd" id="case-strat-2" contenteditable="false">LinkedIn contextual ad distributions, custom intent search campaigns, and robust conversion hook adjustments.</dd>
+            </div>
+          </dl>
+          <div class="case-compare">
+            <div>
+              <div class="case-compare-label">Cost Per Lead</div>
+              <div class="case-before-val" id="case-before-2" contenteditable="false">$180</div>
+            </div>
+            <div>
+              <div class="case-compare-label after">Optimized</div>
+              <div class="case-after-val font-display" id="case-after-2" contenteditable="false">$64</div>
+            </div>
           </div>
         </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 5. BLOG SECTION -->
+  <section id="blog" class="page-section section">
+    <div class="section-header">
+      <span class="eyebrow">Insights</span>
+      <h2 class="section-h2 font-display" id="blog-section-title" contenteditable="false">Opinion Articles</h2>
+      <p class="section-sub" id="blog-section-sub" contenteditable="false">My personal thoughts, breakdowns, and frameworks regarding structural changes in performance marketing.</p>
+    </div>
+
+    <div class="blog-grid">
+      <!-- Article 1 -->
+      <article class="blog-card">
+        <div class="blog-thumb">
+          <span class="blog-tag" id="blog-tag-1" contenteditable="false">Paid Advertising</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date" id="blog-date-1" contenteditable="false">May 28, 2026</div>
+          <h3 class="blog-title font-display" id="blog-title-1" contenteditable="false">The Future of Meta Ads in 2026</h3>
+          <p class="blog-excerpt" id="blog-excerpt-1" contenteditable="false">Artificial intelligence and predictive model signals are redefining how custom audience targeting algorithms scale. Strategic advertisers must transition toward dynamic content testing mechanisms over narrow parameters.</p>
+          <button class="blog-link" onclick="openBlog('The Future of Meta Ads in 2026', 'Artificial intelligence and predictive model signals are redefining how custom audience targeting algorithms scale. Strategic advertisers must transition toward dynamic content testing mechanisms over narrow parameters.')">Read Article <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </div>
+      </article>
+
+      <!-- Article 2 -->
+      <article class="blog-card">
+        <div class="blog-thumb">
+          <span class="blog-tag" id="blog-tag-2" contenteditable="false">Content Strategy</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date" id="blog-date-2" contenteditable="false">May 14, 2026</div>
+          <h3 class="blog-title font-display" id="blog-title-2" contenteditable="false">Why Content Marketing is King for Small Businesses</h3>
+          <p class="blog-excerpt" id="blog-excerpt-2" contenteditable="false">Organic traffic search optimization and short-form media ecosystems represent compounding value investments over expensive direct-response click bids. Learn how to establish organic brand foundations.</p>
+          <button class="blog-link" onclick="openBlog('Why Content Marketing is King for Small Businesses', 'Organic traffic search optimization and short-form media ecosystems represent compounding value investments over expensive direct-response click bids. Learn how to establish organic brand foundations.')">Read Article <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </div>
+      </article>
+
+      <!-- Article 3 -->
+      <article class="blog-card">
+        <div class="blog-thumb">
+          <span class="blog-tag" id="blog-tag-3" contenteditable="false">Customer Lifecycle</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date" id="blog-date-3" contenteditable="false">April 29, 2026</div>
+          <h3 class="blog-title font-display" id="blog-title-3" contenteditable="false">Retention is the New Acquisition</h3>
+          <p class="blog-excerpt" id="blog-excerpt-3" contenteditable="false">Attracting fresh visitors is consistently costlier than motivating recurring buyers. Setting up proactive post-purchase email pathways elevates overall lifetime value metric by over 40%.</p>
+          <button class="blog-link" onclick="openBlog('Retention is the New Acquisition', 'Attracting fresh visitors is consistently costlier than motivating recurring buyers. Setting up proactive post-purchase email pathways elevates overall lifetime value metric by over 40%.')">Read Article <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 6. ACTIVITIES SECTION -->
+  <section id="activities" class="page-section section">
+    <div class="section-header">
+      <span class="eyebrow">Engagements</span>
+      <h2 class="section-h2 font-display" id="activities-section-title" contenteditable="false">Professional Activities</h2>
+      <p class="section-sub" id="activities-section-sub" contenteditable="false">Industry sessions, business meetups, and campaign operations I run and participate in.</p>
+    </div>
+
+    <div class="photo-grid">
+      <!-- Activity 1 -->
+      <div class="photo-card">
+        <div class="photo-wrapper">
+          <div class="image-upload-overlay" onclick="triggerImgUpload('act-pic-1')">
+            <i data-lucide="camera" style="width:24px;height:24px"></i>
+            <span>Upload Image</span>
+          </div>
+          <img src="https://placehold.co/500x350/e0e0f0/6366f1?text=Marketing+Summit" id="act-pic-1" alt="Speaking Event" />
+        </div>
+        <p class="photo-desc" id="act-desc-1" contenteditable="false">
+          Delivering key strategy insights about programmatic performance models and ad channel optimization sequences at the regional Digital Growth Forum.
+        </p>
       </div>
-      <div class="fade-up" style="transition-delay:.1s">
-        <form class="contact-form glass-card" onsubmit="handleSubmit(event)">
-          <div class="form-row">
-            <div><label class="field-label">Name</label><input class="field-input" type="text" name="name" placeholder="Jane Doe" /></div>
-            <div><label class="field-label">Email</label><input class="field-input" type="email" name="email" placeholder="jane@company.com" /></div>
+
+      <!-- Activity 2 -->
+      <div class="photo-card">
+        <div class="photo-wrapper">
+          <div class="image-upload-overlay" onclick="triggerImgUpload('act-pic-2')">
+            <i data-lucide="camera" style="width:24px;height:24px"></i>
+            <span>Upload Image</span>
           </div>
-          <div class="form-row" style="margin-top:1rem">
-            <div><label class="field-label">Company</label><input class="field-input" type="text" name="company" placeholder="Acme Inc" /></div>
-            <div><label class="field-label">Budget</label><input class="field-input" type="text" name="budget" placeholder="$5k – $25k / mo" /></div>
-          </div>
-          <div class="full-mt">
-            <label class="field-label">Project details</label>
-            <textarea class="field-input field-textarea" rows="5" placeholder="Tell me about your goals, channels and timeline..."></textarea>
-          </div>
-          <button type="submit" class="btn-submit">Send message <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
-        </form>
+          <img src="https://placehold.co/500x350/e0e0f0/6366f1?text=Campaign+Design" id="act-pic-2" alt="Campaign Design Session" />
+        </div>
+        <p class="photo-desc" id="act-desc-2" contenteditable="false">
+          Conducting structural campaign blueprint workshops with high-growth e-commerce developers to plan creative testing processes.
+        </p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FOOTER -->
+  <!-- 7. VOLUNTARY SECTION -->
+  <section id="voluntary" class="page-section section">
+    <div class="section-header">
+      <span class="eyebrow">Giving Back</span>
+      <h2 class="section-h2 font-display" id="voluntary-section-title" contenteditable="false">Voluntary Social Initiatives</h2>
+      <p class="section-sub" id="voluntary-section-sub" contenteditable="false">Pro-bono efforts dedicated toward digital equity, local skills mentoring, and community initiatives.</p>
+    </div>
+
+    <div class="photo-grid">
+      <!-- Voluntary 1 -->
+      <div class="photo-card">
+        <div class="photo-wrapper">
+          <div class="image-upload-overlay" onclick="triggerImgUpload('vol-pic-1')">
+            <i data-lucide="camera" style="width:24px;height:24px"></i>
+            <span>Upload Image</span>
+          </div>
+          <img src="https://placehold.co/500x350/eaeafd/4f46e5?text=Skills+Bootcamp" id="vol-pic-1" alt="Voluntary Skill Training" />
+        </div>
+        <p class="photo-desc" id="vol-desc-1" contenteditable="false">
+          Spearheading free marketing literacy modules to educate ambitious student developers on modern SEO mechanics and digital platforms.
+        </p>
+      </div>
+
+      <!-- Voluntary 2 -->
+      <div class="photo-card">
+        <div class="photo-wrapper">
+          <div class="image-upload-overlay" onclick="triggerImgUpload('vol-pic-2')">
+            <i data-lucide="camera" style="width:24px;height:24px"></i>
+            <span>Upload Image</span>
+          </div>
+          <img src="https://placehold.co/500x350/eaeafd/4f46e5?text=NGO+Support" id="vol-pic-2" alt="Community Support" />
+        </div>
+        <p class="photo-desc" id="vol-desc-2" contenteditable="false">
+          Drafting digital strategy structures and content programs for community non-profits to assist them in maximizing fundraising efforts.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 8. FOOTER -->
 <footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="nav-logo" style="display:inline-flex">
-          <span class="nav-logo-icon"><i data-lucide="sparkles" style="width:16px;height:16px"></i></span>
-          Alex Morgan
-        </div>
-        <p class="footer-desc">Performance marketing for ambitious businesses. Strategy, execution and measurable growth.</p>
+  <div class="container footer-inner">
+    <div>
+      <div class="nav-logo">
+        <span class="nav-logo-icon"><i data-lucide="smile" style="width:16px;height:16px"></i></span>
+        <span id="footer-logo-text" contenteditable="false">Abdullah</span>
       </div>
-      <div>
-        <div class="footer-heading">Quick links</div>
-        <ul class="footer-links">
-          <li><button onclick="scrollTo('home')">Home</button></li>
-          <li><button onclick="scrollTo('about')">About</button></li>
-          <li><button onclick="scrollTo('services')">Services</button></li>
-          <li><button onclick="scrollTo('portfolio')">Portfolio</button></li>
-          <li><button onclick="scrollTo('skills')">Skills</button></li>
-          <li><button onclick="scrollTo('blog')">Blog</button></li>
-          <li><button onclick="scrollTo('contact')">Contact</button></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-heading">Legal</div>
-        <ul class="footer-links">
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms</a></li>
-        </ul>
-        <div class="footer-social">
-          <a href="#" class="footer-social-btn" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
-          <a href="#" class="footer-social-btn" aria-label="Facebook"><i data-lucide="facebook" style="width:16px;height:16px"></i></a>
-          <a href="#" class="footer-social-btn" aria-label="Message"><i data-lucide="message-circle" style="width:16px;height:16px"></i></a>
-        </div>
-      </div>
+      <p class="footer-desc mt-2" id="footer-logo-sub" contenteditable="false">Performance marketing blueprints for sustainable business scaling.</p>
     </div>
-    <div class="footer-bottom">
-      <div>© <span id="year"></span> Alex Morgan. All rights reserved.</div>
-      <div>Crafted with care.</div>
+    <div>
+      <div class="footer-social">
+        <a href="https://linkedin.com" target="_blank" class="footer-social-btn" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="https://facebook.com" target="_blank" class="footer-social-btn" aria-label="Facebook"><i data-lucide="facebook" style="width:16px;height:16px"></i></a>
+        <a href="mailto:hello@abdullah.co" class="footer-social-btn" aria-label="Mail"><i data-lucide="mail" style="width:16px;height:16px"></i></a>
+      </div>
+      <p class="text-xs text-gray-400 mt-3" style="text-align: right;">
+        &#169; <span id="year">2026</span> Abdullah. All rights reserved.
+      </p>
     </div>
   </div>
 </footer>
 
-<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
-  <i data-lucide="chevron-up" style="width:20px;height:20px"></i>
-</button>
+<!-- DYNAMIC COMPATIBLE FILE INPUT FOR LIVE CUSTOMIZER -->
+<input type="file" id="customizer-file-input" accept="image/*" style="display:none;" onchange="handleSystemImageUpload(this)" />
+
+<!-- LIVE VISUAL BUILDER / CUSTOMIZER PANEL -->
+<div id="builder-panel" class="glass-card text-gray-800">
+  <div class="panel-header font-display">
+    <div style="display:flex;align-items:center;gap:.5rem;font-weight:700;">
+      <span style="width:8px;height:8px;border-radius:50%;background:var(--primary)"></span>
+      <span>Visual Customizer</span>
+    </div>
+    <button onclick="togglePanelCollapse()"><i data-lucide="chevrons-down-up" id="panel-collapse-icon" style="width:14px;height:14px"></i></button>
+  </div>
+  <div class="panel-body" id="panel-content-body">
+    <p style="font-size:.75rem;color:var(--muted);line-height:1.4;">
+      Turn on <strong>Edit Mode</strong> below, then click any text on the website to rewrite it, or hover over images to replace them!
+    </p>
+    <button class="customizer-btn btn-toggle-edit" id="btn-toggle-live-edit" onclick="toggleEditMode()">
+      <i data-lucide="edit" style="width:14px;height:14px"></i>
+      <span>Turn ON Edit Mode</span>
+    </button>
+    <button class="customizer-btn" style="background:var(--primary);color:#fff;" onclick="exportCustomizedCode()">
+      <i data-lucide="download" style="width:14px;height:14px"></i>
+      <span>Export Clean HTML</span>
+    </button>
+    <button class="customizer-btn" style="background:transparent;border:1px solid var(--border);color:var(--fg);" onclick="resetTemplate()">
+      Reset Site
+    </button>
+  </div>
+</div>
+
+<div id="toast">Changes registered successfully! 🎉</div>
 
 <script>
-// ── Data ──────────────────────────────────────────────────────────
-const SERVICES = [
-  { icon: 'facebook', title: 'Facebook & Instagram Ads', desc: 'Full-funnel Meta campaigns engineered for ROAS, from creative testing to scale.' },
-  { icon: 'target', title: 'Google Ads', desc: 'Search, Performance Max and YouTube campaigns dialed in for high-intent conversions.' },
-  { icon: 'mouse-pointer-click', title: 'Lead Generation', desc: 'Predictable B2B and B2C lead pipelines with qualified, sales-ready prospects.' },
-  { icon: 'map-pin', title: 'Local Business Marketing', desc: 'Google Business Profile, local SEO and geo-targeted ads that fill your calendar.' },
-  { icon: 'search', title: 'SEO', desc: 'Technical SEO, content strategy and link building for compounding organic growth.' },
-  { icon: 'share-2', title: 'Social Media Marketing', desc: 'Brand-building content systems that turn followers into customers.' },
-  { icon: 'trending-up', title: 'Conversion Rate Optimization', desc: 'Landing pages and funnels A/B tested to lift conversion without raising spend.' },
-  { icon: 'megaphone', title: 'Marketing Strategy', desc: 'Positioning, messaging and a 90-day roadmap built around your business goals.' },
-  { icon: 'bar-chart-3', title: 'Analytics & Reporting', desc: 'GA4, GTM and dashboards that turn data into clear, profitable decisions.' },
-];
+//<![CDATA[
+/* SPA Page Switching, Theme Toggles & Live Customizer Engine */
 
-const STATS = [
-  { label: 'Campaigns Managed', value: 320, suffix: '+' },
-  { label: 'Leads Generated', value: 48000, suffix: '+' },
-  { label: 'Ad Spend Managed', value: 12, prefix: '$', suffix: 'M+' },
-  { label: 'Average ROI', value: 410, suffix: '%' },
-  { label: 'Happy Clients', value: 140, suffix: '+' },
-];
+// Initialize Lucide Icons
+lucide.createIcons();
 
-const CASES = [
-  { title: 'Scaling a DTC Skincare Brand', industry: 'E-commerce / Beauty', challenge: 'Stagnant revenue with rising ad costs and inconsistent ROAS.', strategy: 'Restructured Meta and Google accounts, launched UGC creative testing, rebuilt funnel.', before: { label: 'Monthly Revenue', value: '$42K' }, after: { label: 'Monthly Revenue', value: '$187K' }, metric: '+345% ROAS' },
-  { title: 'B2B SaaS Lead Engine', industry: 'SaaS / B2B', challenge: 'High CPL and unqualified demo requests draining the sales pipeline.', strategy: 'LinkedIn + Google intent campaigns paired with lead scoring and nurture sequences.', before: { label: 'Cost per Lead', value: '$184' }, after: { label: 'Cost per Lead', value: '$47' }, metric: '-74% CPL' },
-  { title: 'Local Dental Practice Growth', industry: 'Healthcare / Local', challenge: 'Empty appointment book and weak local visibility against competitors.', strategy: 'Local SEO overhaul, GBP optimization, and geo-targeted Meta lead ads.', before: { label: 'New Patients / mo', value: '12' }, after: { label: 'New Patients / mo', value: '68' }, metric: '+466% Bookings' },
-];
+// State variables
+let editModeActive = false;
+let customizerCollapsed = false;
+let targetImgElementId = '';
 
-const SKILLS = [
-  { name: 'Meta Ads', level: 95 }, { name: 'Google Ads', level: 93 },
-  { name: 'Google Analytics', level: 92 }, { name: 'Google Tag Manager', level: 88 },
-  { name: 'SEO', level: 90 }, { name: 'Email Marketing', level: 85 },
-  { name: 'Copywriting', level: 87 }, { name: 'Canva', level: 82 },
-  { name: 'WordPress', level: 84 }, { name: 'HubSpot', level: 88 },
-  { name: 'CRM', level: 86 }, { name: 'Marketing Automation', level: 89 },
-];
+// Current year injector
+document.getElementById('year').textContent = new Date().getFullYear();
 
-const TESTIMONIALS = [
-  { name: 'Sarah Chen', role: 'Founder', company: 'Luma Skincare', rating: 5, quote: 'Alex turned our ads from a money pit into our most reliable growth channel. We 4x\'d revenue in six months.' },
-  { name: 'Marcus Reid', role: 'VP Marketing', company: 'Northwind SaaS', rating: 5, quote: 'The strategic clarity and execution speed are unmatched. Our pipeline has never been healthier.' },
-  { name: 'Dr. Priya Shah', role: 'Owner', company: 'Bright Smile Dental', rating: 5, quote: 'We finally have a predictable flow of new patients. Worth every dollar, ten times over.' },
-];
+// SPA Routing Navigation handler
+function navigateTo(sectionId) {
+  // Hide all sections
+  const sections = document.querySelectorAll('.page-section');
+  for (let i = 0; i < sections.length; i++) {
+    sections[i].classList.remove('active');
+  }
 
-const POSTS = [
-  { title: 'The 2026 Performance Marketing Playbook', excerpt: 'How AI-assisted creative testing is reshaping paid media efficiency.', tag: 'Strategy', date: 'May 28, 2026' },
-  { title: 'Why Your CPL Keeps Climbing (And How to Fix It)', excerpt: 'A diagnostic framework for restoring lead-gen efficiency in saturated markets.', tag: 'Lead Gen', date: 'May 12, 2026' },
-  { title: 'GA4 + Server-Side Tracking: A Practical Guide', excerpt: 'Reclaim attribution accuracy with a clean, privacy-first measurement stack.', tag: 'Analytics', date: 'April 30, 2026' },
-];
+  // Show selected section
+  const target = document.getElementById(sectionId);
+  if (target) {
+    target.classList.add('active');
+  }
 
-// ── Render helpers ────────────────────────────────────────────────
-function renderServices() {
-  const grid = document.getElementById('services-grid');
-  grid.innerHTML = SERVICES.map((s, i) => `
-    <div class="service-card fade-up" style="transition-delay:${i * 0.04}s">
-      <div class="service-icon"><i data-lucide="${s.icon}" style="width:20px;height:20px"></i></div>
-      <div class="service-title font-display">${s.title}</div>
-      <p class="service-desc">${s.desc}</p>
-    </div>
-  `).join('');
+  // Manage Nav Button highlights (Desktop)
+  const navLinks = document.querySelectorAll('.nav-links .nav-btn');
+  for (let j = 0; j < navLinks.length; j++) {
+    navLinks[j].classList.remove('active');
+  }
+  const activeLink = document.getElementById('nav-' + sectionId);
+  if (activeLink) {
+    activeLink.classList.add('active');
+  }
+
+  // Manage Nav Button highlights (Mobile)
+  const navMobileLinks = document.querySelectorAll('.mobile-menu .nav-btn-mobile');
+  for (let k = 0; k < navMobileLinks.length; k++) {
+    navMobileLinks[k].classList.remove('active');
+  }
+  const activeMobileLink = document.getElementById('m-nav-' + sectionId);
+  if (activeMobileLink) {
+    activeMobileLink.classList.add('active');
+  }
+
+  // Instantly scroll smoothly to view top
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
-function renderStats() {
-  const grid = document.getElementById('stats-grid');
-  grid.innerHTML = STATS.map((s, i) => `
-    <div class="fade-up" style="transition-delay:${i * 0.05}s">
-      <div class="stat-val font-display" data-count="${s.value}" data-prefix="${s.prefix||''}" data-suffix="${s.suffix||''}">${s.prefix||''}0${s.suffix||''}</div>
-      <div class="stat-label">${s.label}</div>
-    </div>
-  `).join('');
-}
-
-function renderCases() {
-  const grid = document.getElementById('cases-grid');
-  grid.innerHTML = CASES.map((c, i) => `
-    <article class="case-card fade-up" style="transition-delay:${i * 0.08}s">
-      <div class="case-thumb">
-        <span class="case-badge">${c.industry}</span>
-        <div class="case-metric">${c.metric}</div>
-      </div>
-      <div class="case-body">
-        <div class="case-title font-display">${c.title}</div>
-        <dl class="case-dl">
-          <div><dt class="case-dt">Challenge</dt><dd class="case-dd">${c.challenge}</dd></div>
-          <div><dt class="case-dt">Strategy</dt><dd class="case-dd">${c.strategy}</dd></div>
-        </dl>
-        <div class="case-compare">
-          <div>
-            <div class="case-compare-label">Before</div>
-            <div class="case-before-val">${c.before.value}</div>
-            <div class="case-meta">${c.before.label}</div>
-          </div>
-          <div>
-            <div class="case-compare-label after">After</div>
-            <div class="case-after-val">${c.after.value}</div>
-            <div class="case-meta">${c.after.label}</div>
-          </div>
-        </div>
-        <button class="case-link">View details <i data-lucide="arrow-up-right" style="width:16px;height:16px"></i></button>
-      </div>
-    </article>
-  `).join('');
-}
-
-function renderSkills() {
-  const grid = document.getElementById('skills-grid');
-  grid.innerHTML = SKILLS.map((s, i) => `
-    <div class="fade-up" style="transition-delay:${i * 0.03}s">
-      <div class="skill-row-header">
-        <span class="skill-name">${s.name}</span>
-        <span class="skill-pct">${s.level}%</span>
-      </div>
-      <div class="skill-track"><div class="skill-fill" data-level="${s.level}"></div></div>
-    </div>
-  `).join('');
-}
-
-function renderTestimonials() {
-  const grid = document.getElementById('testi-grid');
-  grid.innerHTML = TESTIMONIALS.map((t, i) => `
-    <div class="testi-card fade-up" style="transition-delay:${i * 0.08}s">
-      <div class="stars">${'<i data-lucide="star" style="width:16px;height:16px;fill:currentColor"></i>'.repeat(t.rating)}</div>
-      <p class="testi-quote">"${t.quote}"</p>
-      <div class="testi-footer">
-        <div class="testi-avatar">${t.name.split(' ').map(n=>n[0]).join('')}</div>
-        <div>
-          <div class="testi-name">${t.name}</div>
-          <div class="testi-role">${t.role}, ${t.company}</div>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderBlog() {
-  const grid = document.getElementById('blog-grid');
-  grid.innerHTML = POSTS.map((p, i) => `
-    <article class="blog-card fade-up" style="transition-delay:${i * 0.08}s">
-      <div class="blog-thumb"><span class="blog-tag">${p.tag}</span></div>
-      <div class="blog-body">
-        <div class="blog-date">${p.date}</div>
-        <h3 class="blog-title font-display">${p.title}</h3>
-        <p class="blog-excerpt">${p.excerpt}</p>
-        <button class="blog-link">Read more <i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
-      </div>
-    </article>
-  `).join('');
-}
-
-// ── Scroll progress ───────────────────────────────────────────────
-function updateProgress() {
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-  document.getElementById('progress-bar').style.transform = `scaleX(${progress})`;
-}
-
-// ── Scroll-triggered fades ────────────────────────────────────────
-const fadeObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObserver.unobserve(e.target); } });
-}, { threshold: 0.1, rootMargin: '-60px 0px' });
-
-function observeFades() {
-  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
-}
-
-// ── Animated counters ─────────────────────────────────────────────
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const el = e.target;
-    const target = +el.dataset.count;
-    const prefix = el.dataset.prefix || '';
-    const suffix = el.dataset.suffix || '';
-    const duration = 2000;
-    const start = performance.now();
-    const step = (now) => {
-      const t = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = prefix + Math.round(eased * target).toLocaleString() + suffix;
-      if (t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-    counterObserver.unobserve(el);
-  });
-}, { threshold: 0.3 });
-
-function observeCounters() {
-  document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
-}
-
-// ── Skill bars ────────────────────────────────────────────────────
-const skillObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const fill = e.target;
-    fill.style.width = fill.dataset.level + '%';
-    skillObserver.unobserve(fill);
-  });
-}, { threshold: 0.2 });
-
-function observeSkills() {
-  document.querySelectorAll('.skill-fill').forEach(el => skillObserver.observe(el));
-}
-
-// ── Nav scroll ────────────────────────────────────────────────────
-function handleScroll() {
-  updateProgress();
-  const scrolled = window.scrollY > 24;
-  document.getElementById('header').classList.toggle('scrolled', scrolled);
-  document.getElementById('back-top').classList.toggle('visible', window.scrollY > 600);
-}
-
-// ── Smooth scroll ────────────────────────────────────────────────
-function scrollTo(id) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  document.getElementById('mobile-menu').classList.remove('open');
-  lucide.createIcons();
-}
-
-// ── Dark mode ─────────────────────────────────────────────────────
-function toggleDark() {
-  const isDark = document.documentElement.classList.toggle('dark');
-  const icon = document.getElementById('theme-icon');
-  icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-  lucide.createIcons();
-}
-
-// ── Mobile menu ───────────────────────────────────────────────────
+// Mobile Menu toggling
 function toggleMenu() {
   const menu = document.getElementById('mobile-menu');
   const icon = document.getElementById('hamburger-icon');
   const isOpen = menu.classList.toggle('open');
-  icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+  if (icon) {
+    icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+  }
   lucide.createIcons();
 }
 
-// ── Contact form ──────────────────────────────────────────────────
-function handleSubmit(e) {
-  e.preventDefault();
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3500);
-  e.target.reset();
+// Light & Dark theme toggling
+function toggleDark() {
+  const isDark = document.documentElement.classList.toggle('dark');
+  const icon = document.getElementById('theme-icon');
+  if (icon) {
+    icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+  }
+  lucide.createIcons();
 }
 
-// ── Init ──────────────────────────────────────────────────────────
-document.getElementById('year').textContent = new Date().getFullYear();
+// Open Blog Details simulated view
+function openBlog(title, text) {
+  const toast = document.getElementById('toast');
+  toast.textContent = "Viewing Blog post: " + title;
+  toast.classList.add('show');
+  setTimeout(function() {
+    toast.classList.remove('show');
+  }, 3500);
+}
 
-renderServices();
-renderStats();
-renderCases();
-renderSkills();
-renderTestimonials();
-renderBlog();
+// Toggle Live Customizer Text & Image edit mode
+function toggleEditMode() {
+  editModeActive = !editModeActive;
+  const btn = document.getElementById('btn-toggle-live-edit');
+  const editableElements = [
+    'site-logo-text', 'editable-hero-bold', 'editable-hero-desc', 'editable-hero-desc-sec',
+    'editable-float-bottom-val', 'editable-float-bottom-lbl', 'editable-float-top-val', 'editable-float-top-lbl',
+    'services-section-title', 'services-section-sub',
+    'service-t1', 'service-d1', 'service-t2', 'service-d2', 'service-t3', 'service-d3', 'service-t4', 'service-d4', 'service-t5', 'service-d5',
+    'portfolio-section-title', 'portfolio-section-sub',
+    'case-badge-1', 'case-metric-1', 'case-title-1', 'case-chall-1', 'case-strat-1', 'case-before-1', 'case-after-1',
+    'case-badge-2', 'case-metric-2', 'case-title-2', 'case-chall-2', 'case-strat-2', 'case-before-2', 'case-after-2',
+    'blog-section-title', 'blog-section-sub',
+    'blog-tag-1', 'blog-date-1', 'blog-title-1', 'blog-excerpt-1',
+    'blog-tag-2', 'blog-date-2', 'blog-title-2', 'blog-excerpt-2',
+    'blog-tag-3', 'blog-date-3', 'blog-title-3', 'blog-excerpt-3',
+    'activities-section-title', 'activities-section-sub', 'act-desc-1', 'act-desc-2',
+    'voluntary-section-title', 'voluntary-section-sub', 'vol-desc-1', 'vol-desc-2',
+    'footer-logo-text', 'footer-logo-sub'
+  ];
 
-lucide.createIcons();
+  if (editModeActive) {
+    document.body.classList.add('edit-active');
+    if (btn) {
+      btn.innerHTML = '<i data-lucide="check" style="width:14px;height:14px"></i><span>Turn OFF Edit Mode</span>';
+    }
+    // Set editable states
+    for (let i = 0; i < editableElements.length; i++) {
+      const el = document.getElementById(editableElements[i]);
+      if (el) {
+        el.setAttribute('contenteditable', 'true');
+      }
+    }
+    showToast("Edit Mode Enabled! Click any text or upload photos directly.");
+  } else {
+    document.body.classList.remove('edit-active');
+    if (btn) {
+      btn.innerHTML = '<i data-lucide="edit" style="width:14px;height:14px"></i><span>Turn ON Edit Mode</span>';
+    }
+    // Remove editable states
+    for (let j = 0; j < editableElements.length; j++) {
+      const el = document.getElementById(editableElements[j]);
+      if (el) {
+        el.setAttribute('contenteditable', 'false');
+      }
+    }
+    showToast("Edit Mode Disabled. Your modifications are saved!");
+  }
+  lucide.createIcons();
+}
 
-observeFades();
-observeCounters();
-observeSkills();
+// Customizer panel collapsing mechanics
+function togglePanelCollapse() {
+  customizerCollapsed = !customizerCollapsed;
+  const panelBody = document.getElementById('panel-content-body');
+  const icon = document.getElementById('panel-collapse-icon');
+  if (panelBody) {
+    panelBody.style.display = customizerCollapsed ? 'none' : 'flex';
+  }
+  if (icon) {
+    icon.setAttribute('data-lucide', customizerCollapsed ? 'chevrons-up-down' : 'chevrons-down-up');
+  }
+  lucide.createIcons();
+}
 
-window.addEventListener('scroll', handleScroll, { passive: true });
-handleScroll();
+// Open image system upload file dial
+function triggerImgUpload(elementId) {
+  if (editModeActive) {
+    targetImgElementId = elementId;
+    const fileInput = document.getElementById('customizer-file-input');
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+}
+
+// Live Image processing with local readers
+function handleSystemImageUpload(input) {
+  if (input.files) {
+    if (input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const targetImg = document.getElementById(targetImgElementId);
+        if (targetImg) {
+          targetImg.src = e.target.result;
+          showToast("Image updated successfully!");
+        }
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+}
+
+// Show standard clean toast system
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  if (toast) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 3500);
+  }
+}
+
+// Reset changes completely
+function resetTemplate() {
+  if (confirm("Are you sure you want to discard your changes and reload default settings?")) {
+    window.location.reload();
+  }
+}
+
+// Export customized markup without visual builder modules
+function exportCustomizedCode() {
+  // Safe turn off edit mode
+  if (editModeActive) {
+    toggleEditMode();
+  }
+
+  // Clone document element cleanly
+  const clone = document.documentElement.cloneNode(true);
+
+  // Eliminate Customizer widget & overlay items to preserve pure html structure
+  const builderEl = clone.querySelector('#builder-panel');
+  if (builderEl) {
+    builderEl.remove();
+  }
+  const fileInputEl = clone.querySelector('#customizer-file-input');
+  if (fileInputEl) {
+    fileInputEl.remove();
+  }
+  const overlays = clone.querySelectorAll('.image-upload-overlay');
+  for (let i = 0; i < overlays.length; i++) {
+    overlays[i].remove();
+  }
+
+  // Clear visual builders edit-state class names
+  const bodyEl = clone.querySelector('body');
+  if (bodyEl) {
+    bodyEl.classList.remove('edit-active');
+  }
+
+  const outputMarkup = '<!DOCTYPE html>\n' + clone.outerHTML;
+
+  // File creation blob download trigger
+  const blob = new Blob([outputMarkup], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const triggerLink = document.createElement('a');
+  triggerLink.href = url;
+  triggerLink.download = 'index.html';
+  document.body.appendChild(triggerLink);
+  triggerLink.click();
+  document.body.removeChild(triggerLink);
+  URL.revokeObjectURL(url);
+}
+//]]>
 </script>
 </body>
 </html>
