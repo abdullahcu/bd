@@ -1,945 +1,999 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
-<html lang="en">
+<html class='scroll-smooth' lang='en' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Abdullah — Professional Digital Marketer</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet" />
-    <!-- Tailwind CSS & Lucide Icons -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <b:skin><![CDATA[
+    /* Required CSS for Blogger Theme */
+    body { margin: 0; padding: 0; }
+  ]]></b:skin>
+    <meta charset='UTF-8'/>
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+    <title>Abdullah Hazari - Portfolio Template</title>
+    <script src='https://cdn.tailwindcss.com'/>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/>
+    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Quicksand:wght@300..700&amp;display=swap' rel='stylesheet'/>
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: [&#39;Quicksand&#39;, &#39;sans-serif&#39;],
+                        serif: [&#39;Playfair Display&#39;, &#39;serif&#39;],
+                    },
+                    colors: {
+                        jacksonBlue: &#39;#2c98f0&#39;,
+                        jacksonRed: &#39;#ec5453&#39;,
+                        jacksonYellow: &#39;#f9bf3f&#39;,
+                        jacksonPurple: &#39;#a84cb8&#39;,
+                        jacksonTeal: &#39;#2fa499&#39;,
+                        jacksonGreen: &#39;#a4d037&#39;,
+                        jacksonDark: &#39;#2c3e50&#39;,
+                        jacksonBg: &#39;#f2f3f7&#39;,
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* ── Reset & Base Styles ── */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; transition: background .3s, color .3s; }
-        img { max-width: 100%; display: block; }
-        button, a { cursor: pointer; text-decoration: none; }
-        button { background: none; border: none; font-family: inherit; }
-
-        /* ── Design Tokens (Purple/Indigo Theme) ── */
-        :root {
-            --bg: #ffffff;
-            --surface: #f8f8fb;
-            --surface-el: #f2f2f8;
-            --border: #e4e4ef;
-            --fg: #0f0f14;
-            --muted: #6b6b80;
-            --accent-bg: #f0f0f8;
-            --accent-fg: #4a4a6a;
-            --primary: #6c47ff;
-            --primary-fg: #ffffff;
-            --grad-primary: linear-gradient(135deg, #6c47ff 0%, #a855f7 100%);
-            --grad-hero: linear-gradient(135deg, #f0edff 0%, #faf0ff 100%);
-            --shadow-soft: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-            --shadow-el: 0 4px 16px rgba(0,0,0,.10);
-            --shadow-glow: 0 4px 20px rgba(108,71,255,.35);
+        /* Custom styles matching Jackson&#39;s vintage layouts */
+        body {
+            font-family: &#39;Quicksand&#39;, sans-serif;
+            font-weight: 500;
         }
-        html.dark {
-            --bg: #0d0d12;
-            --surface: #131318;
-            --surface-el: #1a1a22;
-            --border: #2a2a38;
-            --fg: #f0f0f8;
-            --muted: #8888a8;
-            --accent-bg: #1e1e2c;
-            --accent-fg: #a0a0c8;
-            --grad-hero: linear-gradient(135deg, #1a153a 0%, #1a0f2e 100%);
+        h1, h2, h3, h4, .serif-font {
+            font-family: &#39;Playfair Display&#39;, serif;
         }
-
-        body { background: var(--bg); color: var(--fg); min-height: 100vh; display: flex; flex-direction: column; }
-        .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
-
-        /* ── SPA Transitions ── */
-        .page-section { display: none; }
-        .page-section.active { display: block; animation: fadeIn 0.4s ease-in-out forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Custom scrollbar matching design elements */
+        ::-webkit-scrollbar {
+            width: 6px;
         }
-
-        /* ── UI Glass elements ── */
-        .glass-card { background: rgba(255,255,255,.7); backdrop-filter: blur(16px); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
-        html.dark .glass-card { background: rgba(20,20,30,.75); }
-        .gradient-text { background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        
-        .btn-primary {
-            display: inline-flex; align-items: center; gap: .5rem;
-            background: var(--grad-primary); color: var(--primary-fg);
-            border-radius: .75rem; padding: .7rem 1.25rem;
-            font-size: .875rem; font-weight: 600;
-            box-shadow: var(--shadow-glow); transition: transform .2s; border: none;
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
-        .btn-primary:hover { transform: scale(1.03); }
-        
-        .btn-ghost {
-            display: inline-flex; align-items: center; gap: .5rem;
-            background: color-mix(in srgb, var(--surface-el) 60%, transparent);
-            color: var(--fg); border: 1px solid var(--border);
-            border-radius: .75rem; padding: .7rem 1.25rem;
-            font-size: .875rem; font-weight: 600;
-            backdrop-filter: blur(8px); transition: background .2s;
+        ::-webkit-scrollbar-thumb {
+            background: #2c98f0;
+            border-radius: 10px;
         }
-        .btn-ghost:hover { background: var(--accent-bg); }
-
-        /* ── Layout & Sections ── */
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
-        .section { padding: 4rem 1.5rem; }
-
-        .eyebrow {
-            display: inline-flex; align-items: center; gap: .5rem;
-            border: 1px solid var(--border);
-            background: color-mix(in srgb, var(--surface) 60%, transparent);
-            border-radius: 9999px; padding: .25rem .75rem;
-            font-size: .7rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
-            color: var(--muted); backdrop-filter: blur(8px);
+        /* Grid overlay animations */
+        .portfolio-item {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .eyebrow::before { content:''; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink:0; }
-
-        /* ── Navigation Header ── */
-        header { position: sticky; top: 0; z-index: 50; padding: 1.25rem 0; background: var(--bg); border-bottom: 1px solid var(--border); }
-        .nav-inner { display: flex; align-items: center; justify-content: space-between; }
-        .nav-logo { display: flex; align-items: center; gap: .5rem; font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--fg); }
-        .nav-logo-icon { width: 2rem; height: 2rem; border-radius: .5rem; background: var(--grad-primary); display: grid; place-items: center; color: #fff; flex-shrink:0; box-shadow: var(--shadow-glow); }
-        .nav-links { display: flex; gap: .25rem; }
-        .nav-links button { padding: .5rem .75rem; border-radius: .5rem; font-size: .875rem; font-weight: 500; color: var(--muted); transition: background .2s, color .2s; }
-        .nav-links button:hover { background: var(--accent-bg); color: var(--fg); }
-        .nav-links button.active { background: var(--grad-primary); color: var(--primary-fg); }
-        .nav-actions { display: flex; align-items: center; gap: .5rem; }
-        
-        .icon-btn { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: .5rem; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 60%, transparent); color: var(--muted); transition: color .2s; }
-        .icon-btn:hover { color: var(--fg); }
-        .btn-talk { background: var(--fg); color: var(--bg); border-radius: .5rem; padding: .5rem 1rem; font-size: .875rem; font-weight: 500; transition: transform .2s; }
-        .btn-talk:hover { transform: scale(1.03); }
-        .hamburger { display: none; }
-        
-        .mobile-menu { display: none; flex-direction: column; gap: .25rem; margin-top: .5rem; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu button { text-align: left; padding: .75rem 1rem; border-radius: .75rem; font-size: .875rem; font-weight: 500; color: var(--fg); }
-        .mobile-menu button:hover { background: var(--accent-bg); }
-        .mobile-menu button.active { background: var(--grad-primary); color: var(--primary-fg); }
-
-        @media (max-width: 1023px) { .nav-links { display: none; } .hamburger { display: grid; } .btn-talk { display: none; } }
-
-        /* ── Hero Grid ── */
-        #home { position: relative; overflow: hidden; padding-top: 3rem; }
-        .hero-grid { display: grid; align-items: center; gap: 3rem; }
-        @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.15fr .85fr; } }
-        .hero-h1 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -.02em; margin-top: 1.5rem; }
-        .hero-sub { margin-top: 1.5rem; font-size: 1.05rem; line-height: 1.7; color: var(--muted); }
-        .hero-btns { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
-        
-        .portrait-wrap { position: relative; max-width: 28rem; margin: 0 auto; width: 100%; }
-        .portrait-glow { position: absolute; inset: -1rem; border-radius: 2rem; background: var(--grad-primary); opacity: .15; filter: blur(2rem); }
-        .portrait-card { position: relative; border-radius: 2rem; overflow: hidden; padding: .5rem; }
-        .portrait-img { aspect-ratio: 4/5; width: 100%; border-radius: 1.5rem; object-fit: cover; background: var(--surface-el); }
-        
-        .float-card {
-            position: absolute; border-radius: 1rem; padding: 1rem; display: flex; align-items: center; gap: .75rem;
-            background: rgba(255,255,255,.85); backdrop-filter: blur(12px); border: 1px solid var(--border);
-            box-shadow: var(--shadow-el); animation-duration: 4s; animation-iteration-count: infinite; animation-timing-function: ease-in-out;
-        }
-        html.dark .float-card { background: rgba(20,20,30,.9); }
-        .float-card-icon { width: 2.5rem; height: 2.5rem; border-radius: .75rem; display: grid; place-items: center; flex-shrink:0; }
-        .float-card-icon.primary { background: var(--grad-primary); color: #fff; box-shadow: var(--shadow-glow); }
-        .float-card-icon.accent { background: var(--accent-bg); color: var(--accent-fg); }
-        .float-card-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; line-height: 1; }
-        .float-card-label { font-size: .75rem; color: var(--muted); margin-top: .15rem; }
-        .float-bottom { bottom: -1rem; left: -1rem; animation-name: floatA; }
-        .float-top { top: 2.5rem; right: -1rem; animation-name: floatB; animation-duration: 4.5s; }
-        
-        @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-        @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
-        @media (max-width: 639px) { .float-card { display: none; } }
-
-        /* ── Services Layout ── */
-        .section-header { margin-bottom: 3.5rem; max-width: 40rem; }
-        .section-h2 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(1.75rem, 3.5vw, 2.75rem); font-weight: 700; letter-spacing: -.02em; margin-top: 1rem; }
-        .section-sub { margin-top: 1rem; font-size: 1.125rem; color: var(--muted); }
-        .services-grid { display: grid; gap: 1.25rem; }
-        @media (min-width: 640px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
-        
-        .service-card {
-            border: 1px solid var(--border); background: var(--surface-el);
-            border-radius: 1.25rem; padding: 1.5rem; box-shadow: var(--shadow-soft);
-            transition: transform .3s, box-shadow .3s; height: 100%;
-        }
-        .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-el); }
-        .service-icon { width: 3rem; height: 3rem; border-radius: .75rem; background: var(--accent-bg); color: var(--accent-fg); display: grid; place-items: center; margin-bottom: 1.25rem; transition: background .3s, color .3s; }
-        .service-card:hover .service-icon { background: var(--grad-primary); color: #fff; }
-        .service-title { font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 700; font-size: 1.15rem; letter-spacing: -.01em; }
-        .service-desc { margin-top: .5rem; font-size: .875rem; line-height: 1.6; color: var(--muted); }
-
-        /* ── Interactive Galleries (Portfolio, Blog, Activities, Voluntary) ── */
-        .gallery-grid { display: grid; gap: 1.5rem; }
-        @media (min-width: 640px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
-        
-        .gallery-card {
-            border: 1px solid var(--border); background: var(--surface-el);
-            border-radius: 1.25rem; overflow: hidden; box-shadow: var(--shadow-soft);
-            transition: transform .3s, box-shadow .3s; display: flex; flex-direction: column;
-            cursor: pointer; position: relative;
-        }
-        .gallery-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-el); }
-        
-        .gallery-thumb-container { aspect-ratio: 16/11; background: var(--grad-hero); position: relative; overflow: hidden; }
-        .gallery-thumb-container img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
-        .gallery-card:hover .gallery-thumb-container img { transform: scale(1.05); }
-        
-        .gallery-badge { position: absolute; left: 1rem; top: 1rem; background: rgba(255,255,255,.85); backdrop-filter: blur(8px); border-radius: 9999px; padding: .25rem .75rem; font-size: .7rem; font-weight: 600; color: var(--fg); z-index: 10; }
-        html.dark .gallery-badge { background: rgba(20,20,30,.85); }
-        
-        .gallery-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .gallery-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: -.01em; color: var(--fg); }
-        .gallery-desc { margin-top: .5rem; font-size: .875rem; line-height: 1.6; color: var(--muted); }
-        
-        /* ── Dynamic Lightbox Modal ── */
-        #lightbox-modal { display: none; position: fixed; inset: 0; background: rgba(13, 13, 18, 0.95); z-index: 100; align-items: center; justify-content: center; padding: 2rem; }
-        #lightbox-modal.active { display: flex; }
-        
-        /* ── Form and input styling ── */
-        .toast-msg {
-            position: fixed; bottom: 3rem; left: 50%; transform: translateX(-50%) translateY(1rem);
-            background: var(--fg); color: var(--bg); border-radius: .75rem; padding: .75rem 1.5rem;
-            font-size: .875rem; font-weight: 500; z-index: 150; opacity: 0;
-            transition: opacity .3s, transform .3s; pointer-events: none;
-        }
-        .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
-<body>
-
-    <header id="header">
-        <div class="container">
-            <nav class="nav-inner">
-                <button class="nav-logo" onclick="navigateTo('home')">
-                    <span class="nav-logo-icon">
-                        <!-- Custom SVG Face/Smile Logo Icon -->
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-                            <line x1="9" y1="9" x2="9.01" y2="9" />
-                            <line x1="15" y1="9" x2="15.01" y2="9" />
-                        </svg>
-                    </span>
-                    <span class="font-display font-bold">Abdullah</span>
-                </button>
-                <div class="nav-links">
-                    <button onclick="navigateTo('home')" class="nav-btn active" id="nav-home">Home</button>
-                    <button onclick="navigateTo('services')" class="nav-btn" id="nav-services">Services</button>
-                    <button onclick="navigateTo('portfolio')" class="nav-btn" id="nav-portfolio">Portfolio</button>
-                    <button onclick="navigateTo('blog')" class="nav-btn" id="nav-blog">Blog</button>
-                    <button onclick="navigateTo('activities')" class="nav-btn" id="nav-activities">Activities</button>
-                    <button onclick="navigateTo('voluntary')" class="nav-btn" id="nav-voluntary">Voluntary</button>
-                </div>
-                <div class="nav-actions">
-                    <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
-                        <i data-lucide="moon" id="theme-icon" style="width:16px;height:16px"></i>
-                    </button>
-                    <button class="btn-talk" onclick="navigateTo('blog')">Read Blog</button>
-                    <button class="icon-btn hamburger" aria-label="Menu" onclick="toggleMenu()">
-                        <i data-lucide="menu" id="hamburger-icon" style="width:16px;height:16px"></i>
-                    </button>
-                </div>
-            </nav>
-            <div class="mobile-menu glass-card" id="mobile-menu" style="border-radius:1rem; padding:.75rem;">
-                <button onclick="navigateTo('home'); toggleMenu();" class="nav-btn-mobile active" id="m-nav-home">Home</button>
-                <button onclick="navigateTo('services'); toggleMenu();" class="nav-btn-mobile" id="m-nav-services">Services</button>
-                <button onclick="navigateTo('portfolio'); toggleMenu();" class="nav-btn-mobile" id="m-nav-portfolio">Portfolio</button>
-                <button onclick="navigateTo('blog'); toggleMenu();" class="nav-btn-mobile" id="m-nav-blog">Blog</button>
-                <button onclick="navigateTo('activities'); toggleMenu();" class="nav-btn-mobile" id="m-nav-activities">Activities</button>
-                <button onclick="navigateTo('voluntary'); toggleMenu();" class="nav-btn-mobile" id="m-nav-voluntary">Voluntary</button>
-            </div>
-        </div>
-    </header>
-
-    <main class="flex-grow container">
-
-        <!-- 2. HERO / HOME SECTION -->
-        <section id="home" class="page-section active section">
-            <div class="hero-grid">
-                <div>
-                    <div class="eyebrow">Marketing Specialist</div>
-                    <h1 class="hero-h1 font-display">
-                        I am a <span class="gradient-text">Digital Marketing Professional</span>
-                    </h1>
-                    <p class="hero-sub text-lg text-gray-600 leading-relaxed">
-                        I design world-class digital marketing strategies and drive sales channels through automated ad platforms, search visibility optimization, and performance-driven content copy. I help scale online stores and B2B pipelines cleanly.
-                    </p>
-                    <p class="hero-sub text-lg text-gray-600 leading-relaxed mt-4">
-                        Specializing in conversion marketing funnels, Meta algorithms, and robust SEO analytics to turn direct advertising investments into predictable, compounding growth portfolios.
-                    </p>
-                    <div class="hero-btns">
-                        <button class="btn-primary" onclick="navigateTo('services')">
-                            Explore Services <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
-                        </button>
-                        <!-- Updated from View Case Studies to View Activities -->
-                        <button class="btn-ghost" onclick="navigateTo('activities')">
-                            View Activities
-                        </button>
-                    </div>
-                </div>
-                <div>
-                    <div class="portrait-wrap">
-                        <div class="portrait-glow"></div>
-                        <div class="profile-pic-container flex justify-center mb-6">
-    <img 
-        src="https://raw.githubusercontent.com/abdullahdigitalmarketing/AbdullahCU/main/7.png" 
-        alt="Abdullah" 
-        class="w-40 h-40 rounded-full border-4 border-white shadow-lg object-cover"
-    />
-</div>
-                        <div class="float-card float-bottom">
-                            <div class="float-card-icon primary"><i data-lucide="trending-up" style="width:20px;height:20px"></i></div>
-                            <div>
-                                <div class="float-card-val">+345%</div>
-                                <div class="float-card-label">average ROAS lift</div>
-                            </div>
-                        </div>
-                        <div class="float-card float-top">
-                            <div class="float-card-icon accent"><i data-lucide="line-chart" style="width:20px;height:20px"></i></div>
-                            <div>
-                                <div class="float-card-val">48K+</div>
-                                <div class="float-card-label">leads generated</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. SERVICES SECTION -->
-        <section id="services" class="page-section section">
-            <div class="section-header">
-                <span class="eyebrow">Expertise</span>
-                <h2 class="section-h2 font-display">Core Services I Offer</h2>
-                <p class="section-sub">Outcome-focused capabilities designed to generate compounding revenue channels.</p>
+<body class='bg-white text-[#5d5d5d] antialiased overflow-x-hidden'>
+<b:section id='main-content'/>
+    <!-- LEFT SIDEBAR CONTAINER (Fixed on Desktop, Off-screen absolute on Mobile) -->
+    <aside class='fixed top-0 left-0 h-screen w-72 bg-jacksonBg z-40 border-r border-gray-100 flex flex-col justify-between py-12 px-6 transition-transform duration-300 -translate-x-full lg:translate-x-0 overflow-y-auto' id='sidebar'>
+        <!-- Sidebar Content -->
+        <div class='text-center'>
+            <!-- Profile Photo -->
+            <div class='w-36 h-36 mx-auto mb-6 rounded-full overflow-hidden border-4 border-gray-200 shadow-md'>
+                <img alt='Abdullah Hazari Profile' class='w-full h-full object-cover' id='profile-img' onerror='this.src=&apos;https://placehold.co/300x300/2c98f0/ffffff?text=JF&apos;' src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgmmiM-44onpFnAuPigCtHvgFd0Wru480PX4ocytRcwE5hmp6MYvEX3FxuivqA3mdyjvpIuH-MVgpw2E3Rb-8pd66FTBsnC6jWqw9k5OqTEMABohyphenhyphenNWb0gTR8PLiNiaI7RIuAPKRwKw96vsgr6fIsWt60lY7qh5dZG0ZLkLMwxB0gr3LvpaScW9ZVItLP8/s16000/7.png'/>
             </div>
             
-            <div class="services-grid">
-                <!-- Service 1 -->
-                <div class="service-card">
-                    <div class="service-icon"><i data-lucide="facebook" style="width:20px;height:20px"></i></div>
-                    <div class="service-title font-display">Meta Ads</div>
-                    <p class="service-desc">Full-funnel Facebook and Instagram advertising architectures engineered to scale conversions while driving down acquisition costs.</p>
+            <!-- User Title Information -->
+            <h1 class='text-2xl font-bold tracking-tight text-gray-800 leading-tight'>Abdullah Hazari</h1>
+            <p class='text-[11px] font-bold tracking-widest text-[#2c98f0] uppercase mt-2'>
+                <span class='text-gray-400'/> Digital Marketing Pofessional
+            </p>
+
+            <!-- Navigation Links -->
+            <nav class='mt-12'>
+                <ul class='flex flex-col space-y-4 uppercase text-xs font-bold tracking-widest'>
+                    <li><a class='nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue' href='#home' onclick='closeSidebarMobile()'>Home</a></li>
+                    <li><a class='nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue' href='#about' onclick='closeSidebarMobile()'>About</a></li>
+                    <li><a class='nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue' href='#services' onclick='closeSidebarMobile()'>Services</a></li>
+                    <li><a class='nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue' href='#skills' onclick='closeSidebarMobile()'>Skills</a></li>
+                    <li><a class='nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue' href='#education' onclick='closeSidebarMobile()'>Education</a></li>
+                    <li><a class='nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue' href='#experience' onclick='closeSidebarMobile()'>Experience</a></li>
+                    <li><a class='nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue' href='#work' onclick='closeSidebarMobile()'>Work</a></li>
+                    <li><a class='nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue' href='#blog' onclick='closeSidebarMobile()'>Blog</a></li>
+                    <li><a class='nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue' href='#contact' onclick='closeSidebarMobile()'>Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer -->
+        <div class='text-center text-xs text-gray-400 font-light tracking-wide mt-12 leading-relaxed'>
+            <p>&#169; 2026 Abdullah Hazari. </p>
+            <p class='mt-1'>Created by Abdullah <span class='font-bold text-gray-500'>Hazari</span></p>
+        </div>
+    </aside>
+
+    <!-- MOBILE TOP BAR & NAVIGATION TOGGLE -->
+    <div class='lg:hidden sticky top-0 left-0 right-0 bg-white shadow-sm z-50 flex items-center justify-between px-6 py-4'>
+        <span class='text-xl font-bold tracking-wide text-gray-800'>Abdullah Hazari</span>
+        <button aria-label='Toggle Menu' class='text-gray-700 hover:text-jacksonBlue focus:outline-none focus:ring-2 focus:ring-jacksonBlue p-1.5 rounded-md' id='hamburger-btn'>
+            <i class='fa-solid fa-bars text-2xl'/>
+        </button>
+    </div>
+
+    <!-- SIDEBAR MOBILE DARK OVERLAY -->
+    <div class='fixed inset-0 bg-black/40 z-30 hidden lg:hidden' id='sidebar-overlay'/>
+
+    <!-- MAIN MAIN CONTENT CONTAINER -->
+    <main class='lg:ml-72 min-h-screen'>
+
+        <!-- HOME / HERO SLIDER SECTION -->
+        <section class='relative h-[85vh] lg:h-screen w-full overflow-hidden bg-gray-900 text-white' id='home'>
+            <!-- Slide 1 -->
+            <div class='hero-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100' style='background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(&apos;https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&amp;fit=crop&amp;q=80&amp;w=1600&apos;) center/cover no-repeat;'>
+                <div class='h-full flex items-center px-8 sm:px-16 md:px-24 max-w-4xl'>
+                    <div class='space-y-6'>
+                        <h2 class='text-5xl sm:text-6xl lg:text-7xl font-bold font-serif leading-tight text-white'>
+                            Hi! <br/>I&#39;m Abdullah
+                        </h2>
+                        <p class='text-gray-200 text-lg sm:text-xl font-light tracking-wide max-w-xl'>
+                            100% premium HTML5 portfolio template recreated using Tailwind. Perfect for developers, UI artists, and digital creators.
+                        </p>
+                        <div class='pt-4 flex flex-wrap gap-4'>
+                            <a class='px-6 py-3 border-2 border-white text-white font-bold tracking-widest text-xs uppercase hover:bg-white hover:text-gray-900 rounded-sm transition duration-300' href='#contact'>
+                                Meet Here <i class='fa-solid fa-briefcase ml-2'/>
+                            </a>
+                            <a class='px-6 py-3 bg-jacksonBlue text-white font-bold tracking-widest text-xs uppercase hover:bg-blue-600 rounded-sm transition duration-300' href='#work'>
+                                View Portfolio <i class='fa-solid fa-images ml-2'/>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <!-- Service 2 -->
-                <div class="service-card">
-                    <div class="service-icon"><i data-lucide="share-2" style="width:20px;height:20px"></i></div>
-                    <div class="service-title font-display">Social Media Management</div>
-                    <p class="service-desc">Cohesive social organic campaigns constructed to maximize customer engagement, retain community followers, and scale organic brand footprint.</p>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class='hero-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 pointer-events-none' style='background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(&apos;https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&amp;fit=crop&amp;q=80&amp;w=1600&apos;) center/cover no-repeat;'>
+                <div class='h-full flex items-center px-8 sm:px-16 md:px-24 max-w-4xl'>
+                    <div class='space-y-6'>
+                        <h2 class='text-5xl sm:text-6xl lg:text-7xl font-bold font-serif leading-tight text-white'>
+                            I am <br/>a Digital Marketing professional
+                        </h2>
+                        <p class='text-gray-200 text-lg sm:text-xl font-light tracking-wide max-w-xl'>
+                            Designing spectacular digital products, interactive interfaces, user-first mobile apps, and pixel-perfect layouts.
+                        </p>
+                        <div class='pt-4 flex flex-wrap gap-4'>
+                            <a class='px-6 py-3 border-2 border-white text-white font-bold tracking-widest text-xs uppercase hover:bg-white hover:text-gray-900 rounded-sm transition duration-300' href='#contact'>
+                                Contact Me <i class='fa-solid fa-paper-plane ml-2'/>
+                            </a>
+                            <a class='px-6 py-3 bg-jacksonRed text-white font-bold tracking-widest text-xs uppercase hover:bg-red-600 rounded-sm transition duration-300' href='#' onclick='triggerCVDownload(event)'>
+                                Download CV <i class='fa-solid fa-cloud-arrow-down ml-2'/>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <!-- Service 3 -->
-                <div class="service-card">
-                    <div class="service-icon"><i data-lucide="pen-tool" style="width:20px;height:20px"></i></div>
-                    <div class="service-title font-display">Content Writing</div>
-                    <p class="service-desc">High-converting SEO blog directories, landing page copy, and direct email templates formatted around natural customer purchase psychology.</p>
+            </div>
+
+            <!-- Slide Navigation Buttons -->
+            <div class='absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-10'>
+                <button aria-label='Slide 1' class='slider-dot w-3.5 h-3.5 rounded-full bg-white scale-125 transition duration-300' onclick='showSlide(0)'/>
+                <button aria-label='Slide 2' class='slider-dot w-3.5 h-3.5 rounded-full bg-gray-400 hover:scale-110 transition duration-300' onclick='showSlide(1)'/>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section class='py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto' id='about'>
+            <!-- Custom Section Header Tag -->
+            <span class='text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3'>About Us</span>
+            <h2 class='text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-8 uppercase'>Who Am I?</h2>
+            
+            <div class='grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16'>
+                <div class='space-y-6 text-gray-500 leading-relaxed text-[15px]'>
+                    <p>
+                        <strong>Hi! I&#39;m Abdullah Hazari.</strong> A dedicated, imaginative graphic designer and front-end specialist from the Philippines. Replicating modern UX journeys, converting wireframes into robust, interactive, accessible frameworks is what fuels my professional passion.
+                    </p>
+                    <p>
+                        Our mission has always been simple: create stellar user experiences that look, breathe, and navigate seamlessly. Whether you need a corporate layout, a bold creative blog, or responsive app designs, we offer personalized layouts tailored to your custom specifications.
+                    </p>
                 </div>
-                <!-- Service 4 -->
-                <div class="service-card">
-                    <div class="service-icon"><i data-lucide="megaphone" style="width:20px;height:20px"></i></div>
-                    <div class="service-title font-display">Content Marketing</div>
-                    <p class="service-desc">Strategic distributions frameworks targeted to reach right audiences at optimal timeline milestones with relevant high-impact narratives.</p>
+                <div class='space-y-6 text-gray-500 leading-relaxed text-[15px]'>
+                    <p>
+                        With over 5 years of industry-level exposure and collaborations with agencies, I deliver quality clean code templates. Easily customizer-friendly systems ensure you can edit headers, assets, themes, and portfolios without breaking compilation layouts.
+                    </p>
+                    <p class='font-bold text-gray-800 italic'>
+                        &quot;Design is not just what it looks like and feels like. Design is how it works.&quot;
+                    </p>
                 </div>
-                <!-- Service 5 -->
-                <div class="service-card">
-                    <div class="service-icon"><i data-lucide="trending-up" style="width:20px;height:20px"></i></div>
-                    <div class="service-title font-display">Business Consultancy</div>
-                    <p class="service-desc">Diagnostics for conversion blocks, growth channels scoping, and ROI blueprint maps built completely around unique business parameters.</p>
+            </div>
+
+            <!-- About Service Mini Cards -->
+            <div class='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6'>
+                <!-- Card 1: Graphic Design -->
+                <div class='p-6 border-b-4 border-jacksonBlue shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 bg-white flex flex-col justify-between'>
+                    <div class='text-jacksonBlue text-4xl mb-6'><i class='fa-solid fa-palette'/></div>
+                    <div>
+                        <h3 class='text-lg font-bold text-gray-800 mb-2 font-sans'>Graphic Design</h3>
+                        <p class='text-xs text-gray-400 uppercase tracking-widest font-bold mb-4'>Branding &amp; Art</p>
+                        <p class='text-sm text-gray-500'>Creating vibrant visual identifiers, business mockups, and corporate materials.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Web Design -->
+                <div class='p-6 border-b-4 border-jacksonRed shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 bg-white flex flex-col justify-between'>
+                    <div class='text-jacksonRed text-4xl mb-6'><i class='fa-solid fa-laptop-code'/></div>
+                    <div>
+                        <h3 class='text-lg font-bold text-gray-800 mb-2 font-sans'>Web Design</h3>
+                        <p class='text-xs text-gray-400 uppercase tracking-widest font-bold mb-4'>Layouts &amp; UX</p>
+                        <p class='text-sm text-gray-500'>Designing highly interactive prototypes, high-fidelity components, and flows.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: Software -->
+                <div class='p-6 border-b-4 border-jacksonYellow shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 bg-white flex flex-col justify-between'>
+                    <div class='text-jacksonYellow text-4xl mb-6'><i class='fa-solid fa-gears'/></div>
+                    <div>
+                        <h3 class='text-lg font-bold text-gray-800 mb-2 font-sans'>Software</h3>
+                        <p class='text-xs text-gray-400 uppercase tracking-widest font-bold mb-4'>Engineering</p>
+                        <p class='text-sm text-gray-500'>Integrating dynamic backend APIs, database management, and custom solutions.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Application -->
+                <div class='p-6 border-b-4 border-jacksonPurple shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 bg-white flex flex-col justify-between'>
+                    <div class='text-jacksonPurple text-4xl mb-6'><i class='fa-solid fa-mobile-screen-button'/></div>
+                    <div>
+                        <h3 class='text-lg font-bold text-gray-800 mb-2 font-sans'>Application</h3>
+                        <p class='text-xs text-gray-400 uppercase tracking-widest font-bold mb-4'>Mobile &amp; Platforms</p>
+                        <p class='text-sm text-gray-500'>Building cross-platform systems, touch-gestures, and iOS/Android app assets.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Callout banner -->
+            <div class='mt-16 bg-[#f9bf3f]/10 border-l-4 border-[#f9bf3f] p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 rounded-r-md'>
+                <div class='max-w-2xl text-center md:text-left'>
+                    <h4 class='text-xl sm:text-2xl font-serif text-gray-800 font-bold mb-2'>I am happy to let you know that 300+ projects done successfully!</h4>
+                    <p class='text-sm text-gray-500'>Need standard custom design integrations? Let&#39;s connect and schedule an interactive strategy session.</p>
+                </div>
+                <a class='px-8 py-3.5 bg-jacksonBlue text-white font-bold text-xs tracking-widest uppercase hover:bg-blue-600 transition duration-300 rounded-sm whitespace-nowrap' href='#contact'>
+                    Hire Me Now
+                </a>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION -->
+        <section class='py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24' id='services'>
+            <div class='max-w-7xl mx-auto'>
+                <span class='text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3'>What I Do?</span>
+                <h2 class='text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-12 uppercase'>Here are some of my expertise</h2>
+
+                <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+                    <!-- Service Box 1 -->
+                    <div class='bg-white p-8 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300 border-t-4 border-jacksonBlue'>
+                        <div class='w-14 h-14 rounded-full bg-jacksonBlue/10 text-jacksonBlue flex items-center justify-center text-xl mb-6 shadow-sm'><i class='fa-regular fa-lightbulb text-2xl'/></div>
+                        <h3 class='text-xl font-bold text-gray-800 mb-3'>Innovative Ideas</h3>
+                        <p class='text-sm text-gray-500 leading-relaxed'>Providing stellar product consulting, innovative concept validation, wireframe drafting, and out-of-the-box system strategies.</p>
+                    </div>
+
+                    <!-- Service Box 2 -->
+                    <div class='bg-white p-8 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300 border-t-4 border-jacksonRed'>
+                        <div class='w-14 h-14 rounded-full bg-jacksonRed/10 text-jacksonRed flex items-center justify-center text-xl mb-6 shadow-sm'><i class='fa-solid fa-code text-2xl'/></div>
+                        <h3 class='text-xl font-bold text-gray-800 mb-3'>Software Development</h3>
+                        <p class='text-sm text-gray-500 leading-relaxed'>Coding semantic backend components, optimizing database calls, and constructing maintainable system codebases.</p>
+                    </div>
+
+                    <!-- Service Box 3 -->
+                    <div class='bg-white p-8 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300 border-t-4 border-jacksonYellow'>
+                        <div class='w-14 h-14 rounded-full bg-jacksonYellow/10 text-jacksonYellow flex items-center justify-center text-xl mb-6 shadow-sm'><i class='fa-solid fa-tablet-screen-button text-2xl'/></div>
+                        <h3 class='text-xl font-bold text-gray-800 mb-3'>Application Systems</h3>
+                        <p class='text-sm text-gray-500 leading-relaxed'>Architecting fluid responsive applications with interactive touchpoints, dynamic offline support, and smooth views.</p>
+                    </div>
+
+                    <!-- Service Box 4 -->
+                    <div class='bg-white p-8 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300 border-t-4 border-jacksonPurple'>
+                        <div class='w-14 h-14 rounded-full bg-jacksonPurple/10 text-jacksonPurple flex items-center justify-center text-xl mb-6 shadow-sm'><i class='fa-solid fa-pen-nib text-2xl'/></div>
+                        <h3 class='text-xl font-bold text-gray-800 mb-3'>Graphic Design</h3>
+                        <p class='text-sm text-gray-500 leading-relaxed'>Formulating unique company identity vectors, color matching palettes, business stationary, and presentation models.</p>
+                    </div>
+
+                    <!-- Service Box 5 -->
+                    <div class='bg-white p-8 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300 border-t-4 border-jacksonTeal'>
+                        <div class='w-14 h-14 rounded-full bg-jacksonTeal/10 text-jacksonTeal flex items-center justify-center text-xl mb-6 shadow-sm'><i class='fa-solid fa-magnifying-glass-chart text-2xl'/></div>
+                        <h3 class='text-xl font-bold text-gray-800 mb-3'>SEO / Marketing</h3>
+                        <p class='text-sm text-gray-500 leading-relaxed'>Amplifying digital coverage via Google visibility strategies, schema styling, keywords mapping, and speed optimization audits.</p>
+                    </div>
+
+                    <!-- Service Box 6 -->
+                    <div class='bg-white p-8 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300 border-t-4 border-jacksonGreen'>
+                        <div class='w-14 h-14 rounded-full bg-jacksonGreen/10 text-jacksonGreen flex items-center justify-center text-xl mb-6 shadow-sm'><i class='fa-solid fa-circle-nodes text-2xl'/></div>
+                        <h3 class='text-xl font-bold text-gray-800 mb-3'>Custom Solutions</h3>
+                        <p class='text-sm text-gray-500 leading-relaxed'>Tailoring bespoke system integrations, API middleware pipelines, interactive web hooks, and security audits.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. PORTFOLIO SECTION -->
-        <section id="portfolio" class="page-section section">
-            <div class="section-header">
-                <span class="eyebrow">Case Studies</span>
-                <h2 class="section-h2 font-display">Strategic Digital Milestones</h2>
-                <p class="section-sub">A transparent look into commercial scale milestones, structured advertising structures, and active client conversions.</p>
+        <!-- COUNTERS (STATISTICS) SECTION with Parallax Overlay Style -->
+        <section class='relative py-24 bg-cover bg-center text-white' style='background-image: linear-gradient(rgba(44, 152, 240, 0.9), rgba(44, 152, 240, 0.9)), url(&apos;https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&amp;fit=crop&amp;q=80&amp;w=1200&apos;);'>
+            <div class='max-w-7xl mx-auto px-8 sm:px-16 lg:px-24 grid grid-cols-2 md:grid-cols-4 gap-8 text-center'>
+                <!-- Stat 1 -->
+                <div class='space-y-2'>
+                    <span class='text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight'>309</span>
+                    <span class='text-xs uppercase tracking-widest text-blue-100 font-bold block'>Happy Clients</span>
+                </div>
+                <!-- Stat 2 -->
+                <div class='space-y-2'>
+                    <span class='text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight'>356</span>
+                    <span class='text-xs uppercase tracking-widest text-blue-100 font-bold block'>Projects Done</span>
+                </div>
+                <!-- Stat 3 -->
+                <div class='space-y-2'>
+                    <span class='text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight'>2000</span>
+                    <span class='text-xs uppercase tracking-widest text-blue-100 font-bold block'>Cups of coffee</span>
+                </div>
+                <!-- Stat 4 -->
+                <div class='space-y-2'>
+                    <span class='text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight'>10</span>
+                    <span class='text-xs uppercase tracking-widest text-blue-100 font-bold block'>Partners</span>
+                </div>
             </div>
+        </section>
 
-            <!-- Gallery style layout for Portfolio -->
-            <div class="gallery-grid">
-                <!-- Case 1 -->
-                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/6c47ff/ffffff?text=E-commerce+Scale', 'E-commerce Brand Optimization Model', 'Successfully scaled DTC store through attribution overhauls and dynamic Meta catalog sequences.')">
-                    <div class="gallery-thumb-container">
-                        <span class="gallery-badge">E-commerce</span>
-                        <img src="https://placehold.co/600x450/6c47ff/ffffff?text=E-commerce+Scale" alt="E-commerce Scale" />
+        <!-- SKILLS SECTION -->
+        <section class='py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto' id='skills'>
+            <span class='text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3'>My Specialty</span>
+            <h2 class='text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-8 uppercase'>My Skills</h2>
+
+            <p class='text-gray-500 leading-relaxed max-w-3xl text-[15px] mb-12'>
+                A brief visual overview of our modern engineering toolkit. Each bar presents core experience values. We constantly learn new methodologies, libraries, and frameworks to deliver optimized static performance layouts.
+            </p>
+
+            <div class='grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8'>
+                <!-- Skill 1: Photoshop -->
+                <div>
+                    <div class='flex justify-between items-center mb-2'>
+                        <span class='font-bold text-[#2c3e50] text-sm tracking-wide'>Photoshop</span>
+                        <span class='font-bold text-[#2c3e50] text-sm'>75%</span>
                     </div>
-                    <div class="gallery-content">
-                        <div>
-                            <h3 class="gallery-title">Scaling Online Store Metrics</h3>
-                            <p class="gallery-desc">Attribution configuration overhaul, dynamic Meta catalogue sequences, and aggressive landing page speed optimizations yielding a 3.8x return shift.</p>
-                        </div>
-                        <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center">
-                            <span class="text-xs font-semibold text-purple-500 uppercase">3.8x Return Lift</span>
-                            <span class="text-xs text-gray-400 flex items-center gap-1">View Image <i data-lucide="zoom-in" style="width:12px;height:12px"></i></span>
-                        </div>
+                    <div class='w-full bg-gray-150 h-2.5 rounded-full overflow-hidden'>
+                        <div class='bg-jacksonBlue h-full rounded-full transition-all duration-1000' style='width: 75%;'/>
                     </div>
                 </div>
 
-                <!-- Case 2 -->
-                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/a855f7/ffffff?text=B2B+Lead+Generation', 'B2B SaaS Acquisition System', 'Optimized LinkedIn and Search networks to decrease cost-per-lead margins globally.')">
-                    <div class="gallery-thumb-container">
-                        <span class="gallery-badge">B2B SaaS</span>
-                        <img src="https://placehold.co/600x450/a855f7/ffffff?text=B2B+Lead+Generation" alt="B2B Lead Generation" />
+                <!-- Skill 2: jQuery -->
+                <div>
+                    <div class='flex justify-between items-center mb-2'>
+                        <span class='font-bold text-[#2c3e50] text-sm tracking-wide'>jQuery / Vanilla JS</span>
+                        <span class='font-bold text-[#2c3e50] text-sm'>60%</span>
                     </div>
-                    <div class="gallery-content">
-                        <div>
-                            <h3 class="gallery-title">B2B Lead Pipeline Setup</h3>
-                            <p class="gallery-desc">LinkedIn contextual ad distributions, custom intent search campaigns, and robust conversion hook adjustments leading to a 64% acquisition cost drop.</p>
-                        </div>
-                        <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center">
-                            <span class="text-xs font-semibold text-purple-500 uppercase">-64% CPL</span>
-                            <span class="text-xs text-gray-400 flex items-center gap-1">View Image <i data-lucide="zoom-in" style="width:12px;height:12px"></i></span>
-                        </div>
+                    <div class='w-full bg-gray-150 h-2.5 rounded-full overflow-hidden'>
+                        <div class='bg-jacksonRed h-full rounded-full transition-all duration-1000' style='width: 60%;'/>
                     </div>
                 </div>
 
-                <!-- Case 3 -->
-                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/3b82f6/ffffff?text=SEO+Content+Strategy', 'Organic Search Campaign Framework', 'Structural keyword engineering targeting low-competition phrases to drive organic customer pipelines.')">
-                    <div class="gallery-thumb-container">
-                        <span class="gallery-badge">Organic SEO</span>
-                        <img src="https://placehold.co/600x450/3b82f6/ffffff?text=SEO+Content+Strategy" alt="Organic SEO" />
+                <!-- Skill 3: HTML5 -->
+                <div>
+                    <div class='flex justify-between items-center mb-2'>
+                        <span class='font-bold text-[#2c3e50] text-sm tracking-wide'>HTML5</span>
+                        <span class='font-bold text-[#2c3e50] text-sm'>85%</span>
                     </div>
-                    <div class="gallery-content">
-                        <div>
-                            <h3 class="gallery-title">Organic Funnel Realignment</h3>
-                            <p class="gallery-desc">Targeted keyword modeling alongside structured editorial campaigns to drive steady organic customer acquisition channels autonomously.</p>
-                        </div>
-                        <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center">
-                            <span class="text-xs font-semibold text-purple-500 uppercase">+180% Organic Reach</span>
-                            <span class="text-xs text-gray-400 flex items-center gap-1">View Image <i data-lucide="zoom-in" style="width:12px;height:12px"></i></span>
-                        </div>
+                    <div class='w-full bg-gray-150 h-2.5 rounded-full overflow-hidden'>
+                        <div class='bg-jacksonYellow h-full rounded-full transition-all duration-1000' style='width: 85%;'/>
+                    </div>
+                </div>
+
+                <!-- Skill 4: CSS3 / Tailwind -->
+                <div>
+                    <div class='flex justify-between items-center mb-2'>
+                        <span class='font-bold text-[#2c3e50] text-sm tracking-wide'>CSS3 / Tailwind CSS</span>
+                        <span class='font-bold text-[#2c3e50] text-sm'>90%</span>
+                    </div>
+                    <div class='w-full bg-gray-150 h-2.5 rounded-full overflow-hidden'>
+                        <div class='bg-jacksonPurple h-full rounded-full transition-all duration-1000' style='width: 90%;'/>
+                    </div>
+                </div>
+
+                <!-- Skill 5: WordPress -->
+                <div>
+                    <div class='flex justify-between items-center mb-2'>
+                        <span class='font-bold text-[#2c3e50] text-sm tracking-wide'>WordPress CMS</span>
+                        <span class='font-bold text-[#2c3e50] text-sm'>70%</span>
+                    </div>
+                    <div class='w-full bg-gray-150 h-2.5 rounded-full overflow-hidden'>
+                        <div class='bg-jacksonTeal h-full rounded-full transition-all duration-1000' style='width: 70%;'/>
+                    </div>
+                </div>
+
+                <!-- Skill 6: SEO / Marketing -->
+                <div>
+                    <div class='flex justify-between items-center mb-2'>
+                        <span class='font-bold text-[#2c3e50] text-sm tracking-wide'>SEO Optimization</span>
+                        <span class='font-bold text-[#2c3e50] text-sm'>80%</span>
+                    </div>
+                    <div class='w-full bg-gray-150 h-2.5 rounded-full overflow-hidden'>
+                        <div class='bg-jacksonGreen h-full rounded-full transition-all duration-1000' style='width: 80%;'/>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. BLOG SECTION -->
-        <section id="blog" class="page-section section">
-            <div class="section-header">
-                <span class="eyebrow">Insights</span>
-                <h2 class="section-h2 font-display">Opinion Articles</h2>
-                <p class="section-sub">My personal thoughts, breakdowns, and frameworks regarding structural changes in performance marketing.</p>
-            </div>
+        <!-- EDUCATION SECTION (Jackson Accordion Style) -->
+        <section class='py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24' id='education'>
+            <div class='max-w-7xl mx-auto'>
+                <span class='text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3'>Education</span>
+                <h2 class='text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-12 uppercase'>Education</h2>
 
-            <!-- Gallery style layout for Blog -->
-            <div class="gallery-grid">
-                <!-- Article 1 -->
-                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/4f46e5/ffffff?text=Meta+Ads+Future', 'The Future of Meta Ads', 'A deep dive into how machine-learning target attribution changes account architectures.')">
-                    <div class="gallery-thumb-container">
-                        <span class="gallery-badge">Paid Advertising</span>
-                        <img src="https://placehold.co/600x450/4f46e5/ffffff?text=Meta+Ads+Future" alt="The Future of Meta Ads" />
-                    </div>
-                    <div class="gallery-content">
-                        <div>
-                            <p class="text-xs text-purple-500 font-semibold mb-1">June 18, 2026</p>
-                            <h3 class="gallery-title">The Future of Meta Ads in 2026</h3>
-                            <p class="gallery-desc">Artificial intelligence and predictive model signals are redefining how custom audience targeting algorithms scale. Strategic advertisers must transition toward dynamic content testing mechanisms over narrow parameters.</p>
-                        </div>
-                        <button class="mt-4 text-sm font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-1 text-left">
-                            Read Full Details <i data-lucide="chevron-right" style="width:14px;height:14px"></i>
+                <!-- Accordions Container -->
+                <div class='max-w-4xl space-y-4'>
+                    <!-- Accordion Item 1 -->
+                    <div class='border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm'>
+                        <button class='accordion-header w-full text-left p-6 flex justify-between items-center transition bg-white hover:bg-gray-50 focus:outline-none' onclick='toggleAccordion(this)'>
+                            <span class='font-bold text-gray-800 text-base sm:text-lg tracking-wide'>Master Degree in Political Science</span>
+                            <span class='w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 transition-transform duration-300'>
+                                <i class='fa-solid fa-chevron-down text-sm'/>
+                            </span>
                         </button>
+                        <div class='accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out'>
+                            <div class='p-6 border-t border-gray-100 text-gray-500 leading-relaxed text-[15px] bg-[#fafafa]'>
+                                <p class='mb-3'><strong>at University of Chittagong(2022 - 2023)</strong></p>
+                                <p>Master degree studying deep human-computer interaction models, cognitive product research, branding psychology, system typography, and video game mechanics design guidelines.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accordion Item 2 -->
+                    <div class='border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm'>
+                        <button class='accordion-header w-full text-left p-6 flex justify-between items-center transition bg-white hover:bg-gray-50 focus:outline-none' onclick='toggleAccordion(this)'>
+                            <span class='font-bold text-gray-800 text-base sm:text-lg tracking-wide'>Bachelor Degree in Political Science</span>
+                            <span class='w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 transition-transform duration-300'>
+                                <i class='fa-solid fa-chevron-down text-sm'/>
+                            </span>
+                        </button>
+                        <div class='accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out'>
+                            <div class='p-6 border-t border-gray-100 text-gray-500 leading-relaxed text-[15px] bg-[#fafafa]'>
+                                <p class='mb-3'><strong>at University of Chittagong (2018 - 2012)</strong></p>
+                                <p>Specialized core course studying data structure modeling, advanced database algorithms, server middleware pipelines, responsive layouts, web engineering, and compiler mechanics.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE SECTION (Timeline Tracker Layout) -->
+        <section class='py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto' id='experience'>
+            <span class='text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3'>Professional</span>
+            <h2 class='text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-16 uppercase'>Experience</h2>
+
+            <!-- Timeline Elements wrapper -->
+            <div class='relative border-l-2 border-gray-100 pl-8 ml-4 sm:ml-6 space-y-12'>
+                <!-- Timeline item 1: Senior Developer -->
+                <div class='relative'>
+                    <!-- Color circle left indicator -->
+                    <div class='absolute -left-[45px] top-1.5 w-8 h-8 rounded-full bg-jacksonBlue text-white flex items-center justify-center text-sm ring-4 ring-white shadow-md'>
+                        <i class='fa-solid fa-laptop-code'/>
+                    </div>
+                    <!-- Details Card -->
+                    <div class='bg-jacksonBg/50 hover:bg-[#f2f3f7] p-6 sm:p-8 rounded-lg shadow-sm transition duration-300'>
+                        <span class='text-xs font-bold text-jacksonBlue bg-jacksonBlue/10 px-3 py-1 rounded-full uppercase'>2018 - Present</span>
+                        <h3 class='text-xl font-bold text-gray-800 mt-3 font-serif'>Senior Full-Stack Developer <span class='font-sans text-sm text-gray-400 font-normal'>at InnovateHQ</span></h3>
+                        <p class='text-sm text-gray-500 mt-4 leading-relaxed'>
+                            Leading modular front-end architecture, setting layout development criteria, mentoring developers, performing deployment audits, and optimizing core search discovery frameworks.
+                        </p>
                     </div>
                 </div>
 
-                <!-- Article 2 -->
-                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/06b6d4/ffffff?text=Content+Marketing', 'Content Marketing Frameworks', 'Why brand compounding relies on organic asset infrastructure over immediate ad-bids.')">
-                    <div class="gallery-thumb-container">
-                        <span class="gallery-badge">Content Strategy</span>
-                        <img src="https://placehold.co/600x450/06b6d4/ffffff?text=Content+Marketing" alt="Content Marketing Strategy" />
+                <!-- Timeline item 2: Front-End Developer -->
+                <div class='relative'>
+                    <!-- Color circle left indicator -->
+                    <div class='absolute -left-[45px] top-1.5 w-8 h-8 rounded-full bg-jacksonRed text-white flex items-center justify-center text-sm ring-4 ring-white shadow-md'>
+                        <i class='fa-solid fa-pen-nib'/>
                     </div>
-                    <div class="gallery-content">
-                        <div>
-                            <p class="text-xs text-purple-500 font-semibold mb-1">June 02, 2026</p>
-                            <h3 class="gallery-title">Why Content Marketing is King for Small Businesses</h3>
-                            <p class="gallery-desc">Organic traffic search optimization and short-form media ecosystems represent compounding value investments over expensive direct-response click bids. Learn how to establish organic brand foundations.</p>
-                        </div>
-                        <button class="mt-4 text-sm font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-1 text-left">
-                            Read Full Details <i data-lucide="chevron-right" style="width:14px;height:14px"></i>
-                        </button>
+                    <!-- Details Card -->
+                    <div class='bg-jacksonBg/50 hover:bg-[#f2f3f7] p-6 sm:p-8 rounded-lg shadow-sm transition duration-300'>
+                        <span class='text-xs font-bold text-jacksonRed bg-jacksonRed/10 px-3 py-1 rounded-full uppercase'>2017 - 2018</span>
+                        <h3 class='text-xl font-bold text-gray-800 mt-3 font-serif'>UI/UX Front-End Designer <span class='font-sans text-sm text-gray-400 font-normal'>at Colorlib Studio</span></h3>
+                        <p class='text-sm text-gray-500 mt-4 leading-relaxed'>
+                            Formulating spectacular user journeys, creating custom-made graphic layouts, prototyping fluid grids, writing semantic CSS configurations, and validating accessibility markers.
+                        </p>
                     </div>
                 </div>
 
-                <!-- Article 3 -->
-                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/ec4899/ffffff?text=Customer+Retention', 'Customer LTV Optimization', 'How retention pipelines reduce overhead acquisition parameters cleanly.')">
-                    <div class="gallery-thumb-container">
-                        <span class="gallery-badge">Customer Lifecycle</span>
-                        <img src="https://placehold.co/600x450/ec4899/ffffff?text=Customer+Retention" alt="Customer Retention Strategy" />
+                <!-- Timeline item 3: System Analyst -->
+                <div class='relative'>
+                    <!-- Color circle left indicator -->
+                    <div class='absolute -left-[45px] top-1.5 w-8 h-8 rounded-full bg-jacksonYellow text-white flex items-center justify-center text-sm ring-4 ring-white shadow-md'>
+                        <i class='fa-solid fa-magnifying-glass-chart'/>
                     </div>
-                    <div class="gallery-content">
-                        <div>
-                            <p class="text-xs text-purple-500 font-semibold mb-1">May 14, 2026</p>
-                            <h3 class="gallery-title">Retention is the New Acquisition</h3>
-                            <p class="gallery-desc">Attracting fresh visitors is consistently costlier than motivating recurring buyers. Setting up proactive post-purchase email pathways elevates overall lifetime value metric by over 40%.</p>
-                        </div>
-                        <button class="mt-4 text-sm font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-1 text-left">
-                            Read Full Details <i data-lucide="chevron-right" style="width:14px;height:14px"></i>
-                        </button>
+                    <!-- Details Card -->
+                    <div class='bg-jacksonBg/50 hover:bg-[#f2f3f7] p-6 sm:p-8 rounded-lg shadow-sm transition duration-300'>
+                        <span class='text-xs font-bold text-jacksonYellow bg-jacksonYellow/10 px-3 py-1 rounded-full uppercase'>2016 - 2017</span>
+                        <h3 class='text-xl font-bold text-gray-800 mt-3 font-serif'>Junior System Analyst <span class='font-sans text-sm text-gray-400 font-normal'>at MegaSystems Corp</span></h3>
+                        <p class='text-sm text-gray-500 mt-4 leading-relaxed'>
+                            Drafting technical design manuals, testing core modular components, compiling performance reports, gathering enterprise stakeholder requirements, and evaluating database integrity layouts.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 6. ACTIVITIES SECTION -->
-        <section id="activities" class="page-section section">
-            <div id="activities-catalog">
-                <div class="section-header">
-                    <span class="eyebrow">Engagements</span>
-                    <h2 class="section-h2 font-display">Professional Activities</h2>
-                    <p class="section-sub">Industry sessions, business meetups, and campaign operations I run and participate in.</p>
+        <!-- WORK / PORTFOLIO SECTION -->
+        <section class='py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24' id='work'>
+            <div class='max-w-7xl mx-auto'>
+                <span class='text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3'>My Works &amp;</span>
+                <h2 class='text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-8 uppercase'>Activities</h2>
+
+                <!-- Category Filtering Tabs -->
+                <div class='flex flex-wrap gap-4 md:gap-8 text-sm font-bold uppercase tracking-wider border-b border-gray-200 pb-4 mb-12'>
+                    <button class='filter-tab pb-2 border-b-2 border-jacksonBlue text-jacksonBlue focus:outline-none transition-all duration-300' data-filter='all' onclick='filterPortfolio(&apos;all&apos;)'>All</button>
+                    <button class='filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300' data-filter='graphic' onclick='filterPortfolio(&apos;graphic&apos;)'>Leadership</button>
+                    <button class='filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300' data-filter='web' onclick='filterPortfolio(&apos;web&apos;)'>Conference</button>
+                    <button class='filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300' data-filter='software' onclick='filterPortfolio(&apos;software&apos;)'>Co-curricular</button>
+                    <button class='filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300' data-filter='apps' onclick='filterPortfolio(&apos;apps&apos;)'>Voluntary</button>
                 </div>
 
-                <!-- Gallery Layout -->
-                <div class="gallery-grid">
-                    <!-- Activity Card 1 -->
-                    <div class="gallery-card" onclick="showInnerDetails('act', 'summit')">
-                        <div class="gallery-thumb-container">
-                            <span class="gallery-badge">Summit Speaker</span>
-                            <img src="https://placehold.co/600x450/6366f1/ffffff?text=Marketing+Summit" alt="Speaking Event" />
-                        </div>
-                        <div class="gallery-content">
-                            <div>
-                                <h3 class="gallery-title">Digital Growth Forum Panelist</h3>
-                                <p class="gallery-desc">Delivering key strategy insights about programmatic performance models and ad channel optimization sequences at the regional Digital Growth Forum.</p>
-                            </div>
-                            <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center text-xs text-purple-500 font-semibold uppercase">
-                                <span>See Inside Gallery</span>
-                                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
+                <!-- Portfolio items Grid layout -->
+                <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8' id='portfolio-grid'>
+                    <!-- Work Item 1 (Web) -->
+                    <div class='portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md' data-category='web'>
+                        <img alt='Work 1' class='w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500' src='https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&amp;fit=crop&amp;q=80&amp;w=600'/>
+                        <div class='absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent'>
+                            <span class='text-xs uppercase tracking-widest text-[#2c98f0] font-bold mb-1'>Web Design</span>
+                            <h3 class='text-lg font-bold font-serif mb-3'>Vibrant Portfolio Layout</h3>
+                            <p class='text-xs text-gray-300 mb-4 font-light'>Custom digital resume for branding artists.</p>
+                            <div class='flex gap-3'>
+                                <a aria-label='Zoom image' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockZoom(event, &apos;Vibrant Portfolio Layout&apos;)'><i class='fa-solid fa-magnifying-glass-plus'/></a>
+                                <a aria-label='Visit site' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockLink(event)'><i class='fa-solid fa-link'/></a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Activity Card 2 -->
-                    <div class="gallery-card" onclick="showInnerDetails('act', 'workshop')">
-                        <div class="gallery-thumb-container">
-                            <span class="gallery-badge">Workshops</span>
-                            <img src="https://placehold.co/600x450/8b5cf6/ffffff?text=Campaign+Design" alt="Campaign Design Session" />
-                        </div>
-                        <div class="gallery-content">
-                            <div>
-                                <h3 class="gallery-title">Campaign Architecture Session</h3>
-                                <p class="gallery-desc">Conducting structural campaign blueprint workshops with high-growth e-commerce developers to plan creative testing processes.</p>
-                            </div>
-                            <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center text-xs text-purple-500 font-semibold uppercase">
-                                <span>See Inside Gallery</span>
-                                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
+                    <!-- Work Item 2 (Graphic) -->
+                    <div class='portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md' data-category='graphic'>
+                        <img alt='Work 2' class='w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500' src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&amp;fit=crop&amp;q=80&amp;w=600'/>
+                        <div class='absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent'>
+                            <span class='text-xs uppercase tracking-widest text-[#ec5453] font-bold mb-1'>Graphic Design</span>
+                            <h3 class='text-lg font-bold font-serif mb-3'>Corporate Identity kit</h3>
+                            <p class='text-xs text-gray-300 mb-4 font-light'>Logo system and stationery layout design.</p>
+                            <div class='flex gap-3'>
+                                <a aria-label='Zoom image' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockZoom(event, &apos;Corporate Identity kit&apos;)'><i class='fa-solid fa-magnifying-glass-plus'/></a>
+                                <a aria-label='Visit site' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockLink(event)'><i class='fa-solid fa-link'/></a>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Inner Drill-down Gallery View (Hidden by Default) -->
-            <div id="act-inner-view" class="hidden">
-                <button onclick="hideInnerDetails('act')" class="btn-ghost mb-8 flex items-center gap-1">
-                    <i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Activities
-                </button>
-                <div class="section-header">
-                    <span class="eyebrow" id="act-inner-badge">Dynamic Badge</span>
-                    <h2 class="section-h2 font-display" id="act-inner-title">Dynamic Title</h2>
-                    <p class="section-sub" id="act-inner-desc">Dynamic Long Description</p>
-                </div>
-                
-                <!-- Inner Multi-Photo Gallery Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8" id="act-inner-photos-grid">
-                    <!-- Javascript will inject dynamic image components here -->
+                    <!-- Work Item 3 (Software) -->
+                    <div class='portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md' data-category='software'>
+                        <img alt='Work 3' class='w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500' src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&amp;fit=crop&amp;q=80&amp;w=600'/>
+                        <div class='absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent'>
+                            <span class='text-xs uppercase tracking-widest text-[#f9bf3f] font-bold mb-1'>Software</span>
+                            <h3 class='text-lg font-bold font-serif mb-3'>API Schema Integrations</h3>
+                            <p class='text-xs text-gray-300 mb-4 font-light'>Highly customized server-side sync endpoints.</p>
+                            <div class='flex gap-3'>
+                                <a aria-label='Zoom image' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockZoom(event, &apos;API Schema Integrations&apos;)'><i class='fa-solid fa-magnifying-glass-plus'/></a>
+                                <a aria-label='Visit site' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockLink(event)'><i class='fa-solid fa-link'/></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 4 (Apps) -->
+                    <div class='portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md' data-category='apps'>
+                        <img alt='Work 3' class='w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500' src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&amp;fit=crop&amp;q=80&amp;w=600'/>
+                        <div class='absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent'>
+                            <span class='text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1'>Apps</span>
+                            <h3 class='text-lg font-bold font-serif mb-3'>Fintech Mobile Dashboard</h3>
+                            <p class='text-xs text-gray-300 mb-4 font-light'>Beautiful crypto wallets dashboard interface.</p>
+                            <div class='flex gap-3'>
+                                <a aria-label='Zoom image' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockZoom(event, &apos;Fintech Mobile Dashboard&apos;)'><i class='fa-solid fa-magnifying-glass-plus'/></a>
+                                <a aria-label='Visit site' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockLink(event)'><i class='fa-solid fa-link'/></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 5 (Web) -->
+                    <div class='portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md' data-category='web'>
+                        <img alt='Work 5' class='w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500' src='https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&amp;fit=crop&amp;q=80&amp;w=600'/>
+                        <div class='absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent'>
+                            <span class='text-xs uppercase tracking-widest text-[#2c98f0] font-bold mb-1'>Web Design</span>
+                            <h3 class='text-lg font-bold font-serif mb-3'>Modern agency homepage</h3>
+                            <p class='text-xs text-gray-300 mb-4 font-light'>Sleek layout for advertising digital studios.</p>
+                            <div class='flex gap-3'>
+                                <a aria-label='Zoom image' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockZoom(event, &apos;Modern agency homepage&apos;)'><i class='fa-solid fa-magnifying-glass-plus'/></a>
+                                <a aria-label='Visit site' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockLink(event)'><i class='fa-solid fa-link'/></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 6 (Apps) -->
+                    <div class='portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md' data-category='apps'>
+                        <img alt='Work 6' class='w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500' src='https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&amp;fit=crop&amp;q=80&amp;w=600'/>
+                        <div class='absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent'>
+                            <span class='text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1'>Apps</span>
+                            <h3 class='text-lg font-bold font-serif mb-3'>Health &amp; Yoga Tracker</h3>
+                            <p class='text-xs text-gray-300 mb-4 font-light'>Interactive tracking app designed in Figma.</p>
+                            <div class='flex gap-3'>
+                                <a aria-label='Zoom image' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockZoom(event, &apos;Health &amp; Yoga Tracker&apos;)'><i class='fa-solid fa-magnifying-glass-plus'/></a>
+                                <a aria-label='Visit site' class='w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm' href='#' onclick='mockLink(event)'><i class='fa-solid fa-link'/></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 7. VOLUNTARY SECTION -->
-        <section id="voluntary" class="page-section section">
-            <div id="voluntary-catalog">
-                <div class="section-header">
-                    <span class="eyebrow">Giving Back</span>
-                    <h2 class="section-h2 font-display">Voluntary Social Initiatives</h2>
-                    <p class="section-sub">Pro-bono efforts dedicated toward digital equity, local skills mentoring, and community initiatives.</p>
-                </div>
+        <!-- BLOG SECTION -->
+        <section class='py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto' id='blog'>
+            <span class='text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3'>Read</span>
+            <h2 class='text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-12 uppercase'>Blog</h2>
 
-                <!-- Gallery Layout -->
-                <div class="gallery-grid">
-                    <!-- Voluntary Card 1 -->
-                    <div class="gallery-card" onclick="showInnerDetails('vol', 'bootcamp')">
-                        <div class="gallery-thumb-container">
-                            <span class="gallery-badge">Mentoring</span>
-                            <img src="https://placehold.co/600x450/3b82f6/ffffff?text=Skills+Bootcamp" alt="Voluntary Skill Training" />
-                        </div>
-                        <div class="gallery-content">
-                            <div>
-                                <h3 class="gallery-title">Digital Marketing Bootcamp</h3>
-                                <p class="gallery-desc">Spearheading free marketing literacy modules to educate ambitious student developers on modern SEO mechanics and digital platforms.</p>
-                            </div>
-                            <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center text-xs text-purple-500 font-semibold uppercase">
-                                <span>See Inside Gallery</span>
-                                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
-                            </div>
-                        </div>
-                    </div>
+            <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+    <article class='bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition duration-300'>
+        
+        <a class='block h-52 overflow-hidden relative' href='blog-details.html' target='_blank'>
+            <img alt='Why Web Design Matters More Than Ever' class='w-full h-full object-cover' src='https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&amp;fit=crop&amp;q=80&amp;w=500'/>
+            <span class='absolute top-4 left-4 bg-jacksonBlue text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm'>Design</span>
+        </a>
 
-                    <!-- Voluntary Card 2 -->
-                    <div class="gallery-card" onclick="showInnerDetails('vol', 'nonprofit')">
-                        <div class="gallery-thumb-container">
-                            <span class="gallery-badge">Social Dev</span>
-                            <img src="https://placehold.co/600x450/10b981/ffffff?text=NGO+Support" alt="Community Support" />
-                        </div>
-                        <div class="gallery-content">
-                            <div>
-                                <h3 class="gallery-title">Non-Profit Digital Enablement</h3>
-                                <p class="gallery-desc">Drafting digital strategy structures and content programs for community non-profits to assist them in maximizing fundraising efforts.</p>
-                            </div>
-                            <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center text-xs text-purple-500 font-semibold uppercase">
-                                <span>See Inside Gallery</span>
-                                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class='p-6'>
+            <div class='flex gap-4 text-xs text-gray-400 font-bold uppercase mb-3'>
+                <span><i class='fa-regular fa-calendar-days mr-1.5'/> June 22, 2026</span>
+                <span><i class='fa-regular fa-comment mr-1.5'/> 4 Comments</span>
             </div>
+            
+            <h3 class='text-lg font-bold text-gray-800 font-serif leading-snug mb-3 hover:text-jacksonBlue transition'>
+                <a href='blog-details.html' target='_blank'>Why Web Design Matters More Than Ever</a>
+            </h3>
+            
+            <p class='text-sm text-gray-500 mb-6 line-clamp-3'>Evaluating clean typography parameters, dynamic color combinations, and intuitive touch guidelines to dramatically boost conversions.</p>
+            
+            <a class='text-xs font-bold uppercase tracking-wider text-jacksonRed hover:text-red-600 flex items-center gap-1.5' href='blog-details.html' target='_blank'>
+                Read More <i class='fa-solid fa-arrow-right-long'/>
+            </a>
+        </div>
+    </article>
 
-            <!-- Inner Drill-down Gallery View (Hidden by Default) -->
-            <div id="vol-inner-view" class="hidden">
-                <button onclick="hideInnerDetails('vol')" class="btn-ghost mb-8 flex items-center gap-1">
-                    <i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Voluntary
-                </button>
-                <div class="section-header">
-                    <span class="eyebrow" id="vol-inner-badge">Dynamic Badge</span>
-                    <h2 class="section-h2 font-display" id="vol-inner-title">Dynamic Title</h2>
-                    <p class="section-sub" id="vol-inner-desc">Dynamic Long Description</p>
-                </div>
-                
-                <!-- Inner Multi-Photo Gallery Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8" id="vol-inner-photos-grid">
-                    <!-- Javascript will inject dynamic image components here -->
+                <!-- Blog Item 2 -->
+                <article class='bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition duration-300'>
+                    <div class='h-52 overflow-hidden relative'>
+                        <img alt='Blog 2' class='w-full h-full object-cover' src='https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&amp;fit=crop&amp;q=80&amp;w=500'/>
+                        <span class='absolute top-4 left-4 bg-jacksonRed text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm'>Tech</span>
+                    </div>
+                    <div class='p-6'>
+                        <div class='flex gap-4 text-xs text-gray-400 font-bold uppercase mb-3'>
+                            <span><i class='fa-regular fa-calendar-days mr-1.5'/> May 18, 2026</span>
+                            <span><i class='fa-regular fa-comment mr-1.5'/> 10 Comments</span>
+                        </div>
+                        <h3 class='text-lg font-bold text-gray-800 font-serif leading-snug mb-3 hover:text-jacksonRed transition'><a href='#' onclick='preventMock(event)'>The Evolution of Modern Tech Stacks</a></h3>
+                        <p class='text-sm text-gray-500 mb-6 line-clamp-3'>A transition analysis comparing modern utility workflows with native semantic components. Why Tailwind delivers cleaner portfolios.</p>
+                        <a class='text-xs font-bold uppercase tracking-wider text-jacksonRed hover:text-red-600 flex items-center gap-1.5' href='#' onclick='preventMock(event)'>
+                            Read More <i class='fa-solid fa-arrow-right-long'/>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Item 3 -->
+                <article class='bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition duration-300'>
+                    <div class='h-52 overflow-hidden relative'>
+                        <img alt='Blog 3' class='w-full h-full object-cover' src='https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&amp;fit=crop&amp;q=80&amp;w=500'/>
+                        <span class='absolute top-4 left-4 bg-jacksonYellow text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm'>Branding</span>
+                    </div>
+                    <div class='p-6'>
+                        <div class='flex gap-4 text-xs text-gray-400 font-bold uppercase mb-3'>
+                            <span><i class='fa-regular fa-calendar-days mr-1.5'/> April 05, 2026</span>
+                            <span><i class='fa-regular fa-comment mr-1.5'/> 8 Comments</span>
+                        </div>
+                        <h3 class='text-lg font-bold text-gray-800 font-serif leading-snug mb-3 hover:text-jacksonYellow transition'><a href='#' onclick='preventMock(event)'>Tips for Beautiful Corporate Portfolios</a></h3>
+                        <p class='text-sm text-gray-500 mb-6 line-clamp-3'>How choosing color-coded borders, side sticky navigations, and structured timelines triggers instant employer attention.</p>
+                        <a class='text-xs font-bold uppercase tracking-wider text-jacksonYellow hover:text-yellow-600 flex items-center gap-1.5' href='#' onclick='preventMock(event)'>
+                            Read More <i class='fa-solid fa-arrow-right-long'/>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class='py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24' id='contact'>
+            <div class='max-w-7xl mx-auto'>
+                <span class='text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3'>Get in Touch</span>
+                <h2 class='text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-12 uppercase'>Contact</h2>
+
+                <div class='grid grid-cols-1 lg:grid-cols-5 gap-12 items-start'>
+                    <!-- Left Columns: Contact Cards info -->
+                    <div class='lg:col-span-2 space-y-6'>
+                        <!-- Card 1: Email -->
+                        <div class='flex items-center gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100'>
+                            <div class='w-12 h-12 rounded-lg bg-jacksonBlue/10 text-jacksonBlue flex items-center justify-center text-xl shrink-0'><i class='fa-regular fa-envelope'/></div>
+                            <div>
+                                <h4 class='text-xs uppercase tracking-widest text-gray-400 font-bold'>Email Me</h4>
+                                <p class='text-sm font-bold text-gray-700 mt-1 break-all'>abdullahcu54@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Phone -->
+                        <div class='flex items-center gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100'>
+                            <div class='w-12 h-12 rounded-lg bg-jacksonRed/10 text-jacksonRed flex items-center justify-center text-xl shrink-0'><i class='fa-solid fa-mobile-screen'/></div>
+                            <div>
+                                <h4 class='text-xs uppercase tracking-widest text-gray-400 font-bold'>Call Me</h4>
+                                <p class='text-sm font-bold text-gray-700 mt-1'>+880 1518 962 973</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Address -->
+                        <div class='flex items-center gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100'>
+                            <div class='w-12 h-12 rounded-lg bg-jacksonYellow/10 text-jacksonYellow flex items-center justify-center text-xl shrink-0'><i class='fa-solid fa-map-location-dot'/></div>
+                            <div>
+                                <h4 class='text-xs uppercase tracking-widest text-gray-400 font-bold'>Location</h4>
+                                <p class='text-sm font-bold text-gray-700 mt-1'>Dhaka, Bangladesh</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Form -->
+                    <div class='lg:col-span-3 bg-white p-8 rounded-lg shadow-sm border border-gray-100'>
+                        <form class='space-y-6' id='contact-form' onsubmit='handleContactSubmit(event)'>
+                            <div class='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+                                <div>
+                                    <label class='block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2'>Your Name</label>
+                                    <input class='w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm' name='name' placeholder='Abdullah Hazari' required='required' type='text'/>
+                                </div>
+                                <div>
+                                    <label class='block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2'>Your Email</label>
+                                    <input class='w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm' name='email' placeholder='abdullahcu54@gmail.com' required='required' type='email'/>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class='block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2'>Subject</label>
+                                <input class='w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm' name='subject' placeholder='Project Inquiry' required='required' type='text'/>
+                            </div>
+
+                            <div>
+                                <label class='block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2'>Message</label>
+                                <textarea class='w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm resize-none' name='message' placeholder='Let&apos;s build something fantastic together...' required='required' rows='5'/>
+                            </div>
+
+                            <button class='w-full sm:w-auto px-8 py-3.5 bg-jacksonBlue text-white font-bold text-xs tracking-widest uppercase hover:bg-blue-600 rounded-sm transition duration-300' type='submit'>
+                                Send Message <i class='fa-solid fa-paper-plane ml-2'/>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- 8. FOOTER -->
-    <footer>
-        <div class="container flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-                <div class="nav-logo">
-                    <span class="nav-logo-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-                            <line x1="9" y1="9" x2="9.01" y2="9" />
-                            <line x1="15" y1="9" x2="15.01" y2="9" />
-                        </svg>
-                    </span>
-                    <span class="font-display font-bold">Abdullah</span>
-                </div>
-                <p class="footer-desc text-xs text-gray-500 mt-2">Performance marketing blueprints for sustainable business scaling.</p>
-            </div>
-            
-            <!-- Complete Social Media Integration Bar -->
-            <div class="flex flex-col items-center md:items-end gap-3">
-                <div class="flex items-center gap-3">
-                    <!-- Facebook Icon -->
-                    <a href="https://facebook.com" target="_blank" class="footer-social-btn hover:text-blue-600 transition" aria-label="Facebook">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
-                        </svg>
-                    </a>
-                    <!-- Instagram Icon -->
-                    <a href="https://instagram.com" target="_blank" class="footer-social-btn hover:text-pink-600 transition" aria-label="Instagram">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                        </svg>
-                    </a>
-                    <!-- LinkedIn Icon -->
-                    <a href="https://linkedin.com" target="_blank" class="footer-social-btn hover:text-blue-700 transition" aria-label="LinkedIn">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                        </svg>
-                    </a>
-                    <!-- X (Twitter) Icon -->
-                    <a href="https://x.com" target="_blank" class="footer-social-btn hover:text-gray-900 dark:hover:text-white transition" aria-label="X (formerly Twitter)">
-                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                        </svg>
-                    </a>
-                    <!-- WhatsApp Icon -->
-                    <a href="https://whatsapp.com" target="_blank" class="footer-social-btn hover:text-green-500 transition" aria-label="WhatsApp">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12.012 1.985C6.477 1.985 1.993 6.47 1.993 12c0 1.912.535 3.693 1.458 5.22L1.993 22l4.905-1.285c1.472.8 3.14 1.258 4.903 1.258 5.535 0 10.019-4.485 10.019-10s-4.484-10.015-10.019-10.015zm0 1.637c4.632 0 8.381 3.75 8.381 8.378s-3.75 8.381-8.381 8.381c-1.68 0-3.238-.495-4.552-1.343l-.326-.21-2.903.76.772-2.825-.23-.365c-.933-1.481-1.424-3.21-1.424-4.998 0-4.628 3.75-8.378 8.381-8.378zm-3.612 4.11a.72.72 0 00-.518.245c-.2.217-.518.514-.518 1.252 0 1.05.766 2.062.871 2.203.1.14 1.508 2.302 3.655 3.228.51.22 1.112.352 1.493.352.382 0 1.173-.478 1.338-.936.166-.458.166-.851.117-.936-.05-.084-.183-.135-.383-.235-.2-.1-.1.1-.383-.343-.1-.183-.53-.183-.613-.35-.084-.167.084-.316-.017-.5-.1-.183-.184-.334-.384-.435-.2-.102-.383-.05-.518.05-.133.1-.566.551-.566 1.343s.583 1.558.666 1.675c.084.117 1.144 1.745 2.775 2.451.389.167.69.267.926.342.391.125.748.107 1.03.065.314-.047.965-.395 1.101-.777.135-.382.135-.71.094-.777-.042-.068-.146-.11-.347-.21z"/>
-                        </svg>
-                    </a>
-                </div>
-                <p class="text-[10px] text-gray-400 mt-2">
-                    &#169; <span id="year">2026</span> Abdullah. All rights reserved.
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- LIGHTBOX MODAL FOR IMAGES -->
-    <div id="lightbox-modal" onclick="closeLightbox()">
-        <div class="max-w-3xl w-full bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl relative" onclick="event.stopPropagation()">
-            <button class="absolute right-4 top-4 bg-black/60 text-white rounded-full p-2 hover:bg-black transition" onclick="closeLightbox()">
-                <i data-lucide="x" style="width:18px;height:18px"></i>
-            </button>
-            <img id="lightbox-img" src="" alt="Expanded View" class="w-full max-h-[70vh] object-contain bg-black" />
-            <div class="p-6">
-                <h3 class="font-display font-bold text-lg text-gray-900 dark:text-white" id="lightbox-title">Expanded Title</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2" id="lightbox-desc">Detailed descriptions and metadata regarding this specific snapshot.</p>
-            </div>
-        </div>
+    <!-- CUSTOM TOAST / ALERT OVERLAY (Used in place of standard prohibited alert()) -->
+    <div class='fixed bottom-6 right-6 z-50 bg-gray-900 text-white px-6 py-4 rounded-lg shadow-xl translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-3 max-w-sm' id='toast-message'>
+        <div class='text-jacksonBlue text-lg' id='toast-icon'><i class='fa-solid fa-circle-check'/></div>
+        <div class='text-sm font-semibold tracking-wide' id='toast-text'>Your message was sent successfully!</div>
     </div>
 
-    <!-- TOAST NOTIFICATION CONTAINER -->
-    <div id="toast" class="toast-msg">Updated successfully!</div>
+    <!-- MOCK LIGHTBOX FOR VISUAL PORTFOLIO ZOOM -->
+    <div class='fixed inset-0 z-50 bg-black/95 hidden flex-col items-center justify-center p-4' id='lightbox' onclick='closeLightbox()'>
+        <button class='absolute top-6 right-6 text-white text-3xl hover:text-jacksonBlue focus:outline-none' onclick='closeLightbox()'><i class='fa-solid fa-xmark'/></button>
+        <img alt='Zoom' class='max-w-full max-h-[80vh] object-contain rounded-md shadow-2xl mb-4' id='lightbox-img' src=''/>
+        <h3 class='text-white font-serif text-xl font-bold tracking-wider' id='lightbox-title'>Project Title</h3>
+    </div>
 
-    <script type="text/javascript">
-        //<![CDATA[
-        
-        // Strict-XHTML SPA state declarations
-        var activeTab = 'home';
-        var activeTheme = 'light';
-        var mobileMenuOpen = false;
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        // 1. MOBILE SIDEBAR NAVIGATION SLIDE-IN
+        const sidebar = document.getElementById(&#39;sidebar&#39;);
+        const hamburgerBtn = document.getElementById(&#39;hamburger-btn&#39;);
+        const sidebarOverlay = document.getElementById(&#39;sidebar-overlay&#39;);
 
-        // Initialize Icons
-        lucide.createIcons();
+        hamburgerBtn.addEventListener(&#39;click&#39;, () =&gt; {
+            sidebar.classList.toggle(&#39;-translate-x-full&#39;);
+            sidebarOverlay.classList.toggle(&#39;hidden&#39;);
+        });
 
-        // Database mock for inner Activities & Voluntary Drill-Down Galleries
-        var INNER_GALLERIES = {
-            act: {
-                summit: {
-                    badge: "Summit Inside Gallery",
-                    title: "Regional Digital Growth Forum",
-                    desc: "An inside look into the prep workspaces, session panels, networking moments, and analytical presentations delivered during the 2026 growth summit.",
-                    photos: [
-                        { url: "https://placehold.co/600x450/4f46e5/ffffff?text=Main+Stage", title: "Main Stage Presentation", desc: "Speaking to a crowd of 500+ digital managers and e-commerce growth executives." },
-                        { url: "https://placehold.co/600x450/6c47ff/ffffff?text=Prep+Workshop", title: "Technical Prep Meeting", desc: "Collaborating with panelists and keynote organizers to align ad delivery metrics." },
-                        { url: "https://placehold.co/600x450/a855f7/ffffff?text=Q%26A+Session", title: "Interactive Q&A Panel", desc: "Addressing direct inquiries regarding Facebook attribution models and lookalikes." },
-                        { url: "https://placehold.co/600x450/3b82f6/ffffff?text=Networking", title: "Post-Event Networking", desc: "Engaging in detailed B2B consulting conversations with brand owners." }
-                    ]
-                },
-                workshop: {
-                    badge: "Workshop Inside Gallery",
-                    title: "Campaign Architecture Sessions",
-                    desc: "A series of private workshops held with high-growth startups to structure clean, repeatable creative and analytical testing systems.",
-                    photos: [
-                        { url: "https://placehold.co/600x450/10b981/ffffff?text=Whiteboard", title: "Mapping Ad Funnels", desc: "Breaking down programmatic traffic and landing page configurations visually." },
-                        { url: "https://placehold.co/600x450/f59e0b/ffffff?text=Startup+Team", title: "Team Strategy Realignment", desc: "Ensuring clean copywriting habits and correct conversion tagging placements." },
-                        { url: "https://placehold.co/600x450/3b82f6/ffffff?text=Analytics+Review", title: "Cohort and ROAS Analysis", desc: "Inspecting live ad accounts to troubleshoot leakage points and target audience blocks." }
-                    ]
-                }
-            },
-            vol: {
-                bootcamp: {
-                    badge: "Mentoring Inside Gallery",
-                    title: "Digital Marketing Bootcamp",
-                    desc: "Interactive moments with students and young professionals building foundation literacy around modern performance marketing.",
-                    photos: [
-                        { url: "https://placehold.co/600x450/06b6d4/ffffff?text=Classroom", title: "Classroom Session", desc: "Introducing the core principles of search visibility and paid advertising setups." },
-                        { url: "https://placehold.co/600x450/6366f1/ffffff?text=Ad+Setup+Demo", title: "Meta Ads Live Build", desc: "Walking through structured dynamic asset assembly step-by-step." },
-                        { url: "https://placehold.co/600x450/ec4899/ffffff?text=Critique", title: "Ad Copy Critiques", desc: "Guiding students on direct-response copywriting best practices." }
-                    ]
-                },
-                nonprofit: {
-                    badge: "NGO Inside Gallery",
-                    title: "NGO Digital Support Campaigns",
-                    desc: "Strategic coordination and organic distributions mapped out to assist local environmental and community foundations.",
-                    photos: [
-                        { url: "https://placehold.co/600x450/10b981/ffffff?text=NGO+Brainstorm", title: "Strategy Brainstorm", desc: "Defining clear messaging pillars to connect with prospective volunteers and donors." },
-                        { url: "https://placehold.co/600x450/3b82f6/ffffff?text=Social+Copy", title: "Organic Post Crafting", desc: "Designing simple, high-visibility visual templates on social networks." },
-                        { url: "https://placehold.co/600x450/f59e0b/ffffff?text=Analytics", title: "Attribution Dashboard", desc: "Setting up custom donor tracking systems pro-bono." }
-                    ]
-                }
+        sidebarOverlay.addEventListener(&#39;click&#39;, () =&gt; {
+            closeSidebarMobile();
+        });
+
+        function closeSidebarMobile() {
+            if (!sidebar.classList.contains(&#39;-translate-x-full&#39;)) {
+                sidebar.classList.add(&#39;-translate-x-full&#39;);
             }
+            sidebarOverlay.classList.add(&#39;hidden&#39;);
+        }
+
+        // 2. HERO CAROUSEL / ROTATING SLIDER
+        let currentSlide = 0;
+        const slides = document.querySelectorAll(&#39;.hero-slide&#39;);
+        const dots = document.querySelectorAll(&#39;.slider-dot&#39;);
+
+        function showSlide(index) {
+            slides.forEach((slide, i) =&gt; {
+                if (i === index) {
+                    slide.classList.remove(&#39;opacity-0&#39;, &#39;pointer-events-none&#39;);
+                    slide.classList.add(&#39;opacity-100&#39;);
+                } else {
+                    slide.classList.remove(&#39;opacity-100&#39;);
+                    slide.classList.add(&#39;opacity-0&#39;, &#39;pointer-events-none&#39;);
+                }
+            });
+            dots.forEach((dot, i) =&gt; {
+                if (i === index) {
+                    dot.classList.add(&#39;bg-white&#39;, &#39;scale-125&#39;);
+                    dot.classList.remove(&#39;bg-gray-400&#39;);
+                } else {
+                    dot.classList.remove(&#39;bg-white&#39;, &#39;scale-125&#39;);
+                    dot.classList.add(&#39;bg-gray-400&#39;);
+                }
+            });
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            showSlide(next);
+        }
+
+        // Auto play slider every 6000ms
+        let slideInterval = setInterval(nextSlide, 6000);
+
+        // Pause autoplay if user manually clicks slide dots
+        function triggerManualSlide(index) {
+            clearInterval(slideInterval);
+            showSlide(index);
+            slideInterval = setInterval(nextSlide, 6000);
+        }
+
+
+        // 3. COLLAPSIBLE EDUCATION ACCORDIONS
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector(&#39;.fa-chevron-down&#39;);
+            
+            // Check if open already
+            const isOpen = content.style.maxHeight &amp;&amp; content.style.maxHeight !== &#39;0px&#39;;
+
+            // Close all first to match Jackson&#39;s layout
+            document.querySelectorAll(&#39;.accordion-content&#39;).forEach(el =&gt; {
+                el.style.maxHeight = &#39;0px&#39;;
+                el.previousElementSibling.querySelector(&#39;.fa-chevron-down&#39;).parentElement.classList.remove(&#39;rotate-180&#39;);
+            });
+
+            if (!isOpen) {
+                content.style.maxHeight = content.scrollHeight + &#39;px&#39;;
+                icon.parentElement.classList.add(&#39;rotate-180&#39;);
+            }
+        }
+
+
+        // 4. PORTFOLIO TABS FILTERING
+        function filterPortfolio(category) {
+            const items = document.querySelectorAll(&#39;.portfolio-item&#39;);
+            const tabs = document.querySelectorAll(&#39;.filter-tab&#39;);
+            
+            tabs.forEach(tab =&gt; {
+                if (tab.dataset.filter === category) {
+                    tab.classList.add(&#39;border-jacksonBlue&#39;, &#39;text-jacksonBlue&#39;);
+                    tab.classList.remove(&#39;border-transparent&#39;, &#39;text-gray-500&#39;);
+                } else {
+                    tab.classList.remove(&#39;border-jacksonBlue&#39;, &#39;text-jacksonBlue&#39;);
+                    tab.classList.add(&#39;border-transparent&#39;, &#39;text-gray-500&#39;);
+                }
+            });
+
+            items.forEach(item =&gt; {
+                if (category === &#39;all&#39; || item.dataset.category === category) {
+                    item.style.display = &#39;block&#39;;
+                    setTimeout(() =&gt; {
+                        item.style.opacity = &#39;1&#39;;
+                        item.style.transform = &#39;scale(1)&#39;;
+                    }, 50);
+                } else {
+                    item.style.opacity = &#39;0&#39;;
+                    item.style.transform = &#39;scale(0.9)&#39;;
+                    setTimeout(() =&gt; {
+                        item.style.display = &#39;none&#39;;
+                    }, 300);
+                }
+            });
+        }
+
+
+        // 5. TOAST NOTIFICATION UTILITY (Bespoke alert() alternative)
+        function triggerToast(text, iconClass = &#39;fa-circle-check&#39;, colorHex = &#39;#2c98f0&#39;) {
+            const toast = document.getElementById(&#39;toast-message&#39;);
+            const toastText = document.getElementById(&#39;toast-text&#39;);
+            const toastIcon = document.getElementById(&#39;toast-icon&#39;);
+
+            toastText.textContent = text;
+            toastIcon.innerHTML = `<i class='fa-solid ${iconClass}'/>`;
+            toastIcon.style.color = colorHex;
+
+            toast.classList.remove(&#39;translate-y-20&#39;, &#39;opacity-0&#39;);
+            toast.classList.add(&#39;translate-y-0&#39;, &#39;opacity-100&#39;);
+
+            setTimeout(() =&gt; {
+                toast.classList.remove(&#39;translate-y-0&#39;, &#39;opacity-100&#39;);
+                toast.classList.add(&#39;translate-y-20&#39;, &#39;opacity-0&#39;);
+            }, 4000);
+        }
+
+        // Handle Contact Form Submit (Mock simulation)
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const name = formData.get(&#39;name&#39;);
+
+            // Simulate sending message...
+            triggerToast(`Thank you, ${name}! Your inquiry was received.`, &#39;fa-circle-check&#39;, &#39;#2fa499&#39;);
+            form.reset();
+        }
+
+        // Mock download notification
+        function triggerCVDownload(event) {
+            event.preventDefault();
+            triggerToast(&quot;Preparing Jackson_Ford_CV.pdf download package...&quot;, &quot;fa-cloud-arrow-down&quot;, &quot;#ec5453&quot;);
+        }
+
+
+        // 6. DETAILED LIGHTBOX ZOOM ON PORTFOLIO CLICK
+        function mockZoom(event, title) {
+            event.preventDefault();
+            const imgElement = event.target.closest(&#39;.portfolio-item&#39;).querySelector(&#39;img&#39;);
+            const lightbox = document.getElementById(&#39;lightbox&#39;);
+            const lightboxImg = document.getElementById(&#39;lightbox-img&#39;);
+            const lightboxTitle = document.getElementById(&#39;lightbox-title&#39;);
+
+            if (imgElement) {
+                lightboxImg.src = imgElement.src;
+                lightboxTitle.textContent = title;
+                lightbox.classList.remove(&#39;hidden&#39;);
+                lightbox.classList.add(&#39;flex&#39;);
+            }
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById(&#39;lightbox&#39;);
+            lightbox.classList.add(&#39;hidden&#39;);
+            lightbox.classList.remove(&#39;flex&#39;);
+        }
+
+        function mockLink(event) {
+            event.preventDefault();
+            triggerToast(&quot;Launching portfolio live sandbox link...&quot;, &quot;fa-arrow-up-right-from-square&quot;, &quot;#2c98f0&quot;);
+        }
+
+        function preventMock(event) {
+            event.preventDefault();
+            triggerToast(&quot;Redirecting to specific detailed blog content...&quot;, &quot;fa-circle-info&quot;, &quot;#f9bf3f&quot;);
+        }
+
+
+        // 7. ACTIVE NAVIGATION HIGHLIGHTER ON SCROLL (Intersection Observer)
+        const sections = document.querySelectorAll(&#39;section&#39;);
+        const navLinks = document.querySelectorAll(&#39;.nav-link&#39;);
+
+        const observerOptions = {
+            root: null,
+            rootMargin: &#39;-20% 0px -60% 0px&#39;, // Highlights sections cleanly as they enter viewport mid-screen
+            threshold: 0
         };
 
-        // Dynamic Route Handler
-        function navigateTo(sectionId) {
-            // Hide all pages
-            var pages = document.querySelectorAll('.page-section');
-            pages.forEach(function(p) {
-                p.classList.remove('active');
-            });
-
-            // Activate chosen section
-            var targetPage = document.getElementById(sectionId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-
-            // Sync navigation highlights (Desktop)
-            var desktopBtns = document.querySelectorAll('.nav-links button');
-            desktopBtns.forEach(function(b) {
-                b.classList.remove('active');
-                b.classList.remove('bg-purple-600');
-                b.classList.remove('text-white');
-            });
-            var targetBtn = document.getElementById('nav-' + sectionId);
-            if (targetBtn) {
-                targetBtn.classList.add('active');
-            }
-
-            // Sync navigation highlights (Mobile)
-            var mobileBtns = document.querySelectorAll('.mobile-menu button');
-            mobileBtns.forEach(function(mb) {
-                mb.classList.remove('active');
-            });
-            var targetMobileBtn = document.getElementById('m-nav-' + sectionId);
-            if (targetMobileBtn) {
-                targetMobileBtn.classList.add('active');
-            }
-
-            // Reset dynamic inner sub-pages inside Activities and Voluntary
-            hideInnerDetails('act');
-            hideInnerDetails('vol');
-
-            // Scroll cleanly to view top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Toggle Responsive Hamburger Menu
-        function toggleMenu() {
-            var menu = document.getElementById('mobile-menu');
-            var icon = document.getElementById('hamburger-icon');
-            var isOpen = menu.classList.toggle('open');
-            if (icon) {
-                icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
-            }
-            lucide.createIcons();
-        }
-
-        // Toggle Visual Theme Modes (Strict XHTML compatible icon swapping)
-        function toggleTheme() {
-            var isDark = document.documentElement.classList.toggle('dark');
-            var icon = document.getElementById('theme-icon');
-            if (icon) {
-                icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-            }
-            lucide.createIcons();
-        }
-
-        // Open Expanded Lightbox Modal
-        function openLightbox(imgUrl, title, desc) {
-            var modal = document.getElementById('lightbox-modal');
-            var modalImg = document.getElementById('lightbox-img');
-            var modalTitle = document.getElementById('lightbox-title');
-            var modalDesc = document.getElementById('lightbox-desc');
-
-            if (modal) {
-                if (modalImg) { modalImg.src = imgUrl; }
-                if (modalTitle) { modalTitle.textContent = title; }
-                if (modalDesc) { modalDesc.textContent = desc; }
-                modal.classList.add('active');
-            }
-        }
-
-        // Close Expanded Lightbox Modal
-        function closeLightbox() {
-            var modal = document.getElementById('lightbox-modal');
-            if (modal) {
-                modal.classList.remove('active');
-            }
-        }
-
-        // Inner Galleries Drill-down View logic
-        function showInnerDetails(categoryKey, subKey) {
-            // Locate dynamic parent grids and sub-views
-            var catalogDiv = document.getElementById(categoryKey + '-catalog');
-            var innerDiv = document.getElementById(categoryKey + '-inner-view');
-            
-            // Retrieve Database node
-            var dataNode = null;
-            if (INNER_GALLERIES[categoryKey]) {
-                if (INNER_GALLERIES[categoryKey][subKey]) {
-                    dataNode = INNER_GALLERIES[categoryKey][subKey];
-                }
-            }
-
-            if (catalogDiv) {
-                if (innerDiv) {
-                    if (dataNode) {
-                        // Populate sub-view texts
-                        document.getElementById(categoryKey + '-inner-badge').textContent = dataNode.badge;
-                        document.getElementById(categoryKey + '-inner-title').textContent = dataNode.title;
-                        document.getElementById(categoryKey + '-inner-desc').textContent = dataNode.desc;
-
-                        // Reset & build multi-photo inner layout
-                        var photosGrid = document.getElementById(categoryKey + '-inner-photos-grid');
-                        if (photosGrid) {
-                            photosGrid.innerHTML = '';
-                            dataNode.photos.forEach(function(photo) {
-                                // Dynamic XHTML safe layout components
-                                var container = document.createElement('div');
-                                container.className = 'group relative overflow-hidden rounded-xl border border-gray-200/50 dark:border-gray-800 bg-gray-100 cursor-pointer shadow-sm';
-                                container.onclick = function() {
-                                    openLightbox(photo.url, photo.title, photo.desc);
-                                };
-
-                                var wrapper = document.createElement('div');
-                                wrapper.className = 'aspect-square overflow-hidden';
-                                
-                                var imgEl = document.createElement('img');
-                                imgEl.src = photo.url;
-                                imgEl.alt = photo.title;
-                                imgEl.className = 'w-full h-full object-cover transition duration-300 group-hover:scale-105';
-
-                                var overlay = document.createElement('div');
-                                overlay.className = 'absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 p-4 flex flex-col justify-end text-white';
-
-                                var titleEl = document.createElement('p');
-                                titleEl.className = 'font-bold text-xs font-display';
-                                titleEl.textContent = photo.title;
-
-                                var descEl = document.createElement('p');
-                                descEl.className = 'text-[10px] text-gray-300 mt-1 leading-relaxed';
-                                descEl.textContent = photo.desc;
-
-                                overlay.appendChild(titleEl);
-                                overlay.appendChild(descEl);
-                                wrapper.appendChild(imgEl);
-                                container.appendChild(wrapper);
-                                container.appendChild(overlay);
-
-                                photosGrid.appendChild(container);
-                            });
+        const observer = new IntersectionObserver((entries) =&gt; {
+            entries.forEach(entry =&gt; {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute(&#39;id&#39;);
+                    navLinks.forEach(link =&gt; {
+                        if (link.getAttribute(&#39;href&#39;) === `#${id}`) {
+                            link.classList.add(&#39;text-jacksonBlue&#39;, &#39;border-jacksonBlue&#39;);
+                            link.classList.remove(&#39;text-gray-700&#39;, &#39;border-transparent&#39;);
+                        } else {
+                            link.classList.remove(&#39;text-jacksonBlue&#39;, &#39;border-jacksonBlue&#39;);
+                            link.classList.add(&#39;text-gray-700&#39;, &#39;border-transparent&#39;);
                         }
-
-                        // Toggle screen state
-                        catalogDiv.classList.add('hidden');
-                        innerDiv.classList.remove('hidden');
-                        
-                        // Scroll down slightly or smoothly reset viewport position
-                        window.scrollTo({ top: catalogDiv.offsetTop - 100, behavior: 'smooth' });
-                    }
+                    });
                 }
+            });
+        }, observerOptions);
+
+        sections.forEach(section =&gt; observer.observe(section));
+
+        // Start initialization steps
+        window.onload = function () {
+            // Pre-expand first accordion to simulate default styling of Jackson Theme
+            const firstAccordion = document.querySelector(&#39;.accordion-header&#39;);
+            if (firstAccordion) {
+                toggleAccordion(firstAccordion);
             }
         }
-
-        function hideInnerDetails(categoryKey) {
-            var catalogDiv = document.getElementById(categoryKey + '-catalog');
-            var innerDiv = document.getElementById(categoryKey + '-inner-view');
-            if (catalogDiv) {
-                if (innerDiv) {
-                    catalogDiv.classList.remove('hidden');
-                    innerDiv.classList.add('hidden');
-                }
-            }
-        }
-
-        // Initialize and sync current calendar year safely
-        var currentYr = new Date().getFullYear();
-        var yearContainer = document.getElementById('year');
-        if (yearContainer) {
-            yearContainer.textContent = currentYr;
-        }
-
-        //]]>
     </script>
 </body>
 </html>
