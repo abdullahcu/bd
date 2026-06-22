@@ -1,783 +1,945 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform, animate } from "motion/react";
-import {
-  ArrowRight, ArrowUpRight, Menu, X, Moon, Sun, Star, Mail, Phone,
-  Linkedin, Facebook, MessageCircle, MapPin, ChevronUp,
-  Target, TrendingUp, Search, Megaphone, MapPinned, Share2,
-  MousePointerClick, LineChart, BarChart3, Sparkles,
-} from "lucide-react";
-import portrait from "@/assets/portrait.jpg";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Abdullah — Professional Digital Marketer</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <style>
+        /* ── Reset & Base Styles ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; transition: background .3s, color .3s; }
+        img { max-width: 100%; display: block; }
+        button, a { cursor: pointer; text-decoration: none; }
+        button { background: none; border: none; font-family: inherit; }
 
-const NAV = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "services", label: "Services" },
-  { id: "portfolio", label: "Portfolio" },
-  { id: "skills", label: "Skills" },
-  { id: "blog", label: "Blog" },
-  { id: "contact", label: "Contact" },
-];
+        /* ── Design Tokens (Purple/Indigo Theme) ── */
+        :root {
+            --bg: #ffffff;
+            --surface: #f8f8fb;
+            --surface-el: #f2f2f8;
+            --border: #e4e4ef;
+            --fg: #0f0f14;
+            --muted: #6b6b80;
+            --accent-bg: #f0f0f8;
+            --accent-fg: #4a4a6a;
+            --primary: #6c47ff;
+            --primary-fg: #ffffff;
+            --grad-primary: linear-gradient(135deg, #6c47ff 0%, #a855f7 100%);
+            --grad-hero: linear-gradient(135deg, #f0edff 0%, #faf0ff 100%);
+            --shadow-soft: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+            --shadow-el: 0 4px 16px rgba(0,0,0,.10);
+            --shadow-glow: 0 4px 20px rgba(108,71,255,.35);
+        }
+        html.dark {
+            --bg: #0d0d12;
+            --surface: #131318;
+            --surface-el: #1a1a22;
+            --border: #2a2a38;
+            --fg: #f0f0f8;
+            --muted: #8888a8;
+            --accent-bg: #1e1e2c;
+            --accent-fg: #a0a0c8;
+            --grad-hero: linear-gradient(135deg, #1a153a 0%, #1a0f2e 100%);
+        }
 
-const SERVICES = [
-  { icon: Facebook, title: "Facebook & Instagram Ads", desc: "Full-funnel Meta campaigns engineered for ROAS, from creative testing to scale." },
-  { icon: Target, title: "Google Ads", desc: "Search, Performance Max and YouTube campaigns dialed in for high-intent conversions." },
-  { icon: MousePointerClick, title: "Lead Generation", desc: "Predictable B2B and B2C lead pipelines with qualified, sales-ready prospects." },
-  { icon: MapPinned, title: "Local Business Marketing", desc: "Google Business Profile, local SEO and geo-targeted ads that fill your calendar." },
-  { icon: Search, title: "SEO", desc: "Technical SEO, content strategy and link building for compounding organic growth." },
-  { icon: Share2, title: "Social Media Marketing", desc: "Brand-building content systems that turn followers into customers." },
-  { icon: TrendingUp, title: "Conversion Rate Optimization", desc: "Landing pages and funnels A/B tested to lift conversion without raising spend." },
-  { icon: Megaphone, title: "Marketing Strategy", desc: "Positioning, messaging and a 90-day roadmap built around your business goals." },
-  { icon: BarChart3, title: "Analytics & Reporting", desc: "GA4, GTM and dashboards that turn data into clear, profitable decisions." },
-];
+        body { background: var(--bg); color: var(--fg); min-height: 100vh; display: flex; flex-direction: column; }
+        .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-const SKILLS = [
-  { name: "Meta Ads", level: 95 },
-  { name: "Google Ads", level: 93 },
-  { name: "Google Analytics", level: 92 },
-  { name: "Google Tag Manager", level: 88 },
-  { name: "SEO", level: 90 },
-  { name: "Email Marketing", level: 85 },
-  { name: "Copywriting", level: 87 },
-  { name: "Canva", level: 82 },
-  { name: "WordPress", level: 84 },
-  { name: "HubSpot", level: 88 },
-  { name: "CRM", level: 86 },
-  { name: "Marketing Automation", level: 89 },
-];
+        /* ── SPA Transitions ── */
+        .page-section { display: none; }
+        .page-section.active { display: block; animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-const CASES = [
-  {
-    title: "Scaling a DTC Skincare Brand",
-    industry: "E-commerce / Beauty",
-    challenge: "Stagnant revenue with rising ad costs and inconsistent ROAS.",
-    strategy: "Restructured Meta and Google accounts, launched UGC creative testing, rebuilt funnel.",
-    before: { label: "Monthly Revenue", value: "$42K" },
-    after: { label: "Monthly Revenue", value: "$187K" },
-    metric: "+345% ROAS",
-  },
-  {
-    title: "B2B SaaS Lead Engine",
-    industry: "SaaS / B2B",
-    challenge: "High CPL and unqualified demo requests draining the sales pipeline.",
-    strategy: "LinkedIn + Google intent campaigns paired with lead scoring and nurture sequences.",
-    before: { label: "Cost per Lead", value: "$184" },
-    after: { label: "Cost per Lead", value: "$47" },
-    metric: "-74% CPL",
-  },
-  {
-    title: "Local Dental Practice Growth",
-    industry: "Healthcare / Local",
-    challenge: "Empty appointment book and weak local visibility against competitors.",
-    strategy: "Local SEO overhaul, GBP optimization, and geo-targeted Meta lead ads.",
-    before: { label: "New Patients / mo", value: "12" },
-    after: { label: "New Patients / mo", value: "68" },
-    metric: "+466% Bookings",
-  },
-];
+        /* ── UI Glass elements ── */
+        .glass-card { background: rgba(255,255,255,.7); backdrop-filter: blur(16px); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
+        html.dark .glass-card { background: rgba(20,20,30,.75); }
+        .gradient-text { background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: .5rem;
+            background: var(--grad-primary); color: var(--primary-fg);
+            border-radius: .75rem; padding: .7rem 1.25rem;
+            font-size: .875rem; font-weight: 600;
+            box-shadow: var(--shadow-glow); transition: transform .2s; border: none;
+        }
+        .btn-primary:hover { transform: scale(1.03); }
+        
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: .5rem;
+            background: color-mix(in srgb, var(--surface-el) 60%, transparent);
+            color: var(--fg); border: 1px solid var(--border);
+            border-radius: .75rem; padding: .7rem 1.25rem;
+            font-size: .875rem; font-weight: 600;
+            backdrop-filter: blur(8px); transition: background .2s;
+        }
+        .btn-ghost:hover { background: var(--accent-bg); }
 
-const TESTIMONIALS = [
-  { name: "Sarah Chen", role: "Founder", company: "Luma Skincare", rating: 5, quote: "Alex turned our ads from a money pit into our most reliable growth channel. We 4x'd revenue in six months." },
-  { name: "Marcus Reid", role: "VP Marketing", company: "Northwind SaaS", rating: 5, quote: "The strategic clarity and execution speed are unmatched. Our pipeline has never been healthier." },
-  { name: "Dr. Priya Shah", role: "Owner", company: "Bright Smile Dental", rating: 5, quote: "We finally have a predictable flow of new patients. Worth every dollar, ten times over." },
-];
+        /* ── Layout & Sections ── */
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        .section { padding: 4rem 1.5rem; }
 
-const STATS = [
-  { label: "Campaigns Managed", value: 320, suffix: "+" },
-  { label: "Leads Generated", value: 48000, suffix: "+" },
-  { label: "Ad Spend Managed", value: 12, prefix: "$", suffix: "M+" },
-  { label: "Average ROI", value: 410, suffix: "%" },
-  { label: "Happy Clients", value: 140, suffix: "+" },
-];
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: .5rem;
+            border: 1px solid var(--border);
+            background: color-mix(in srgb, var(--surface) 60%, transparent);
+            border-radius: 9999px; padding: .25rem .75rem;
+            font-size: .7rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+            color: var(--muted); backdrop-filter: blur(8px);
+        }
+        .eyebrow::before { content:''; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink:0; }
 
-const POSTS = [
-  { title: "The 2026 Performance Marketing Playbook", excerpt: "How AI-assisted creative testing is reshaping paid media efficiency.", tag: "Strategy", date: "May 28, 2026" },
-  { title: "Why Your CPL Keeps Climbing (And How to Fix It)", excerpt: "A diagnostic framework for restoring lead-gen efficiency in saturated markets.", tag: "Lead Gen", date: "May 12, 2026" },
-  { title: "GA4 + Server-Side Tracking: A Practical Guide", excerpt: "Reclaim attribution accuracy with a clean, privacy-first measurement stack.", tag: "Analytics", date: "April 30, 2026" },
-];
+        /* ── Navigation Header ── */
+        header { position: sticky; top: 0; z-index: 50; padding: 1.25rem 0; background: var(--bg); border-bottom: 1px solid var(--border); }
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { display: flex; align-items: center; gap: .5rem; font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--fg); }
+        .nav-logo-icon { width: 2rem; height: 2rem; border-radius: .5rem; background: var(--grad-primary); display: grid; place-items: center; color: #fff; flex-shrink:0; box-shadow: var(--shadow-glow); }
+        .nav-links { display: flex; gap: .25rem; }
+        .nav-links button { padding: .5rem .75rem; border-radius: .5rem; font-size: .875rem; font-weight: 500; color: var(--muted); transition: background .2s, color .2s; }
+        .nav-links button:hover { background: var(--accent-bg); color: var(--fg); }
+        .nav-links button.active { background: var(--grad-primary); color: var(--primary-fg); }
+        .nav-actions { display: flex; align-items: center; gap: .5rem; }
+        
+        .icon-btn { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: .5rem; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 60%, transparent); color: var(--muted); transition: color .2s; }
+        .icon-btn:hover { color: var(--fg); }
+        .btn-talk { background: var(--fg); color: var(--bg); border-radius: .5rem; padding: .5rem 1rem; font-size: .875rem; font-weight: 500; transition: transform .2s; }
+        .btn-talk:hover { transform: scale(1.03); }
+        .hamburger { display: none; }
+        
+        .mobile-menu { display: none; flex-direction: column; gap: .25rem; margin-top: .5rem; }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu button { text-align: left; padding: .75rem 1rem; border-radius: .75rem; font-size: .875rem; font-weight: 500; color: var(--fg); }
+        .mobile-menu button:hover { background: var(--accent-bg); }
+        .mobile-menu button.active { background: var(--grad-primary); color: var(--primary-fg); }
 
-function useDarkMode() {
-  const [dark, setDark] = useState(false);
-  useEffect(() => {
-    const root = document.documentElement;
-    dark ? root.classList.add("dark") : root.classList.remove("dark");
-  }, [dark]);
-  return [dark, setDark] as const;
-}
+        @media (max-width: 1023px) { .nav-links { display: none; } .hamburger { display: grid; } .btn-talk { display: none; } }
 
-function Counter({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  const [display, setDisplay] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    const controls = animate(0, value, {
-      duration: 2,
-      ease: "easeOut",
-      onUpdate: (v) => setDisplay(Math.round(v)),
-    });
-    return () => controls.stop();
-  }, [inView, value]);
-  return (
-    <span ref={ref}>
-      {prefix}{display.toLocaleString()}{suffix}
-    </span>
-  );
-}
+        /* ── Hero Grid ── */
+        #home { position: relative; overflow: hidden; padding-top: 3rem; }
+        .hero-grid { display: grid; align-items: center; gap: 3rem; }
+        @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.15fr .85fr; } }
+        .hero-h1 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -.02em; margin-top: 1.5rem; }
+        .hero-sub { margin-top: 1.5rem; font-size: 1.05rem; line-height: 1.7; color: var(--muted); }
+        .hero-btns { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+        
+        .portrait-wrap { position: relative; max-width: 28rem; margin: 0 auto; width: 100%; }
+        .portrait-glow { position: absolute; inset: -1rem; border-radius: 2rem; background: var(--grad-primary); opacity: .15; filter: blur(2rem); }
+        .portrait-card { position: relative; border-radius: 2rem; overflow: hidden; padding: .5rem; }
+        .portrait-img { aspect-ratio: 4/5; width: 100%; border-radius: 1.5rem; object-fit: cover; background: var(--surface-el); }
+        
+        .float-card {
+            position: absolute; border-radius: 1rem; padding: 1rem; display: flex; align-items: center; gap: .75rem;
+            background: rgba(255,255,255,.85); backdrop-filter: blur(12px); border: 1px solid var(--border);
+            box-shadow: var(--shadow-el); animation-duration: 4s; animation-iteration-count: infinite; animation-timing-function: ease-in-out;
+        }
+        html.dark .float-card { background: rgba(20,20,30,.9); }
+        .float-card-icon { width: 2.5rem; height: 2.5rem; border-radius: .75rem; display: grid; place-items: center; flex-shrink:0; }
+        .float-card-icon.primary { background: var(--grad-primary); color: #fff; box-shadow: var(--shadow-glow); }
+        .float-card-icon.accent { background: var(--accent-bg); color: var(--accent-fg); }
+        .float-card-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.1rem; font-weight: 700; line-height: 1; }
+        .float-card-label { font-size: .75rem; color: var(--muted); margin-top: .15rem; }
+        .float-bottom { bottom: -1rem; left: -1rem; animation-name: floatA; }
+        .float-top { top: 2.5rem; right: -1rem; animation-name: floatB; animation-duration: 4.5s; }
+        
+        @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+        @media (max-width: 639px) { .float-card { display: none; } }
 
-function Section({ id, children, className = "" }: { id?: string; children: React.ReactNode; className?: string }) {
-  return (
-    <section id={id} className={`scroll-mt-24 px-6 py-24 sm:py-32 md:px-10 ${className}`}>
-      <div className="mx-auto max-w-7xl">{children}</div>
-    </section>
-  );
-}
+        /* ── Services Layout ── */
+        .section-header { margin-bottom: 3.5rem; max-width: 40rem; }
+        .section-h2 { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(1.75rem, 3.5vw, 2.75rem); font-weight: 700; letter-spacing: -.02em; margin-top: 1rem; }
+        .section-sub { margin-top: 1rem; font-size: 1.125rem; color: var(--muted); }
+        .services-grid { display: grid; gap: 1.25rem; }
+        @media (min-width: 640px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+        
+        .service-card {
+            border: 1px solid var(--border); background: var(--surface-el);
+            border-radius: 1.25rem; padding: 1.5rem; box-shadow: var(--shadow-soft);
+            transition: transform .3s, box-shadow .3s; height: 100%;
+        }
+        .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-el); }
+        .service-icon { width: 3rem; height: 3rem; border-radius: .75rem; background: var(--accent-bg); color: var(--accent-fg); display: grid; place-items: center; margin-bottom: 1.25rem; transition: background .3s, color .3s; }
+        .service-card:hover .service-icon { background: var(--grad-primary); color: #fff; }
+        .service-title { font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 700; font-size: 1.15rem; letter-spacing: -.01em; }
+        .service-desc { margin-top: .5rem; font-size: .875rem; line-height: 1.6; color: var(--muted); }
 
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground backdrop-blur">
-      <span className="size-1.5 rounded-full bg-primary" />
-      {children}
-    </div>
-  );
-}
+        /* ── Interactive Galleries (Portfolio, Blog, Activities, Voluntary) ── */
+        .gallery-grid { display: grid; gap: 1.5rem; }
+        @media (min-width: 640px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+        
+        .gallery-card {
+            border: 1px solid var(--border); background: var(--surface-el);
+            border-radius: 1.25rem; overflow: hidden; box-shadow: var(--shadow-soft);
+            transition: transform .3s, box-shadow .3s; display: flex; flex-direction: column;
+            cursor: pointer; position: relative;
+        }
+        .gallery-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-el); }
+        
+        .gallery-thumb-container { aspect-ratio: 16/11; background: var(--grad-hero); position: relative; overflow: hidden; }
+        .gallery-thumb-container img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+        .gallery-card:hover .gallery-thumb-container img { transform: scale(1.05); }
+        
+        .gallery-badge { position: absolute; left: 1rem; top: 1rem; background: rgba(255,255,255,.85); backdrop-filter: blur(8px); border-radius: 9999px; padding: .25rem .75rem; font-size: .7rem; font-weight: 600; color: var(--fg); z-index: 10; }
+        html.dark .gallery-badge { background: rgba(20,20,30,.85); }
+        
+        .gallery-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .gallery-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: -.01em; color: var(--fg); }
+        .gallery-desc { margin-top: .5rem; font-size: .875rem; line-height: 1.6; color: var(--muted); }
+        
+        /* ── Dynamic Lightbox Modal ── */
+        #lightbox-modal { display: none; position: fixed; inset: 0; background: rgba(13, 13, 18, 0.95); z-index: 100; align-items: center; justify-content: center; padding: 2rem; }
+        #lightbox-modal.active { display: flex; }
+        
+        /* ── Form and input styling ── */
+        .toast-msg {
+            position: fixed; bottom: 3rem; left: 50%; transform: translateX(-50%) translateY(1rem);
+            background: var(--fg); color: var(--bg); border-radius: .75rem; padding: .75rem 1.5rem;
+            font-size: .875rem; font-weight: 500; z-index: 150; opacity: 0;
+            transition: opacity .3s, transform .3s; pointer-events: none;
+        }
+        .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
 
-function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-export default function Portfolio() {
-  const [dark, setDark] = useDarkMode();
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [showTop, setShowTop] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
-  useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 24);
-      setShowTop(window.scrollY > 600);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setOpen(false);
-  };
-
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Scroll progress */}
-      <motion.div
-        style={{ width: progressWidth }}
-        className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-primary"
-      />
-
-      {/* Nav */}
-      <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? "py-3" : "py-5"
-        }`}
-      >
-        <div className="mx-auto max-w-7xl px-6 md:px-10">
-          <nav
-            className={`flex items-center justify-between rounded-2xl px-4 py-3 transition-all duration-300 ${
-              scrolled ? "glass-card" : ""
-            }`}
-          >
-            <button onClick={() => scrollTo("home")} className="flex items-center gap-2 font-display text-lg font-bold tracking-tight">
-              <span className="grid size-8 place-items-center rounded-lg bg-[image:var(--gradient-primary)] text-primary-foreground shadow-[var(--shadow-glow)]">
-                <Sparkles className="size-4" />
-              </span>
-              Alex Morgan
-            </button>
-            <div className="hidden items-center gap-1 lg:flex">
-              {NAV.map((n) => (
-                <button
-                  key={n.id}
-                  onClick={() => scrollTo(n.id)}
-                  className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                >
-                  {n.label}
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setDark(!dark)}
-                aria-label="Toggle theme"
-                className="grid size-9 place-items-center rounded-lg border border-border bg-surface/60 text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
-              </button>
-              <button
-                onClick={() => scrollTo("contact")}
-                className="hidden rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-transform hover:scale-[1.03] sm:inline-flex"
-              >
-                Let's talk
-              </button>
-              <button
-                onClick={() => setOpen((o) => !o)}
-                aria-label="Menu"
-                className="grid size-9 place-items-center rounded-lg border border-border bg-surface/60 lg:hidden"
-              >
-                {open ? <X className="size-4" /> : <Menu className="size-4" />}
-              </button>
-            </div>
-          </nav>
-          {open && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="glass-card mt-2 grid gap-1 rounded-2xl p-3 lg:hidden"
-            >
-              {NAV.map((n) => (
-                <button
-                  key={n.id}
-                  onClick={() => scrollTo(n.id)}
-                  className="rounded-lg px-3 py-3 text-left text-sm font-medium text-foreground hover:bg-accent"
-                >
-                  {n.label}
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </div>
-      </header>
-
-      {/* Hero */}
-      <Section id="home" className="relative pt-36 sm:pt-44">
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{ background: "var(--gradient-hero)" }}
-        />
-        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-          <div>
-            <FadeUp>
-              <Eyebrow>Digital Marketing Specialist</Eyebrow>
-            </FadeUp>
-            <FadeUp delay={0.05}>
-              <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-                Helping businesses grow through{" "}
-                <span className="gradient-text">data-driven</span> digital marketing.
-              </h1>
-            </FadeUp>
-            <FadeUp delay={0.1}>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-                I build performance marketing systems that turn ad spend into predictable, profitable
-                pipelines — across Meta, Google, SEO and lead generation.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.15}>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <button
-                  onClick={() => scrollTo("portfolio")}
-                  className="group inline-flex items-center gap-2 rounded-xl bg-[image:var(--gradient-primary)] px-5 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-[1.03]"
-                >
-                  View my work
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-                </button>
-                <button
-                  onClick={() => scrollTo("contact")}
-                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface/60 px-5 py-3 text-sm font-semibold text-foreground backdrop-blur transition-colors hover:bg-accent"
-                >
-                  Get in touch
-                </button>
-              </div>
-            </FadeUp>
-            <FadeUp delay={0.25}>
-              <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm text-muted-foreground">
-                <div><span className="font-display text-2xl font-bold text-foreground">8+</span> years experience</div>
-                <div className="h-4 w-px bg-border" />
-                <div><span className="font-display text-2xl font-bold text-foreground">140+</span> clients served</div>
-                <div className="h-4 w-px bg-border" />
-                <div><span className="font-display text-2xl font-bold text-foreground">$12M+</span> ad spend</div>
-              </div>
-            </FadeUp>
-          </div>
-          <FadeUp delay={0.1}>
-            <div className="relative mx-auto w-full max-w-md">
-              <div className="absolute -inset-4 rounded-[2rem] bg-[image:var(--gradient-primary)] opacity-20 blur-2xl" />
-              <div className="glass-card relative overflow-hidden rounded-[2rem] p-2">
-                <img
-                  src={portrait}
-                  alt="Alex Morgan portrait"
-                  width={896}
-                  height={1152}
-                  className="aspect-[4/5] w-full rounded-[1.5rem] object-cover"
-                />
-              </div>
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="glass-card absolute -bottom-4 -left-4 hidden rounded-2xl p-4 sm:block"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="grid size-10 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground">
-                    <TrendingUp className="size-5" />
-                  </div>
-                  <div>
-                    <div className="font-display text-lg font-bold leading-none">+345%</div>
-                    <div className="text-xs text-muted-foreground">avg ROAS lift</div>
-                  </div>
-                </div>
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                className="glass-card absolute -right-4 top-10 hidden rounded-2xl p-4 sm:block"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
-                    <LineChart className="size-5" />
-                  </div>
-                  <div>
-                    <div className="font-display text-lg font-bold leading-none">48K+</div>
-                    <div className="text-xs text-muted-foreground">leads generated</div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </FadeUp>
-        </div>
-      </Section>
-
-      {/* About */}
-      <Section id="about" className="bg-surface/50">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-          <FadeUp>
-            <Eyebrow>About</Eyebrow>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-              Strategy, execution and measurable growth — under one roof.
-            </h2>
-          </FadeUp>
-          <div className="space-y-6 text-lg leading-relaxed text-muted-foreground">
-            <FadeUp delay={0.05}>
-              <p>
-                I'm a senior digital marketing consultant with <span className="font-semibold text-foreground">8+ years</span> of
-                experience scaling brands across e-commerce, SaaS, healthcare, real estate and local services.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.1}>
-              <p>
-                My philosophy is simple: <span className="font-semibold text-foreground">marketing should make money</span>.
-                Every campaign, landing page and email I build is tied to a clear business metric — revenue, qualified leads
-                or customer lifetime value.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.15}>
-              <div className="grid grid-cols-2 gap-4 pt-4 sm:grid-cols-3">
-                {["E-commerce", "SaaS", "Healthcare", "Real Estate", "Local Services", "B2B"].map((i) => (
-                  <div key={i} className="rounded-xl border border-border bg-surface-elevated px-4 py-3 text-sm font-medium text-foreground">
-                    {i}
-                  </div>
-                ))}
-              </div>
-            </FadeUp>
-          </div>
-        </div>
-      </Section>
-
-      {/* Services */}
-      <Section id="services">
-        <div className="mb-14 max-w-2xl">
-          <FadeUp><Eyebrow>Services</Eyebrow></FadeUp>
-          <FadeUp delay={0.05}>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-              Full-stack marketing, built for outcomes.
-            </h2>
-          </FadeUp>
-          <FadeUp delay={0.1}>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Nine capabilities, one accountable partner. Engage me for a single channel or an end-to-end growth engine.
-            </p>
-          </FadeUp>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((s, i) => (
-            <FadeUp key={s.title} delay={i * 0.04}>
-              <div className="group h-full rounded-2xl border border-border bg-surface-elevated p-6 shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)]">
-                <div className="mb-5 inline-grid size-12 place-items-center rounded-xl bg-accent text-accent-foreground transition-colors group-hover:bg-[image:var(--gradient-primary)] group-hover:text-primary-foreground">
-                  <s.icon className="size-5" />
-                </div>
-                <h3 className="font-display text-lg font-semibold tracking-tight">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
-
-      {/* Stats */}
-      <Section className="bg-surface/50">
-        <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
-          {STATS.map((s, i) => (
-            <FadeUp key={s.label} delay={i * 0.05}>
-              <div className="text-center sm:text-left">
-                <div className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
-                  <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} />
-                </div>
-                <div className="mt-2 text-sm text-muted-foreground">{s.label}</div>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
-
-      {/* Portfolio */}
-      <Section id="portfolio">
-        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <FadeUp><Eyebrow>Case Studies</Eyebrow></FadeUp>
-            <FadeUp delay={0.05}>
-              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-                Selected work that moved the needle.
-              </h2>
-            </FadeUp>
-          </div>
-        </div>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {CASES.map((c, i) => (
-            <FadeUp key={c.title} delay={i * 0.08}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)]">
-                <div className="relative aspect-[16/10] overflow-hidden bg-[image:var(--gradient-hero)]">
-                  <div className="absolute inset-0 bg-[image:var(--gradient-primary)] opacity-10" />
-                  <div className="absolute left-5 top-5">
-                    <span className="rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
-                      {c.industry}
+    <header id="header">
+        <div class="container">
+            <nav class="nav-inner">
+                <button class="nav-logo" onclick="navigateTo('home')">
+                    <span class="nav-logo-icon">
+                        <!-- Custom SVG Face/Smile Logo Icon -->
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                            <line x1="9" y1="9" x2="9.01" y2="9" />
+                            <line x1="15" y1="9" x2="15.01" y2="9" />
+                        </svg>
                     </span>
-                  </div>
-                  <div className="absolute bottom-5 right-5 rounded-xl bg-foreground px-4 py-2 font-display text-lg font-bold text-background">
-                    {c.metric}
-                  </div>
+                    <span class="font-display font-bold">Abdullah</span>
+                </button>
+                <div class="nav-links">
+                    <button onclick="navigateTo('home')" class="nav-btn active" id="nav-home">Home</button>
+                    <button onclick="navigateTo('services')" class="nav-btn" id="nav-services">Services</button>
+                    <button onclick="navigateTo('portfolio')" class="nav-btn" id="nav-portfolio">Portfolio</button>
+                    <button onclick="navigateTo('blog')" class="nav-btn" id="nav-blog">Blog</button>
+                    <button onclick="navigateTo('activities')" class="nav-btn" id="nav-activities">Activities</button>
+                    <button onclick="navigateTo('voluntary')" class="nav-btn" id="nav-voluntary">Voluntary</button>
                 </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="font-display text-xl font-semibold tracking-tight">{c.title}</h3>
-                  <dl className="mt-4 space-y-3 text-sm">
-                    <div>
-                      <dt className="font-semibold text-foreground">Challenge</dt>
-                      <dd className="mt-1 text-muted-foreground">{c.challenge}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-semibold text-foreground">Strategy</dt>
-                      <dd className="mt-1 text-muted-foreground">{c.strategy}</dd>
-                    </div>
-                  </dl>
-                  <div className="mt-5 grid grid-cols-2 gap-3 rounded-xl bg-surface p-4">
-                    <div>
-                      <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Before</div>
-                      <div className="mt-1 font-display text-lg font-bold text-muted-foreground line-through decoration-1">{c.before.value}</div>
-                      <div className="text-xs text-muted-foreground">{c.before.label}</div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-medium uppercase tracking-wider text-primary">After</div>
-                      <div className="mt-1 font-display text-lg font-bold text-foreground">{c.after.value}</div>
-                      <div className="text-xs text-muted-foreground">{c.after.label}</div>
-                    </div>
-                  </div>
-                  <button className="mt-6 inline-flex items-center gap-2 self-start text-sm font-semibold text-primary transition-transform group-hover:translate-x-1">
-                    View details <ArrowUpRight className="size-4" />
-                  </button>
+                <div class="nav-actions">
+                    <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+                        <i data-lucide="moon" id="theme-icon" style="width:16px;height:16px"></i>
+                    </button>
+                    <button class="btn-talk" onclick="navigateTo('blog')">Read Blog</button>
+                    <button class="icon-btn hamburger" aria-label="Menu" onclick="toggleMenu()">
+                        <i data-lucide="menu" id="hamburger-icon" style="width:16px;height:16px"></i>
+                    </button>
                 </div>
-              </article>
-            </FadeUp>
-          ))}
+            </nav>
+            <div class="mobile-menu glass-card" id="mobile-menu" style="border-radius:1rem; padding:.75rem;">
+                <button onclick="navigateTo('home'); toggleMenu();" class="nav-btn-mobile active" id="m-nav-home">Home</button>
+                <button onclick="navigateTo('services'); toggleMenu();" class="nav-btn-mobile" id="m-nav-services">Services</button>
+                <button onclick="navigateTo('portfolio'); toggleMenu();" class="nav-btn-mobile" id="m-nav-portfolio">Portfolio</button>
+                <button onclick="navigateTo('blog'); toggleMenu();" class="nav-btn-mobile" id="m-nav-blog">Blog</button>
+                <button onclick="navigateTo('activities'); toggleMenu();" class="nav-btn-mobile" id="m-nav-activities">Activities</button>
+                <button onclick="navigateTo('voluntary'); toggleMenu();" class="nav-btn-mobile" id="m-nav-voluntary">Voluntary</button>
+            </div>
         </div>
-      </Section>
+    </header>
 
-      {/* Skills */}
-      <Section id="skills" className="bg-surface/50">
-        <div className="mb-14 max-w-2xl">
-          <FadeUp><Eyebrow>Skills & Tools</Eyebrow></FadeUp>
-          <FadeUp delay={0.05}>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-              The stack behind the results.
-            </h2>
-          </FadeUp>
-        </div>
-        <div className="grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SKILLS.map((s, i) => (
-            <FadeUp key={s.name} delay={i * 0.03}>
-              <div>
-                <div className="mb-2 flex items-baseline justify-between">
-                  <span className="font-medium text-foreground">{s.name}</span>
-                  <span className="font-display text-sm font-semibold text-muted-foreground">{s.level}%</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-accent">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${s.level}%` }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="h-full rounded-full bg-[image:var(--gradient-primary)]"
-                  />
-                </div>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
+    <main class="flex-grow container">
 
-      {/* Testimonials */}
-      <Section>
-        <div className="mb-14 max-w-2xl">
-          <FadeUp><Eyebrow>Testimonials</Eyebrow></FadeUp>
-          <FadeUp delay={0.05}>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-              Trusted by founders and marketing leaders.
-            </h2>
-          </FadeUp>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
-            <FadeUp key={t.name} delay={i * 0.08}>
-              <div className="flex h-full flex-col rounded-2xl border border-border bg-surface-elevated p-6 shadow-[var(--shadow-soft)]">
-                <div className="flex gap-1 text-primary">
-                  {Array.from({ length: t.rating }).map((_, k) => (
-                    <Star key={k} className="size-4 fill-current" />
-                  ))}
+        <!-- 2. HERO / HOME SECTION -->
+        <section id="home" class="page-section active section">
+            <div class="hero-grid">
+                <div>
+                    <div class="eyebrow">Marketing Specialist</div>
+                    <h1 class="hero-h1 font-display">
+                        I am a <span class="gradient-text">Digital Marketing Professional</span>
+                    </h1>
+                    <p class="hero-sub text-lg text-gray-600 leading-relaxed">
+                        I design world-class digital marketing strategies and drive sales channels through automated ad platforms, search visibility optimization, and performance-driven content copy. I help scale online stores and B2B pipelines cleanly.
+                    </p>
+                    <p class="hero-sub text-lg text-gray-600 leading-relaxed mt-4">
+                        Specializing in conversion marketing funnels, Meta algorithms, and robust SEO analytics to turn direct advertising investments into predictable, compounding growth portfolios.
+                    </p>
+                    <div class="hero-btns">
+                        <button class="btn-primary" onclick="navigateTo('services')">
+                            Explore Services <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+                        </button>
+                        <!-- Updated from View Case Studies to View Activities -->
+                        <button class="btn-ghost" onclick="navigateTo('activities')">
+                            View Activities
+                        </button>
+                    </div>
                 </div>
-                <p className="mt-4 flex-1 text-base leading-relaxed text-foreground">"{t.quote}"</p>
-                <div className="mt-6 flex items-center gap-3 border-t border-border pt-5">
-                  <div className="grid size-11 place-items-center rounded-full bg-[image:var(--gradient-primary)] font-display font-bold text-primary-foreground">
-                    {t.name.split(" ").map((n) => n[0]).join("")}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground">{t.name}</div>
-                    <div className="text-xs text-muted-foreground">{t.role}, {t.company}</div>
-                  </div>
+                <div>
+                    <div class="portrait-wrap">
+                        <div class="portrait-glow"></div>
+                        <div class="profile-pic-container flex justify-center mb-6">
+    <img 
+        src="https://raw.githubusercontent.com/abdullahdigitalmarketing/AbdullahCU/main/7.png" 
+        alt="Abdullah" 
+        class="w-40 h-40 rounded-full border-4 border-white shadow-lg object-cover"
+    />
+</div>
+                        <div class="float-card float-bottom">
+                            <div class="float-card-icon primary"><i data-lucide="trending-up" style="width:20px;height:20px"></i></div>
+                            <div>
+                                <div class="float-card-val">+345%</div>
+                                <div class="float-card-label">average ROAS lift</div>
+                            </div>
+                        </div>
+                        <div class="float-card float-top">
+                            <div class="float-card-icon accent"><i data-lucide="line-chart" style="width:20px;height:20px"></i></div>
+                            <div>
+                                <div class="float-card-val">48K+</div>
+                                <div class="float-card-label">leads generated</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
+            </div>
+        </section>
 
-      {/* Blog */}
-      <Section id="blog" className="bg-surface/50">
-        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <FadeUp><Eyebrow>Blog</Eyebrow></FadeUp>
-            <FadeUp delay={0.05}>
-              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-                Notes from the field.
-              </h2>
-            </FadeUp>
-          </div>
-          <FadeUp delay={0.1}>
-            <button className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-              All articles <ArrowRight className="size-4" />
-            </button>
-          </FadeUp>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {POSTS.map((p, i) => (
-            <FadeUp key={p.title} delay={i * 0.08}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)]">
-                <div className="aspect-[16/9] bg-[image:var(--gradient-hero)] relative">
-                  <div className="absolute inset-0 bg-[image:var(--gradient-primary)] opacity-15" />
-                  <span className="absolute left-5 top-5 rounded-full bg-background/80 px-3 py-1 text-xs font-medium backdrop-blur">{p.tag}</span>
+        <!-- 3. SERVICES SECTION -->
+        <section id="services" class="page-section section">
+            <div class="section-header">
+                <span class="eyebrow">Expertise</span>
+                <h2 class="section-h2 font-display">Core Services I Offer</h2>
+                <p class="section-sub">Outcome-focused capabilities designed to generate compounding revenue channels.</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="facebook" style="width:20px;height:20px"></i></div>
+                    <div class="service-title font-display">Meta Ads</div>
+                    <p class="service-desc">Full-funnel Facebook and Instagram advertising architectures engineered to scale conversions while driving down acquisition costs.</p>
                 </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="text-xs text-muted-foreground">{p.date}</div>
-                  <h3 className="mt-2 font-display text-lg font-semibold leading-snug tracking-tight">{p.title}</h3>
-                  <p className="mt-2 flex-1 text-sm text-muted-foreground">{p.excerpt}</p>
-                  <button className="mt-4 inline-flex items-center gap-2 self-start text-sm font-semibold text-primary transition-transform group-hover:translate-x-1">
-                    Read more <ArrowRight className="size-4" />
-                  </button>
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="share-2" style="width:20px;height:20px"></i></div>
+                    <div class="service-title font-display">Social Media Management</div>
+                    <p class="service-desc">Cohesive social organic campaigns constructed to maximize customer engagement, retain community followers, and scale organic brand footprint.</p>
                 </div>
-              </article>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="pen-tool" style="width:20px;height:20px"></i></div>
+                    <div class="service-title font-display">Content Writing</div>
+                    <p class="service-desc">High-converting SEO blog directories, landing page copy, and direct email templates formatted around natural customer purchase psychology.</p>
+                </div>
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="megaphone" style="width:20px;height:20px"></i></div>
+                    <div class="service-title font-display">Content Marketing</div>
+                    <p class="service-desc">Strategic distributions frameworks targeted to reach right audiences at optimal timeline milestones with relevant high-impact narratives.</p>
+                </div>
+                <!-- Service 5 -->
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="trending-up" style="width:20px;height:20px"></i></div>
+                    <div class="service-title font-display">Business Consultancy</div>
+                    <p class="service-desc">Diagnostics for conversion blocks, growth channels scoping, and ROI blueprint maps built completely around unique business parameters.</p>
+                </div>
+            </div>
+        </section>
 
-      {/* Contact */}
-      <Section id="contact">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr]">
-          <div>
-            <FadeUp><Eyebrow>Contact</Eyebrow></FadeUp>
-            <FadeUp delay={0.05}>
-              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-5xl">
-                Let's build your growth engine.
-              </h2>
-            </FadeUp>
-            <FadeUp delay={0.1}>
-              <p className="mt-4 text-lg text-muted-foreground">
-                Tell me about your business and what you'd like to achieve. I'll respond within one business day.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.15}>
-              <ul className="mt-8 space-y-4 text-sm">
-                {[
-                  { icon: Mail, label: "hello@alexmorgan.co" },
-                  { icon: Phone, label: "+1 (415) 555-0142" },
-                  { icon: MapPin, label: "San Francisco, CA — Remote worldwide" },
-                ].map((x) => (
-                  <li key={x.label} className="flex items-center gap-3">
-                    <span className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
-                      <x.icon className="size-4" />
+        <!-- 4. PORTFOLIO SECTION -->
+        <section id="portfolio" class="page-section section">
+            <div class="section-header">
+                <span class="eyebrow">Case Studies</span>
+                <h2 class="section-h2 font-display">Strategic Digital Milestones</h2>
+                <p class="section-sub">A transparent look into commercial scale milestones, structured advertising structures, and active client conversions.</p>
+            </div>
+
+            <!-- Gallery style layout for Portfolio -->
+            <div class="gallery-grid">
+                <!-- Case 1 -->
+                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/6c47ff/ffffff?text=E-commerce+Scale', 'E-commerce Brand Optimization Model', 'Successfully scaled DTC store through attribution overhauls and dynamic Meta catalog sequences.')">
+                    <div class="gallery-thumb-container">
+                        <span class="gallery-badge">E-commerce</span>
+                        <img src="https://placehold.co/600x450/6c47ff/ffffff?text=E-commerce+Scale" alt="E-commerce Scale" />
+                    </div>
+                    <div class="gallery-content">
+                        <div>
+                            <h3 class="gallery-title">Scaling Online Store Metrics</h3>
+                            <p class="gallery-desc">Attribution configuration overhaul, dynamic Meta catalogue sequences, and aggressive landing page speed optimizations yielding a 3.8x return shift.</p>
+                        </div>
+                        <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center">
+                            <span class="text-xs font-semibold text-purple-500 uppercase">3.8x Return Lift</span>
+                            <span class="text-xs text-gray-400 flex items-center gap-1">View Image <i data-lucide="zoom-in" style="width:12px;height:12px"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/a855f7/ffffff?text=B2B+Lead+Generation', 'B2B SaaS Acquisition System', 'Optimized LinkedIn and Search networks to decrease cost-per-lead margins globally.')">
+                    <div class="gallery-thumb-container">
+                        <span class="gallery-badge">B2B SaaS</span>
+                        <img src="https://placehold.co/600x450/a855f7/ffffff?text=B2B+Lead+Generation" alt="B2B Lead Generation" />
+                    </div>
+                    <div class="gallery-content">
+                        <div>
+                            <h3 class="gallery-title">B2B Lead Pipeline Setup</h3>
+                            <p class="gallery-desc">LinkedIn contextual ad distributions, custom intent search campaigns, and robust conversion hook adjustments leading to a 64% acquisition cost drop.</p>
+                        </div>
+                        <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center">
+                            <span class="text-xs font-semibold text-purple-500 uppercase">-64% CPL</span>
+                            <span class="text-xs text-gray-400 flex items-center gap-1">View Image <i data-lucide="zoom-in" style="width:12px;height:12px"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/3b82f6/ffffff?text=SEO+Content+Strategy', 'Organic Search Campaign Framework', 'Structural keyword engineering targeting low-competition phrases to drive organic customer pipelines.')">
+                    <div class="gallery-thumb-container">
+                        <span class="gallery-badge">Organic SEO</span>
+                        <img src="https://placehold.co/600x450/3b82f6/ffffff?text=SEO+Content+Strategy" alt="Organic SEO" />
+                    </div>
+                    <div class="gallery-content">
+                        <div>
+                            <h3 class="gallery-title">Organic Funnel Realignment</h3>
+                            <p class="gallery-desc">Targeted keyword modeling alongside structured editorial campaigns to drive steady organic customer acquisition channels autonomously.</p>
+                        </div>
+                        <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center">
+                            <span class="text-xs font-semibold text-purple-500 uppercase">+180% Organic Reach</span>
+                            <span class="text-xs text-gray-400 flex items-center gap-1">View Image <i data-lucide="zoom-in" style="width:12px;height:12px"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. BLOG SECTION -->
+        <section id="blog" class="page-section section">
+            <div class="section-header">
+                <span class="eyebrow">Insights</span>
+                <h2 class="section-h2 font-display">Opinion Articles</h2>
+                <p class="section-sub">My personal thoughts, breakdowns, and frameworks regarding structural changes in performance marketing.</p>
+            </div>
+
+            <!-- Gallery style layout for Blog -->
+            <div class="gallery-grid">
+                <!-- Article 1 -->
+                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/4f46e5/ffffff?text=Meta+Ads+Future', 'The Future of Meta Ads', 'A deep dive into how machine-learning target attribution changes account architectures.')">
+                    <div class="gallery-thumb-container">
+                        <span class="gallery-badge">Paid Advertising</span>
+                        <img src="https://placehold.co/600x450/4f46e5/ffffff?text=Meta+Ads+Future" alt="The Future of Meta Ads" />
+                    </div>
+                    <div class="gallery-content">
+                        <div>
+                            <p class="text-xs text-purple-500 font-semibold mb-1">June 18, 2026</p>
+                            <h3 class="gallery-title">The Future of Meta Ads in 2026</h3>
+                            <p class="gallery-desc">Artificial intelligence and predictive model signals are redefining how custom audience targeting algorithms scale. Strategic advertisers must transition toward dynamic content testing mechanisms over narrow parameters.</p>
+                        </div>
+                        <button class="mt-4 text-sm font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-1 text-left">
+                            Read Full Details <i data-lucide="chevron-right" style="width:14px;height:14px"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/06b6d4/ffffff?text=Content+Marketing', 'Content Marketing Frameworks', 'Why brand compounding relies on organic asset infrastructure over immediate ad-bids.')">
+                    <div class="gallery-thumb-container">
+                        <span class="gallery-badge">Content Strategy</span>
+                        <img src="https://placehold.co/600x450/06b6d4/ffffff?text=Content+Marketing" alt="Content Marketing Strategy" />
+                    </div>
+                    <div class="gallery-content">
+                        <div>
+                            <p class="text-xs text-purple-500 font-semibold mb-1">June 02, 2026</p>
+                            <h3 class="gallery-title">Why Content Marketing is King for Small Businesses</h3>
+                            <p class="gallery-desc">Organic traffic search optimization and short-form media ecosystems represent compounding value investments over expensive direct-response click bids. Learn how to establish organic brand foundations.</p>
+                        </div>
+                        <button class="mt-4 text-sm font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-1 text-left">
+                            Read Full Details <i data-lucide="chevron-right" style="width:14px;height:14px"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Article 3 -->
+                <div class="gallery-card" onclick="openLightbox('https://placehold.co/800x600/ec4899/ffffff?text=Customer+Retention', 'Customer LTV Optimization', 'How retention pipelines reduce overhead acquisition parameters cleanly.')">
+                    <div class="gallery-thumb-container">
+                        <span class="gallery-badge">Customer Lifecycle</span>
+                        <img src="https://placehold.co/600x450/ec4899/ffffff?text=Customer+Retention" alt="Customer Retention Strategy" />
+                    </div>
+                    <div class="gallery-content">
+                        <div>
+                            <p class="text-xs text-purple-500 font-semibold mb-1">May 14, 2026</p>
+                            <h3 class="gallery-title">Retention is the New Acquisition</h3>
+                            <p class="gallery-desc">Attracting fresh visitors is consistently costlier than motivating recurring buyers. Setting up proactive post-purchase email pathways elevates overall lifetime value metric by over 40%.</p>
+                        </div>
+                        <button class="mt-4 text-sm font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-1 text-left">
+                            Read Full Details <i data-lucide="chevron-right" style="width:14px;height:14px"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. ACTIVITIES SECTION -->
+        <section id="activities" class="page-section section">
+            <div id="activities-catalog">
+                <div class="section-header">
+                    <span class="eyebrow">Engagements</span>
+                    <h2 class="section-h2 font-display">Professional Activities</h2>
+                    <p class="section-sub">Industry sessions, business meetups, and campaign operations I run and participate in.</p>
+                </div>
+
+                <!-- Gallery Layout -->
+                <div class="gallery-grid">
+                    <!-- Activity Card 1 -->
+                    <div class="gallery-card" onclick="showInnerDetails('act', 'summit')">
+                        <div class="gallery-thumb-container">
+                            <span class="gallery-badge">Summit Speaker</span>
+                            <img src="https://placehold.co/600x450/6366f1/ffffff?text=Marketing+Summit" alt="Speaking Event" />
+                        </div>
+                        <div class="gallery-content">
+                            <div>
+                                <h3 class="gallery-title">Digital Growth Forum Panelist</h3>
+                                <p class="gallery-desc">Delivering key strategy insights about programmatic performance models and ad channel optimization sequences at the regional Digital Growth Forum.</p>
+                            </div>
+                            <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center text-xs text-purple-500 font-semibold uppercase">
+                                <span>See Inside Gallery</span>
+                                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Card 2 -->
+                    <div class="gallery-card" onclick="showInnerDetails('act', 'workshop')">
+                        <div class="gallery-thumb-container">
+                            <span class="gallery-badge">Workshops</span>
+                            <img src="https://placehold.co/600x450/8b5cf6/ffffff?text=Campaign+Design" alt="Campaign Design Session" />
+                        </div>
+                        <div class="gallery-content">
+                            <div>
+                                <h3 class="gallery-title">Campaign Architecture Session</h3>
+                                <p class="gallery-desc">Conducting structural campaign blueprint workshops with high-growth e-commerce developers to plan creative testing processes.</p>
+                            </div>
+                            <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center text-xs text-purple-500 font-semibold uppercase">
+                                <span>See Inside Gallery</span>
+                                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inner Drill-down Gallery View (Hidden by Default) -->
+            <div id="act-inner-view" class="hidden">
+                <button onclick="hideInnerDetails('act')" class="btn-ghost mb-8 flex items-center gap-1">
+                    <i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Activities
+                </button>
+                <div class="section-header">
+                    <span class="eyebrow" id="act-inner-badge">Dynamic Badge</span>
+                    <h2 class="section-h2 font-display" id="act-inner-title">Dynamic Title</h2>
+                    <p class="section-sub" id="act-inner-desc">Dynamic Long Description</p>
+                </div>
+                
+                <!-- Inner Multi-Photo Gallery Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8" id="act-inner-photos-grid">
+                    <!-- Javascript will inject dynamic image components here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. VOLUNTARY SECTION -->
+        <section id="voluntary" class="page-section section">
+            <div id="voluntary-catalog">
+                <div class="section-header">
+                    <span class="eyebrow">Giving Back</span>
+                    <h2 class="section-h2 font-display">Voluntary Social Initiatives</h2>
+                    <p class="section-sub">Pro-bono efforts dedicated toward digital equity, local skills mentoring, and community initiatives.</p>
+                </div>
+
+                <!-- Gallery Layout -->
+                <div class="gallery-grid">
+                    <!-- Voluntary Card 1 -->
+                    <div class="gallery-card" onclick="showInnerDetails('vol', 'bootcamp')">
+                        <div class="gallery-thumb-container">
+                            <span class="gallery-badge">Mentoring</span>
+                            <img src="https://placehold.co/600x450/3b82f6/ffffff?text=Skills+Bootcamp" alt="Voluntary Skill Training" />
+                        </div>
+                        <div class="gallery-content">
+                            <div>
+                                <h3 class="gallery-title">Digital Marketing Bootcamp</h3>
+                                <p class="gallery-desc">Spearheading free marketing literacy modules to educate ambitious student developers on modern SEO mechanics and digital platforms.</p>
+                            </div>
+                            <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center text-xs text-purple-500 font-semibold uppercase">
+                                <span>See Inside Gallery</span>
+                                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Voluntary Card 2 -->
+                    <div class="gallery-card" onclick="showInnerDetails('vol', 'nonprofit')">
+                        <div class="gallery-thumb-container">
+                            <span class="gallery-badge">Social Dev</span>
+                            <img src="https://placehold.co/600x450/10b981/ffffff?text=NGO+Support" alt="Community Support" />
+                        </div>
+                        <div class="gallery-content">
+                            <div>
+                                <h3 class="gallery-title">Non-Profit Digital Enablement</h3>
+                                <p class="gallery-desc">Drafting digital strategy structures and content programs for community non-profits to assist them in maximizing fundraising efforts.</p>
+                            </div>
+                            <div class="mt-4 pt-2 border-t border-gray-200/50 dark:border-gray-800 flex justify-between items-center text-xs text-purple-500 font-semibold uppercase">
+                                <span>See Inside Gallery</span>
+                                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inner Drill-down Gallery View (Hidden by Default) -->
+            <div id="vol-inner-view" class="hidden">
+                <button onclick="hideInnerDetails('vol')" class="btn-ghost mb-8 flex items-center gap-1">
+                    <i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Voluntary
+                </button>
+                <div class="section-header">
+                    <span class="eyebrow" id="vol-inner-badge">Dynamic Badge</span>
+                    <h2 class="section-h2 font-display" id="vol-inner-title">Dynamic Title</h2>
+                    <p class="section-sub" id="vol-inner-desc">Dynamic Long Description</p>
+                </div>
+                
+                <!-- Inner Multi-Photo Gallery Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8" id="vol-inner-photos-grid">
+                    <!-- Javascript will inject dynamic image components here -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 8. FOOTER -->
+    <footer>
+        <div class="container flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <div class="nav-logo">
+                    <span class="nav-logo-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                            <line x1="9" y1="9" x2="9.01" y2="9" />
+                            <line x1="15" y1="9" x2="15.01" y2="9" />
+                        </svg>
                     </span>
-                    <span className="font-medium text-foreground">{x.label}</span>
-                  </li>
-                ))}
-              </ul>
-            </FadeUp>
-            <FadeUp delay={0.2}>
-              <div className="mt-8 flex gap-3">
-                {[Linkedin, Facebook, MessageCircle].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    aria-label="Social"
-                    className="grid size-11 place-items-center rounded-xl border border-border bg-surface-elevated text-foreground transition-all hover:-translate-y-0.5 hover:bg-[image:var(--gradient-primary)] hover:text-primary-foreground"
-                  >
-                    <Icon className="size-4" />
-                  </a>
-                ))}
-              </div>
-            </FadeUp>
-            <FadeUp delay={0.25}>
-              <div className="mt-8 aspect-[16/9] overflow-hidden rounded-2xl border border-border bg-surface-elevated">
-                <div className="relative h-full w-full bg-[image:var(--gradient-hero)]">
-                  <div className="absolute inset-0 grid place-items-center">
-                    <div className="flex items-center gap-2 rounded-full bg-background/80 px-4 py-2 text-sm font-medium backdrop-blur">
-                      <MapPin className="size-4 text-primary" /> San Francisco, CA
-                    </div>
-                  </div>
-                  <svg className="absolute inset-0 h-full w-full opacity-30" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-                        <path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                      </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grid)" />
-                  </svg>
+                    <span class="font-display font-bold">Abdullah</span>
                 </div>
-              </div>
-            </FadeUp>
-          </div>
-
-          <FadeUp delay={0.1}>
-            <form
-              onSubmit={(e) => { e.preventDefault(); alert("Thanks! I'll be in touch shortly."); }}
-              className="glass-card rounded-3xl p-6 sm:p-8"
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Name" name="name" placeholder="Jane Doe" />
-                <Field label="Email" name="email" type="email" placeholder="jane@company.com" />
-              </div>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                <Field label="Company" name="company" placeholder="Acme Inc" />
-                <Field label="Budget" name="budget" placeholder="$5k – $25k / mo" />
-              </div>
-              <div className="mt-4">
-                <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  Project details
-                </label>
-                <textarea
-                  rows={5}
-                  placeholder="Tell me about your goals, channels and timeline..."
-                  className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                />
-              </div>
-              <button
-                type="submit"
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[image:var(--gradient-primary)] px-5 py-3.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-[1.01]"
-              >
-                Send message <ArrowRight className="size-4" />
-              </button>
-            </form>
-          </FadeUp>
-        </div>
-      </Section>
-
-      {/* Footer */}
-      <footer className="border-t border-border bg-surface/50 px-6 py-12 md:px-10">
-        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
-          <div>
-            <div className="flex items-center gap-2 font-display text-lg font-bold">
-              <span className="grid size-8 place-items-center rounded-lg bg-[image:var(--gradient-primary)] text-primary-foreground">
-                <Sparkles className="size-4" />
-              </span>
-              Alex Morgan
+                <p class="footer-desc text-xs text-gray-500 mt-2">Performance marketing blueprints for sustainable business scaling.</p>
             </div>
-            <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-              Performance marketing for ambitious businesses. Strategy, execution and measurable growth.
-            </p>
-          </div>
-          <div>
-            <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground">Quick links</div>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              {NAV.map((n) => (
-                <li key={n.id}>
-                  <button onClick={() => scrollTo(n.id)} className="hover:text-foreground">{n.label}</button>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground">Legal</div>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-foreground">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-foreground">Terms</a></li>
-            </ul>
-            <div className="mt-6 flex gap-3">
-              {[Linkedin, Facebook, MessageCircle].map((Icon, i) => (
-                <a key={i} href="#" aria-label="Social" className="grid size-9 place-items-center rounded-lg border border-border bg-surface-elevated text-muted-foreground hover:text-foreground">
-                  <Icon className="size-4" />
-                </a>
-              ))}
+            
+            <!-- Complete Social Media Integration Bar -->
+            <div class="flex flex-col items-center md:items-end gap-3">
+                <div class="flex items-center gap-3">
+                    <!-- Facebook Icon -->
+                    <a href="https://facebook.com" target="_blank" class="footer-social-btn hover:text-blue-600 transition" aria-label="Facebook">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+                        </svg>
+                    </a>
+                    <!-- Instagram Icon -->
+                    <a href="https://instagram.com" target="_blank" class="footer-social-btn hover:text-pink-600 transition" aria-label="Instagram">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                        </svg>
+                    </a>
+                    <!-- LinkedIn Icon -->
+                    <a href="https://linkedin.com" target="_blank" class="footer-social-btn hover:text-blue-700 transition" aria-label="LinkedIn">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <!-- X (Twitter) Icon -->
+                    <a href="https://x.com" target="_blank" class="footer-social-btn hover:text-gray-900 dark:hover:text-white transition" aria-label="X (formerly Twitter)">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <!-- WhatsApp Icon -->
+                    <a href="https://whatsapp.com" target="_blank" class="footer-social-btn hover:text-green-500 transition" aria-label="WhatsApp">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.012 1.985C6.477 1.985 1.993 6.47 1.993 12c0 1.912.535 3.693 1.458 5.22L1.993 22l4.905-1.285c1.472.8 3.14 1.258 4.903 1.258 5.535 0 10.019-4.485 10.019-10s-4.484-10.015-10.019-10.015zm0 1.637c4.632 0 8.381 3.75 8.381 8.378s-3.75 8.381-8.381 8.381c-1.68 0-3.238-.495-4.552-1.343l-.326-.21-2.903.76.772-2.825-.23-.365c-.933-1.481-1.424-3.21-1.424-4.998 0-4.628 3.75-8.378 8.381-8.378zm-3.612 4.11a.72.72 0 00-.518.245c-.2.217-.518.514-.518 1.252 0 1.05.766 2.062.871 2.203.1.14 1.508 2.302 3.655 3.228.51.22 1.112.352 1.493.352.382 0 1.173-.478 1.338-.936.166-.458.166-.851.117-.936-.05-.084-.183-.135-.383-.235-.2-.1-.1.1-.383-.343-.1-.183-.53-.183-.613-.35-.084-.167.084-.316-.017-.5-.1-.183-.184-.334-.384-.435-.2-.102-.383-.05-.518.05-.133.1-.566.551-.566 1.343s.583 1.558.666 1.675c.084.117 1.144 1.745 2.775 2.451.389.167.69.267.926.342.391.125.748.107 1.03.065.314-.047.965-.395 1.101-.777.135-.382.135-.71.094-.777-.042-.068-.146-.11-.347-.21z"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-2">
+                    &#169; <span id="year">2026</span> Abdullah. All rights reserved.
+                </p>
             </div>
-          </div>
         </div>
-        <div className="mx-auto mt-10 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
-          <div>© {new Date().getFullYear()} Alex Morgan. All rights reserved.</div>
-          <div>Crafted with care.</div>
+    </footer>
+
+    <!-- LIGHTBOX MODAL FOR IMAGES -->
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <div class="max-w-3xl w-full bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl relative" onclick="event.stopPropagation()">
+            <button class="absolute right-4 top-4 bg-black/60 text-white rounded-full p-2 hover:bg-black transition" onclick="closeLightbox()">
+                <i data-lucide="x" style="width:18px;height:18px"></i>
+            </button>
+            <img id="lightbox-img" src="" alt="Expanded View" class="w-full max-h-[70vh] object-contain bg-black" />
+            <div class="p-6">
+                <h3 class="font-display font-bold text-lg text-gray-900 dark:text-white" id="lightbox-title">Expanded Title</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2" id="lightbox-desc">Detailed descriptions and metadata regarding this specific snapshot.</p>
+            </div>
         </div>
-      </footer>
-
-      {/* Back to top */}
-      {showTop && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          aria-label="Back to top"
-          className="fixed bottom-6 right-6 z-50 grid size-12 place-items-center rounded-full bg-[image:var(--gradient-primary)] text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-110"
-        >
-          <ChevronUp className="size-5" />
-        </motion.button>
-      )}
     </div>
-  );
-}
 
-function Field({ label, name, type = "text", placeholder }: { label: string; name: string; type?: string; placeholder?: string }) {
-  return (
-    <div>
-      <label htmlFor={name} className="mb-2 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-        {label}
-      </label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-      />
-    </div>
-  );
-}
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast" class="toast-msg">Updated successfully!</div>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        
+        // Strict-XHTML SPA state declarations
+        var activeTab = 'home';
+        var activeTheme = 'light';
+        var mobileMenuOpen = false;
+
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Database mock for inner Activities & Voluntary Drill-Down Galleries
+        var INNER_GALLERIES = {
+            act: {
+                summit: {
+                    badge: "Summit Inside Gallery",
+                    title: "Regional Digital Growth Forum",
+                    desc: "An inside look into the prep workspaces, session panels, networking moments, and analytical presentations delivered during the 2026 growth summit.",
+                    photos: [
+                        { url: "https://placehold.co/600x450/4f46e5/ffffff?text=Main+Stage", title: "Main Stage Presentation", desc: "Speaking to a crowd of 500+ digital managers and e-commerce growth executives." },
+                        { url: "https://placehold.co/600x450/6c47ff/ffffff?text=Prep+Workshop", title: "Technical Prep Meeting", desc: "Collaborating with panelists and keynote organizers to align ad delivery metrics." },
+                        { url: "https://placehold.co/600x450/a855f7/ffffff?text=Q%26A+Session", title: "Interactive Q&A Panel", desc: "Addressing direct inquiries regarding Facebook attribution models and lookalikes." },
+                        { url: "https://placehold.co/600x450/3b82f6/ffffff?text=Networking", title: "Post-Event Networking", desc: "Engaging in detailed B2B consulting conversations with brand owners." }
+                    ]
+                },
+                workshop: {
+                    badge: "Workshop Inside Gallery",
+                    title: "Campaign Architecture Sessions",
+                    desc: "A series of private workshops held with high-growth startups to structure clean, repeatable creative and analytical testing systems.",
+                    photos: [
+                        { url: "https://placehold.co/600x450/10b981/ffffff?text=Whiteboard", title: "Mapping Ad Funnels", desc: "Breaking down programmatic traffic and landing page configurations visually." },
+                        { url: "https://placehold.co/600x450/f59e0b/ffffff?text=Startup+Team", title: "Team Strategy Realignment", desc: "Ensuring clean copywriting habits and correct conversion tagging placements." },
+                        { url: "https://placehold.co/600x450/3b82f6/ffffff?text=Analytics+Review", title: "Cohort and ROAS Analysis", desc: "Inspecting live ad accounts to troubleshoot leakage points and target audience blocks." }
+                    ]
+                }
+            },
+            vol: {
+                bootcamp: {
+                    badge: "Mentoring Inside Gallery",
+                    title: "Digital Marketing Bootcamp",
+                    desc: "Interactive moments with students and young professionals building foundation literacy around modern performance marketing.",
+                    photos: [
+                        { url: "https://placehold.co/600x450/06b6d4/ffffff?text=Classroom", title: "Classroom Session", desc: "Introducing the core principles of search visibility and paid advertising setups." },
+                        { url: "https://placehold.co/600x450/6366f1/ffffff?text=Ad+Setup+Demo", title: "Meta Ads Live Build", desc: "Walking through structured dynamic asset assembly step-by-step." },
+                        { url: "https://placehold.co/600x450/ec4899/ffffff?text=Critique", title: "Ad Copy Critiques", desc: "Guiding students on direct-response copywriting best practices." }
+                    ]
+                },
+                nonprofit: {
+                    badge: "NGO Inside Gallery",
+                    title: "NGO Digital Support Campaigns",
+                    desc: "Strategic coordination and organic distributions mapped out to assist local environmental and community foundations.",
+                    photos: [
+                        { url: "https://placehold.co/600x450/10b981/ffffff?text=NGO+Brainstorm", title: "Strategy Brainstorm", desc: "Defining clear messaging pillars to connect with prospective volunteers and donors." },
+                        { url: "https://placehold.co/600x450/3b82f6/ffffff?text=Social+Copy", title: "Organic Post Crafting", desc: "Designing simple, high-visibility visual templates on social networks." },
+                        { url: "https://placehold.co/600x450/f59e0b/ffffff?text=Analytics", title: "Attribution Dashboard", desc: "Setting up custom donor tracking systems pro-bono." }
+                    ]
+                }
+            }
+        };
+
+        // Dynamic Route Handler
+        function navigateTo(sectionId) {
+            // Hide all pages
+            var pages = document.querySelectorAll('.page-section');
+            pages.forEach(function(p) {
+                p.classList.remove('active');
+            });
+
+            // Activate chosen section
+            var targetPage = document.getElementById(sectionId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Sync navigation highlights (Desktop)
+            var desktopBtns = document.querySelectorAll('.nav-links button');
+            desktopBtns.forEach(function(b) {
+                b.classList.remove('active');
+                b.classList.remove('bg-purple-600');
+                b.classList.remove('text-white');
+            });
+            var targetBtn = document.getElementById('nav-' + sectionId);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
+
+            // Sync navigation highlights (Mobile)
+            var mobileBtns = document.querySelectorAll('.mobile-menu button');
+            mobileBtns.forEach(function(mb) {
+                mb.classList.remove('active');
+            });
+            var targetMobileBtn = document.getElementById('m-nav-' + sectionId);
+            if (targetMobileBtn) {
+                targetMobileBtn.classList.add('active');
+            }
+
+            // Reset dynamic inner sub-pages inside Activities and Voluntary
+            hideInnerDetails('act');
+            hideInnerDetails('vol');
+
+            // Scroll cleanly to view top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toggle Responsive Hamburger Menu
+        function toggleMenu() {
+            var menu = document.getElementById('mobile-menu');
+            var icon = document.getElementById('hamburger-icon');
+            var isOpen = menu.classList.toggle('open');
+            if (icon) {
+                icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        // Toggle Visual Theme Modes (Strict XHTML compatible icon swapping)
+        function toggleTheme() {
+            var isDark = document.documentElement.classList.toggle('dark');
+            var icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            }
+            lucide.createIcons();
+        }
+
+        // Open Expanded Lightbox Modal
+        function openLightbox(imgUrl, title, desc) {
+            var modal = document.getElementById('lightbox-modal');
+            var modalImg = document.getElementById('lightbox-img');
+            var modalTitle = document.getElementById('lightbox-title');
+            var modalDesc = document.getElementById('lightbox-desc');
+
+            if (modal) {
+                if (modalImg) { modalImg.src = imgUrl; }
+                if (modalTitle) { modalTitle.textContent = title; }
+                if (modalDesc) { modalDesc.textContent = desc; }
+                modal.classList.add('active');
+            }
+        }
+
+        // Close Expanded Lightbox Modal
+        function closeLightbox() {
+            var modal = document.getElementById('lightbox-modal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Inner Galleries Drill-down View logic
+        function showInnerDetails(categoryKey, subKey) {
+            // Locate dynamic parent grids and sub-views
+            var catalogDiv = document.getElementById(categoryKey + '-catalog');
+            var innerDiv = document.getElementById(categoryKey + '-inner-view');
+            
+            // Retrieve Database node
+            var dataNode = null;
+            if (INNER_GALLERIES[categoryKey]) {
+                if (INNER_GALLERIES[categoryKey][subKey]) {
+                    dataNode = INNER_GALLERIES[categoryKey][subKey];
+                }
+            }
+
+            if (catalogDiv) {
+                if (innerDiv) {
+                    if (dataNode) {
+                        // Populate sub-view texts
+                        document.getElementById(categoryKey + '-inner-badge').textContent = dataNode.badge;
+                        document.getElementById(categoryKey + '-inner-title').textContent = dataNode.title;
+                        document.getElementById(categoryKey + '-inner-desc').textContent = dataNode.desc;
+
+                        // Reset & build multi-photo inner layout
+                        var photosGrid = document.getElementById(categoryKey + '-inner-photos-grid');
+                        if (photosGrid) {
+                            photosGrid.innerHTML = '';
+                            dataNode.photos.forEach(function(photo) {
+                                // Dynamic XHTML safe layout components
+                                var container = document.createElement('div');
+                                container.className = 'group relative overflow-hidden rounded-xl border border-gray-200/50 dark:border-gray-800 bg-gray-100 cursor-pointer shadow-sm';
+                                container.onclick = function() {
+                                    openLightbox(photo.url, photo.title, photo.desc);
+                                };
+
+                                var wrapper = document.createElement('div');
+                                wrapper.className = 'aspect-square overflow-hidden';
+                                
+                                var imgEl = document.createElement('img');
+                                imgEl.src = photo.url;
+                                imgEl.alt = photo.title;
+                                imgEl.className = 'w-full h-full object-cover transition duration-300 group-hover:scale-105';
+
+                                var overlay = document.createElement('div');
+                                overlay.className = 'absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 p-4 flex flex-col justify-end text-white';
+
+                                var titleEl = document.createElement('p');
+                                titleEl.className = 'font-bold text-xs font-display';
+                                titleEl.textContent = photo.title;
+
+                                var descEl = document.createElement('p');
+                                descEl.className = 'text-[10px] text-gray-300 mt-1 leading-relaxed';
+                                descEl.textContent = photo.desc;
+
+                                overlay.appendChild(titleEl);
+                                overlay.appendChild(descEl);
+                                wrapper.appendChild(imgEl);
+                                container.appendChild(wrapper);
+                                container.appendChild(overlay);
+
+                                photosGrid.appendChild(container);
+                            });
+                        }
+
+                        // Toggle screen state
+                        catalogDiv.classList.add('hidden');
+                        innerDiv.classList.remove('hidden');
+                        
+                        // Scroll down slightly or smoothly reset viewport position
+                        window.scrollTo({ top: catalogDiv.offsetTop - 100, behavior: 'smooth' });
+                    }
+                }
+            }
+        }
+
+        function hideInnerDetails(categoryKey) {
+            var catalogDiv = document.getElementById(categoryKey + '-catalog');
+            var innerDiv = document.getElementById(categoryKey + '-inner-view');
+            if (catalogDiv) {
+                if (innerDiv) {
+                    catalogDiv.classList.remove('hidden');
+                    innerDiv.classList.add('hidden');
+                }
+            }
+        }
+
+        // Initialize and sync current calendar year safely
+        var currentYr = new Date().getFullYear();
+        var yearContainer = document.getElementById('year');
+        if (yearContainer) {
+            yearContainer.textContent = currentYr;
+        }
+
+        //]]>
+    </script>
+</body>
+</html>
