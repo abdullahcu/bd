@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jackson Ford - Portfolio Template</title>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Abdullah Hazari - Portfolio</title>
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons for Beautiful Vector Graphics -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     <!-- Google Fonts: Playfair Display (Serif headers) and Quicksand (Signature Sans-serif body) -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet"/>
     
     <script>
         tailwind.config = {
@@ -33,6 +34,7 @@
             }
         }
     </script>
+    
     <style>
         /* Custom styles matching Jackson's vintage layouts */
         body {
@@ -45,6 +47,7 @@
         /* Custom scrollbar matching design elements */
         ::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
@@ -57,83 +60,104 @@
         .portfolio-item {
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
+        /* Smooth scale hover */
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body class="bg-white text-[#5d5d5d] antialiased overflow-x-hidden">
 
     <!-- LEFT SIDEBAR CONTAINER (Fixed on Desktop, Off-screen absolute on Mobile) -->
-    <aside id="sidebar" class="fixed top-0 left-0 h-screen w-72 bg-jacksonBg z-40 border-r border-gray-100 flex flex-col justify-between py-12 px-6 transition-transform duration-300 -translate-x-full lg:translate-x-0 overflow-y-auto">
+    <aside class="fixed top-0 left-0 h-screen w-72 bg-jacksonBg z-40 border-r border-gray-100 flex flex-col justify-between py-12 px-6 transition-transform duration-300 -translate-x-full lg:translate-x-0 overflow-y-auto" id="sidebar">
         <!-- Sidebar Content -->
         <div class="text-center">
             <!-- Profile Photo -->
             <div class="w-36 h-36 mx-auto mb-6 rounded-full overflow-hidden border-4 border-gray-200 shadow-md">
-                <img id="profile-img" 
-                     src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=300&h=300" 
-                     alt="Jackson Ford Profile" 
-                     class="w-full h-full object-cover"
-                     onerror="this.src='https://placehold.co/300x300/2c98f0/ffffff?text=JF'">
+                <img alt="Abdullah Hazari Profile" class="w-full h-full object-cover" id="profile-img" onerror="this.src='https://placehold.co/300x300/2c98f0/ffffff?text=AH'" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgmmiM-44onpFnAuPigCtHvgFd0Wru480PX4ocytRcwE5hmp6MYvEX3FxuivqA3mdyjvpIuH-MVgpw2E3Rb-8pd66FTBsnC6jWqw9k5OqTEMABohyphenhyphenNWb0gTR8PLiNiaI7RIuAPKRwKw96vsgr6fIsWt60lY7qh5dZG0ZLkLMwxB0gr3LvpaScW9ZVItLP8/s16000/7.png"/>
             </div>
             
             <!-- User Title Information -->
-            <h1 class="text-2xl font-bold tracking-tight text-gray-800 leading-tight">Jackson Ford</h1>
+            <h1 class="text-2xl font-bold tracking-tight text-gray-800 leading-tight">Abdullah Hazari</h1>
             <p class="text-[11px] font-bold tracking-widest text-[#2c98f0] uppercase mt-2">
-                <span class="text-gray-400">UI/UX Designer</span> In Philippines
+                <span class="text-gray-400">Digital Marketing Professional</span>
             </p>
 
             <!-- Navigation Links -->
             <nav class="mt-12">
                 <ul class="flex flex-col space-y-4 uppercase text-xs font-bold tracking-widest">
-                    <li><a href="#home" class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" onclick="closeSidebarMobile()">Home</a></li>
-                    <li><a href="#about" class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" onclick="closeSidebarMobile()">About</a></li>
-                    <li><a href="#services" class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" onclick="closeSidebarMobile()">Services</a></li>
-                    <li><a href="#skills" class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" onclick="closeSidebarMobile()">Skills</a></li>
-                    <li><a href="#education" class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" onclick="closeSidebarMobile()">Education</a></li>
-                    <li><a href="#experience" class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" onclick="closeSidebarMobile()">Experience</a></li>
-                    <li><a href="#work" class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" onclick="closeSidebarMobile()">Work</a></li>
-                    <li><a href="#blog" class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" onclick="closeSidebarMobile()">Blog</a></li>
-                    <li><a href="#contact" class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" onclick="closeSidebarMobile()">Contact</a></li>
+                    <li><a class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" href="#home" onclick="closeSidebarMobile()">Home</a></li>
+                    <li><a class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" href="#about" onclick="closeSidebarMobile()">About</a></li>
+                    <li><a class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" href="#services" onclick="closeSidebarMobile()">Services</a></li>
+                    <li><a class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" href="#skills" onclick="closeSidebarMobile()">Skills</a></li>
+                    <li><a class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" href="#education" onclick="closeSidebarMobile()">Education</a></li>
+                    <li><a class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" href="#experience" onclick="closeSidebarMobile()">Experience</a></li>
+                    <li><a class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" href="#work" onclick="closeSidebarMobile()">Work</a></li>
+                    <li><a class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" href="#blog" onclick="closeSidebarMobile()">Blog</a></li>
+                    <li><a class="nav-link block py-1 border-b-2 border-transparent transition-all duration-300 text-gray-700 hover:text-jacksonBlue hover:border-jacksonBlue" href="#contact" onclick="closeSidebarMobile()">Contact</a></li>
                 </ul>
             </nav>
         </div>
 
-        <!-- Sidebar Footer -->
-        <div class="text-center text-xs text-gray-400 font-light tracking-wide mt-12 leading-relaxed">
-            <p>&copy; 2026 Jackson Ford.</p>
-            <p class="mt-1">Recreated with ❤️ matching <span class="font-bold text-gray-500">Colorlib</span></p>
+        <!-- Footer/Copyright Info with Social Media -->
+        <div class="mt-auto pt-6 text-center">
+            <!-- Social Media Icons -->
+            <div class="flex justify-center gap-4 mb-4 text-gray-500">
+                <a class="hover:text-[#2c98f0] transition text-base" href="https://facebook.com" target="_blank" title="Facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a class="hover:text-[#2c98f0] transition text-base" href="https://linkedin.com" target="_blank" title="LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                <a class="hover:text-[#2c98f0] transition text-base" href="https://youtube.com" target="_blank" title="YouTube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+                <a class="hover:text-[#2c98f0] transition text-base" href="https://instagram.com" target="_blank" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a class="hover:text-[#2c98f0] transition text-base" href="https://x.com" target="_blank" title="X (Twitter)">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+            </div>
+            
+            <!-- Copyright Text -->
+            <div class="text-xs text-gray-400 font-medium tracking-wide leading-relaxed">
+                <p>&#169; 2026 Abdullah Hazari.</p>
+                <p>Created by <span class="text-gray-800 font-bold">Creatorium</span></p>
+            </div>
         </div>
     </aside>
 
     <!-- MOBILE TOP BAR & NAVIGATION TOGGLE -->
-    <div class="lg:hidden sticky top-0 left-0 right-0 bg-white shadow-sm z-50 flex items-center justify-between px-6 py-4">
-        <span class="text-xl font-bold tracking-wide text-gray-800">Jackson Ford</span>
-        <button id="hamburger-btn" class="text-gray-700 hover:text-jacksonBlue focus:outline-none focus:ring-2 focus:ring-jacksonBlue p-1.5 rounded-md" aria-label="Toggle Menu">
-            <i class="fa-solid fa-bars text-2xl"></i>
+    <div class="lg:hidden fixed top-6 right-6 z-50">
+        <button aria-label="Toggle Menu" class="text-[#2c98f0] bg-white/95 p-3 rounded-full shadow-lg border border-gray-100 focus:outline-none flex items-center justify-center transition-all duration-300 active:scale-95" id="hamburger-btn">
+            <i class="fa-solid fa-bars text-xl"></i>
         </button>
     </div>
 
     <!-- SIDEBAR MOBILE DARK OVERLAY -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
+    <div class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden" id="sidebar-overlay"></div>
 
     <!-- MAIN MAIN CONTENT CONTAINER -->
     <main class="lg:ml-72 min-h-screen">
 
         <!-- HOME / HERO SLIDER SECTION -->
-        <section id="home" class="relative h-[85vh] lg:h-screen w-full overflow-hidden bg-gray-900 text-white">
+        <section class="relative h-[85vh] lg:h-screen w-full overflow-hidden bg-gray-900 text-white" id="home">
             <!-- Slide 1 -->
             <div class="hero-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100" style="background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1600') center/cover no-repeat;">
                 <div class="h-full flex items-center px-8 sm:px-16 md:px-24 max-w-4xl">
                     <div class="space-y-6">
                         <h2 class="text-5xl sm:text-6xl lg:text-7xl font-bold font-serif leading-tight text-white">
-                            Hi! <br>I'm Jackson
+                            Hi! <br/>I'm Abdullah
                         </h2>
                         <p class="text-gray-200 text-lg sm:text-xl font-light tracking-wide max-w-xl">
-                            100% premium HTML5 portfolio template recreated using Tailwind. Perfect for developers, UI artists, and digital creators.
+                            Driving digital growth through data-backed marketing strategies, high-conversion campaigns, and meaningful brand storytelling.
                         </p>
                         <div class="pt-4 flex flex-wrap gap-4">
-                            <a href="#contact" class="px-6 py-3 border-2 border-white text-white font-bold tracking-widest text-xs uppercase hover:bg-white hover:text-gray-900 rounded-sm transition duration-300">
-                                Hire Me <i class="fa-solid fa-briefcase ml-2"></i>
+                            <a class="px-6 py-3 border-2 border-white text-white font-bold tracking-widest text-xs uppercase hover:bg-white hover:text-gray-900 rounded-sm transition duration-300" href="#contact">
+                                Meet Here <i class="fa-solid fa-briefcase ml-2"></i>
                             </a>
-                            <a href="#work" class="px-6 py-3 bg-jacksonBlue text-white font-bold tracking-widest text-xs uppercase hover:bg-blue-600 rounded-sm transition duration-300">
+                            <a class="px-6 py-3 bg-jacksonBlue text-white font-bold tracking-widest text-xs uppercase hover:bg-blue-600 rounded-sm transition duration-300" href="#work">
                                 View Portfolio <i class="fa-solid fa-images ml-2"></i>
                             </a>
                         </div>
@@ -142,20 +166,20 @@
             </div>
 
             <!-- Slide 2 -->
-            <div class="hero-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 pointer-events-none" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1600') center/cover no-repeat;">
+            <div class="hero-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 pointer-events-none" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYnEtImLi9DUotSOl6p9RlIXtU2zs-1GSO0aNFkvANBFN0XCZeCG9ENrPf33pHyq0IhfN7OnK00nf2SqrpHUfyBstv8WN8Wzyw-vPzwvlbFOzKF_PzKw1oOgoxrZSbljVhWNPiqBuDDDWoYnufH7qxArYbbPnKTeUUsOO_whyphenhyphenAYHO01kdMcMKhN4_5rnU/s16000/photo_2026-06-17_18-35-57.jpg') center/cover no-repeat;">
                 <div class="h-full flex items-center px-8 sm:px-16 md:px-24 max-w-4xl">
                     <div class="space-y-6">
                         <h2 class="text-5xl sm:text-6xl lg:text-7xl font-bold font-serif leading-tight text-white">
-                            I am <br>a Designer
+                            I am <br/>a Digital Marketing professional
                         </h2>
                         <p class="text-gray-200 text-lg sm:text-xl font-light tracking-wide max-w-xl">
-                            Designing spectacular digital products, interactive interfaces, user-first mobile apps, and pixel-perfect layouts.
+                            Crafting strategic digital solutions that connect brands with audiences through analytics, content excellence, and performance-driven marketing.
                         </p>
                         <div class="pt-4 flex flex-wrap gap-4">
-                            <a href="#contact" class="px-6 py-3 border-2 border-white text-white font-bold tracking-widest text-xs uppercase hover:bg-white hover:text-gray-900 rounded-sm transition duration-300">
+                            <a class="px-6 py-3 border-2 border-white text-white font-bold tracking-widest text-xs uppercase hover:bg-white hover:text-gray-900 rounded-sm transition duration-300" href="#contact">
                                 Contact Me <i class="fa-solid fa-paper-plane ml-2"></i>
                             </a>
-                            <a href="#" onclick="triggerCVDownload(event)" class="px-6 py-3 bg-jacksonRed text-white font-bold tracking-widest text-xs uppercase hover:bg-red-600 rounded-sm transition duration-300">
+                            <a class="px-6 py-3 bg-jacksonRed text-white font-bold tracking-widest text-xs uppercase hover:bg-red-600 rounded-sm transition duration-300" href="#" onclick="triggerCVDownload(event)">
                                 Download CV <i class="fa-solid fa-cloud-arrow-down ml-2"></i>
                             </a>
                         </div>
@@ -165,75 +189,75 @@
 
             <!-- Slide Navigation Buttons -->
             <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
-                <button onclick="showSlide(0)" class="slider-dot w-3.5 h-3.5 rounded-full bg-white scale-125 transition duration-300" aria-label="Slide 1"></button>
-                <button onclick="showSlide(1)" class="slider-dot w-3.5 h-3.5 rounded-full bg-gray-400 hover:scale-110 transition duration-300" aria-label="Slide 2"></button>
+                <button aria-label="Slide 1" class="slider-dot w-3.5 h-3.5 rounded-full bg-white scale-125 transition duration-300" onclick="triggerManualSlide(0)"></button>
+                <button aria-label="Slide 2" class="slider-dot w-3.5 h-3.5 rounded-full bg-gray-400 hover:scale-110 transition duration-300" onclick="triggerManualSlide(1)"></button>
             </div>
         </section>
 
         <!-- ABOUT SECTION -->
-        <section id="about" class="py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto">
+        <section class="py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto" id="about">
             <!-- Custom Section Header Tag -->
-            <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">About Us</span>
+            <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">About</span>
             <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-8 uppercase">Who Am I?</h2>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
                 <div class="space-y-6 text-gray-500 leading-relaxed text-[15px]">
                     <p>
-                        <strong>Hi! I'm Jackson Ford.</strong> A dedicated, imaginative graphic designer and front-end specialist from the Philippines. Replicating modern UX journeys, converting wireframes into robust, interactive, accessible frameworks is what fuels my professional passion.
+                        <strong>Hi! I'm Abdullah Hazari.</strong> A passionate digital marketing professional with a strong interest in data-driven strategy, consumer behavior, and digital innovation. I enjoy transforming ideas into impactful campaigns, leveraging technology, analytics, and creative storytelling to build meaningful connections between organizations and their audiences.
                     </p>
                     <p>
-                        Our mission has always been simple: create stellar user experiences that look, breathe, and navigate seamlessly. Whether you need a corporate layout, a bold creative blog, or responsive app designs, we offer personalized layouts tailored to your custom specifications.
+                        My mission is simple: create sustainable digital solutions that generate value, inspire engagement, and contribute to positive social and economic outcomes. Whether through strategic marketing, data analysis, content development, or audience research, I strive to deliver measurable results while adapting to the rapidly evolving digital landscape.
                     </p>
                 </div>
                 <div class="space-y-6 text-gray-500 leading-relaxed text-[15px]">
                     <p>
-                        With over 5 years of industry-level exposure and collaborations with agencies, I deliver quality clean code templates. Easily customizer-friendly systems ensure you can edit headers, assets, themes, and portfolios without breaking compilation layouts.
+                        Looking ahead, I plan to pursue higher education in Digital Marketing, Data Analytics, and related interdisciplinary fields to deepen my expertise and expand my global perspective. By combining academic knowledge with practical experience, I aim to develop innovative digital strategies, contribute to research-driven solutions, and help organizations make informed decisions in an increasingly connected world.
                     </p>
                     <p class="font-bold text-gray-800 italic">
-                        "Design is not just what it looks like and feels like. Design is how it works."
+                        "Innovation begins where data, creativity, and purpose meet."
                     </p>
                 </div>
             </div>
 
             <!-- About Service Mini Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-                <!-- Card 1: Graphic Design -->
+                <!-- Card 1: CUDS -->
                 <div class="p-6 border-b-4 border-jacksonBlue shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 bg-white flex flex-col justify-between">
-                    <div class="text-jacksonBlue text-4xl mb-6"><i class="fa-solid fa-palette"></i></div>
+                    <div class="text-jacksonBlue text-4xl mb-6"><i class="fa-solid fa-comments"></i></div>
                     <div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2 font-sans">Graphic Design</h3>
-                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">Branding & Art</p>
-                        <p class="text-sm text-gray-500">Creating vibrant visual identifiers, business mockups, and corporate materials.</p>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2 font-sans">Full Member</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">CU Debating Society (CUDS) <span class="text-gray-800 font-bold"><br/>2019-2021</span></p>
+                        <p class="text-sm text-gray-500">Formulating logical arguments, analyzing complex motions, and fostering a culture of critical thinking and effective communication.</p>
                     </div>
                 </div>
 
-                <!-- Card 2: Web Design -->
+                <!-- Card 2: BNCC -->
                 <div class="p-6 border-b-4 border-jacksonRed shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 bg-white flex flex-col justify-between">
-                    <div class="text-jacksonRed text-4xl mb-6"><i class="fa-solid fa-laptop-code"></i></div>
+                    <div class="text-jacksonRed text-4xl mb-6"><i class="fa-solid fa-shield-halved"></i></div>
                     <div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2 font-sans">Web Design</h3>
-                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">Layouts & UX</p>
-                        <p class="text-sm text-gray-500">Designing highly interactive prototypes, high-fidelity components, and flows.</p>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2 font-sans">Lance Corporal</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">BNCC Army Wing <span class="text-gray-800 font-bold"><br/>2019-2021</span></p>
+                        <p class="text-sm text-gray-500">Engaging in field training exercises, wilderness navigation, and team-based survival drills to build character and resilience.</p>
                     </div>
                 </div>
 
-                <!-- Card 3: Software -->
+                <!-- Card 3: HRSS -->
                 <div class="p-6 border-b-4 border-jacksonYellow shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 bg-white flex flex-col justify-between">
-                    <div class="text-jacksonYellow text-4xl mb-6"><i class="fa-solid fa-gears"></i></div>
+                    <div class="text-jacksonYellow text-4xl mb-6"><i class="fa-solid fa-scale-balanced"></i></div>
                     <div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2 font-sans">Software</h3>
-                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">Engineering</p>
-                        <p class="text-sm text-gray-500">Integrating dynamic backend APIs, database management, and custom solutions.</p>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2 font-sans">Member</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">Human Rights Support Society (HRSS) <span class="text-gray-800 font-bold"><br/>2024-2025</span></p>
+                        <p class="text-sm text-gray-500">Advocating for social justice, providing legal awareness support, and documenting human rights violations to ensure accountability.</p>
                     </div>
                 </div>
 
-                <!-- Card 4: Application -->
+                <!-- Card 4: Love for Children -->
                 <div class="p-6 border-b-4 border-jacksonPurple shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 bg-white flex flex-col justify-between">
-                    <div class="text-jacksonPurple text-4xl mb-6"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <div class="text-jacksonPurple text-4xl mb-6"><i class="fa-solid fa-child-reaching"></i></div>
                     <div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2 font-sans">Application</h3>
-                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">Mobile & Platforms</p>
-                        <p class="text-sm text-gray-500">Building cross-platform systems, touch-gestures, and iOS/Android app assets.</p>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2 font-sans">Member</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">Love for Children <span class="text-gray-800 font-bold"><br/>2019-2020</span></p>
+                        <p class="text-sm text-gray-500">Dedicated to empowering the next generation by providing educational opportunities, healthcare support, and sustainable development for children.</p>
                     </div>
                 </div>
             </div>
@@ -241,17 +265,17 @@
             <!-- About Callout banner -->
             <div class="mt-16 bg-[#f9bf3f]/10 border-l-4 border-[#f9bf3f] p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 rounded-r-md">
                 <div class="max-w-2xl text-center md:text-left">
-                    <h4 class="text-xl sm:text-2xl font-serif text-gray-800 font-bold mb-2">I am happy to let you know that 300+ projects done successfully!</h4>
-                    <p class="text-sm text-gray-500">Need standard custom design integrations? Let's connect and schedule an interactive strategy session.</p>
+                    <h4 class="text-xl sm:text-2xl font-serif text-gray-800 font-bold mb-2">Strategic digital solutions for growing business.</h4>
+                    <p class="text-sm text-gray-500">Need standard custom solution? Let's collaborate to elevate your business presence and achieve measurable results.</p>
                 </div>
-                <a href="#contact" class="px-8 py-3.5 bg-jacksonBlue text-white font-bold text-xs tracking-widest uppercase hover:bg-blue-600 transition duration-300 rounded-sm whitespace-nowrap">
-                    Hire Me Now
+                <a class="px-8 py-3.5 bg-jacksonBlue text-white font-bold text-xs tracking-widest uppercase hover:bg-blue-600 transition duration-300 rounded-sm whitespace-nowrap" href="#contact">
+                    Get Started
                 </a>
             </div>
         </section>
 
         <!-- SERVICES SECTION -->
-        <section id="services" class="py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24">
+        <section class="py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24" id="services">
             <div class="max-w-7xl mx-auto">
                 <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">What I Do?</span>
                 <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-12 uppercase">Here are some of my expertise</h2>
@@ -266,23 +290,23 @@
 
                     <!-- Service Box 2 -->
                     <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300 border-t-4 border-jacksonRed">
-                        <div class="w-14 h-14 rounded-full bg-jacksonRed/10 text-jacksonRed flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-code text-2xl"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Software Development</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Coding semantic backend components, optimizing database calls, and constructing maintainable system codebases.</p>
+                        <div class="w-14 h-14 rounded-full bg-jacksonRed/10 text-jacksonRed flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-chart-line text-2xl"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Content Marketing</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Building meaningful connections through high-quality content, expert SEO optimization, and strategic brand messaging that resonates with your audience.</p>
                     </div>
 
                     <!-- Service Box 3 -->
                     <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300 border-t-4 border-jacksonYellow">
-                        <div class="w-14 h-14 rounded-full bg-jacksonYellow/10 text-jacksonYellow flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-tablet-screen-button text-2xl"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Application Systems</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Architecting fluid responsive applications with interactive touchpoints, dynamic offline support, and smooth views.</p>
+                        <div class="w-14 h-14 rounded-full bg-jacksonYellow/10 text-jacksonYellow flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-film text-2xl"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Video Editing</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Crafting cinematic narratives, seamless transitions, and professional color grading to bring your visual stories to life with precision and creativity.</p>
                     </div>
 
                     <!-- Service Box 4 -->
                     <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300 border-t-4 border-jacksonPurple">
-                        <div class="w-14 h-14 rounded-full bg-jacksonPurple/10 text-jacksonPurple flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-pen-nib text-2xl"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Graphic Design</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">Formulating unique company identity vectors, color matching palettes, business stationary, and presentation models.</p>
+                        <div class="w-14 h-14 rounded-full bg-jacksonPurple/10 text-jacksonPurple flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-wand-magic-sparkles text-2xl"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">AI &amp; Graphic Design</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Elevating brands through AI-driven graphic solutions, from cohesive visual identity systems and stationery design to high-end professional presentations.</p>
                     </div>
 
                     <!-- Service Box 5 -->
@@ -307,107 +331,107 @@
             <div class="max-w-7xl mx-auto px-8 sm:px-16 lg:px-24 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <!-- Stat 1 -->
                 <div class="space-y-2">
-                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight">309</span>
-                    <span class="text-xs uppercase tracking-widest text-blue-100 font-bold block">Happy Clients</span>
+                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight">30</span>
+                    <span class="text-xs uppercase tracking-widest text-blue-100 font-bold block">Co-curricular Certificates</span>
                 </div>
                 <!-- Stat 2 -->
                 <div class="space-y-2">
-                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight">356</span>
-                    <span class="text-xs uppercase tracking-widest text-blue-100 font-bold block">Projects Done</span>
+                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight">55</span>
+                    <span class="text-xs uppercase tracking-widest text-blue-100 font-bold block">Online Courses</span>
                 </div>
                 <!-- Stat 3 -->
                 <div class="space-y-2">
-                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight">2000</span>
-                    <span class="text-xs uppercase tracking-widest text-blue-100 font-bold block">Cups of coffee</span>
+                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight">18</span>
+                    <span class="text-xs uppercase tracking-widest text-blue-100 font-bold block">Live Courses</span>
                 </div>
                 <!-- Stat 4 -->
                 <div class="space-y-2">
-                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight">10</span>
-                    <span class="text-xs uppercase tracking-widest text-blue-100 font-bold block">Partners</span>
+                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold font-sans block text-white tracking-tight">5</span>
+                    <span class="text-xs uppercase tracking-widest text-blue-100 font-bold block">Years of Work Experience</span>
                 </div>
             </div>
         </section>
 
         <!-- SKILLS SECTION -->
-        <section id="skills" class="py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto">
-            <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">My Specialty</span>
-            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-8 uppercase">My Skills</h2>
+        <section class="py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto" id="skills">
+            <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">My Specialty &amp;</span>
+            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-8 uppercase">Skills</h2>
 
             <p class="text-gray-500 leading-relaxed max-w-3xl text-[15px] mb-12">
-                A brief visual overview of our modern engineering toolkit. Each bar presents core experience values. We constantly learn new methodologies, libraries, and frameworks to deliver optimized static performance layouts.
+                A snapshot of my professional competencies in digital marketing, analytics, and digital strategy. These skills reflect my commitment to continuous learning, data-driven decision-making, and creating impactful solutions in an evolving digital landscape.
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                <!-- Skill 1: Photoshop -->
+                <!-- Skill 1 -->
                 <div>
                     <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">Photoshop</span>
-                        <span class="font-bold text-[#2c3e50] text-sm">75%</span>
-                    </div>
-                    <div class="w-full bg-gray-150 h-2.5 rounded-full overflow-hidden">
-                        <div class="bg-jacksonBlue h-full rounded-full transition-all duration-1000" style="width: 75%;"></div>
-                    </div>
-                </div>
-
-                <!-- Skill 2: jQuery -->
-                <div>
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">jQuery / Vanilla JS</span>
-                        <span class="font-bold text-[#2c3e50] text-sm">60%</span>
-                    </div>
-                    <div class="w-full bg-gray-150 h-2.5 rounded-full overflow-hidden">
-                        <div class="bg-jacksonRed h-full rounded-full transition-all duration-1000" style="width: 60%;"></div>
-                    </div>
-                </div>
-
-                <!-- Skill 3: HTML5 -->
-                <div>
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">HTML5</span>
-                        <span class="font-bold text-[#2c3e50] text-sm">85%</span>
-                    </div>
-                    <div class="w-full bg-gray-150 h-2.5 rounded-full overflow-hidden">
-                        <div class="bg-jacksonYellow h-full rounded-full transition-all duration-1000" style="width: 85%;"></div>
-                    </div>
-                </div>
-
-                <!-- Skill 4: CSS3 / Tailwind -->
-                <div>
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">CSS3 / Tailwind CSS</span>
+                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">Digital Marketing</span>
                         <span class="font-bold text-[#2c3e50] text-sm">90%</span>
                     </div>
                     <div class="w-full bg-gray-150 h-2.5 rounded-full overflow-hidden">
-                        <div class="bg-jacksonPurple h-full rounded-full transition-all duration-1000" style="width: 90%;"></div>
+                        <div class="bg-jacksonBlue h-full rounded-full transition-all duration-1000" style="width: 90%;"></div>
                     </div>
                 </div>
 
-                <!-- Skill 5: WordPress -->
+                <!-- Skill 2 -->
                 <div>
                     <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">WordPress CMS</span>
-                        <span class="font-bold text-[#2c3e50] text-sm">70%</span>
+                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">Content Marketing</span>
+                        <span class="font-bold text-[#2c3e50] text-sm">90%</span>
                     </div>
                     <div class="w-full bg-gray-150 h-2.5 rounded-full overflow-hidden">
-                        <div class="bg-jacksonTeal h-full rounded-full transition-all duration-1000" style="width: 70%;"></div>
+                        <div class="bg-jacksonRed h-full rounded-full transition-all duration-1000" style="width: 90%;"></div>
                     </div>
                 </div>
 
-                <!-- Skill 6: SEO / Marketing -->
+                <!-- Skill 3 -->
                 <div>
                     <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">SEO Optimization</span>
-                        <span class="font-bold text-[#2c3e50] text-sm">80%</span>
+                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">Web Development</span>
+                        <span class="font-bold text-[#2c3e50] text-sm">65%</span>
                     </div>
                     <div class="w-full bg-gray-150 h-2.5 rounded-full overflow-hidden">
-                        <div class="bg-jacksonGreen h-full rounded-full transition-all duration-1000" style="width: 80%;"></div>
+                        <div class="bg-jacksonYellow h-full rounded-full transition-all duration-1000" style="width: 65%;"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 4 -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">Research &amp; Analysis</span>
+                        <span class="font-bold text-[#2c3e50] text-sm">85%</span>
+                    </div>
+                    <div class="w-full bg-gray-150 h-2.5 rounded-full overflow-hidden">
+                        <div class="bg-jacksonPurple h-full rounded-full transition-all duration-1000" style="width: 85%;"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 5 -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">Public Speaking &amp; Communication</span>
+                        <span class="font-bold text-[#2c3e50] text-sm">85%</span>
+                    </div>
+                    <div class="w-full bg-gray-150 h-2.5 rounded-full overflow-hidden">
+                        <div class="bg-jacksonTeal h-full rounded-full transition-all duration-1000" style="width: 85%;"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 6 -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-[#2c3e50] text-sm tracking-wide">Leadership &amp; Team Management</span>
+                        <span class="font-bold text-[#2c3e50] text-sm">95%</span>
+                    </div>
+                    <div class="w-full bg-gray-150 h-2.5 rounded-full overflow-hidden">
+                        <div class="bg-jacksonGreen h-full rounded-full transition-all duration-1000" style="width: 95%;"></div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- EDUCATION SECTION (Jackson Accordion Style) -->
-        <section id="education" class="py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24">
+        <section class="py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24" id="education">
             <div class="max-w-7xl mx-auto">
                 <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">Education</span>
                 <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-12 uppercase">Education</h2>
@@ -417,15 +441,15 @@
                     <!-- Accordion Item 1 -->
                     <div class="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
                         <button class="accordion-header w-full text-left p-6 flex justify-between items-center transition bg-white hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
-                            <span class="font-bold text-gray-800 text-base sm:text-lg tracking-wide">Master Degree in Design & Media Technologies</span>
+                            <span class="font-bold text-gray-800 text-base sm:text-lg tracking-wide">Master Degree in Political Science</span>
                             <span class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 transition-transform duration-300">
                                 <i class="fa-solid fa-chevron-down text-sm"></i>
                             </span>
                         </button>
                         <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
                             <div class="p-6 border-t border-gray-100 text-gray-500 leading-relaxed text-[15px] bg-[#fafafa]">
-                                <p class="mb-3"><strong>Ateneo de Manila University (2018 - 2020)</strong></p>
-                                <p>Master degree studying deep human-computer interaction models, cognitive product research, branding psychology, system typography, and video game mechanics design guidelines.</p>
+                                <p class="mb-3"><strong>at University of Chittagong (2022 - 2023)</strong></p>
+                                <p>Advanced studies focused on the intersection of Geopolitics, Digital Governance, and Diplomatic frameworks. My academic journey centers on understanding how global political shifts, regulatory policies, and the evolving technological landscape influence modern societies. I leverage these insights to bridge the gap between complex policy-making and strategic communication, ensuring all initiatives are informed by a macro-level awareness of human behavior and socio-political trends.</p>
                             </div>
                         </div>
                     </div>
@@ -433,31 +457,15 @@
                     <!-- Accordion Item 2 -->
                     <div class="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
                         <button class="accordion-header w-full text-left p-6 flex justify-between items-center transition bg-white hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
-                            <span class="font-bold text-gray-800 text-base sm:text-lg tracking-wide">Bachelor Degree of Computer Science</span>
+                            <span class="font-bold text-gray-800 text-base sm:text-lg tracking-wide">Bachelor Degree in Political Science</span>
                             <span class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 transition-transform duration-300">
                                 <i class="fa-solid fa-chevron-down text-sm"></i>
                             </span>
                         </button>
                         <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
                             <div class="p-6 border-t border-gray-100 text-gray-500 leading-relaxed text-[15px] bg-[#fafafa]">
-                                <p class="mb-3"><strong>De La Salle University (2014 - 2018)</strong></p>
-                                <p>Specialized core course studying data structure modeling, advanced database algorithms, server middleware pipelines, responsive layouts, web engineering, and compiler mechanics.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Accordion Item 3 -->
-                    <div class="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-                        <button class="accordion-header w-full text-left p-6 flex justify-between items-center transition bg-white hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
-                            <span class="font-bold text-gray-800 text-base sm:text-lg tracking-wide">High School Secondary Education</span>
-                            <span class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 transition-transform duration-300">
-                                <i class="fa-solid fa-chevron-down text-sm"></i>
-                            </span>
-                        </button>
-                        <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="p-6 border-t border-gray-100 text-gray-500 leading-relaxed text-[15px] bg-[#fafafa]">
-                                <p class="mb-3"><strong>Manila Science High School (2010 - 2014)</strong></p>
-                                <p>Advanced science, chemistry, and pre-engineering computer courses preparing foundational knowledge for logic, mathematics, algorithmic designs, and physical electronics.</p>
+                                <p class="mb-3"><strong>at University of Chittagong (2018 - 2022)</strong></p>
+                                <p>Focused on the core principles of governance, public policy, and political theory. This academic foundation enabled a deep understanding of analytical research, organizational structures, and the socio-political factors that shape human decision-making. I leverage these insights to approach complex problem-solving with a broad perspective, ensuring all strategic communications are grounded in sound logic and an understanding of systemic dynamics.</p>
                             </div>
                         </div>
                     </div>
@@ -465,57 +473,51 @@
             </div>
         </section>
 
-        <!-- EXPERIENCE SECTION (Timeline Tracker Layout) -->
-        <section id="experience" class="py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto">
-            <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">Experience</span>
-            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-16 uppercase">Work Experience</h2>
+        <!-- EXPERIENCE SECTION -->
+        <section class="py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto" id="experience">
+            <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">Professional</span>
+            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-16 uppercase">Experience</h2>
 
             <!-- Timeline Elements wrapper -->
             <div class="relative border-l-2 border-gray-100 pl-8 ml-4 sm:ml-6 space-y-12">
-                <!-- Timeline item 1: Senior Developer -->
+                <!-- Timeline item 1 -->
                 <div class="relative">
-                    <!-- Color circle left indicator -->
                     <div class="absolute -left-[45px] top-1.5 w-8 h-8 rounded-full bg-jacksonBlue text-white flex items-center justify-center text-sm ring-4 ring-white shadow-md">
-                        <i class="fa-solid fa-laptop-code"></i>
+                        <i class="fa-solid fa-bullhorn"></i>
                     </div>
-                    <!-- Details Card -->
                     <div class="bg-jacksonBg/50 hover:bg-[#f2f3f7] p-6 sm:p-8 rounded-lg shadow-sm transition duration-300">
-                        <span class="text-xs font-bold text-jacksonBlue bg-jacksonBlue/10 px-3 py-1 rounded-full uppercase">2018 - Present</span>
-                        <h3 class="text-xl font-bold text-gray-800 mt-3 font-serif">Senior Full-Stack Developer <span class="font-sans text-sm text-gray-400 font-normal">at InnovateHQ</span></h3>
+                        <span class="text-xs font-bold text-jacksonBlue bg-jacksonBlue/10 px-3 py-1 rounded-full uppercase">2025 - Present</span>
+                        <h3 class="text-xl font-bold text-gray-800 mt-3 font-serif">Founder &amp; Marketing Specialist <span class="font-sans text-sm text-gray-400 font-normal">at Creatorium</span></h3>
                         <p class="text-sm text-gray-500 mt-4 leading-relaxed">
-                            Leading modular front-end architecture, setting layout development criteria, mentoring developers, performing deployment audits, and optimizing core search discovery frameworks.
+                            Architecting comprehensive brand strategies, scaling business growth through high-conversion performance marketing, executing SEO and multi-channel social media roadmaps, and leveraging data-driven insights to optimize ROI and accelerate market penetration.
                         </p>
                     </div>
                 </div>
 
-                <!-- Timeline item 2: Front-End Developer -->
+                <!-- Timeline item 2 -->
                 <div class="relative">
-                    <!-- Color circle left indicator -->
                     <div class="absolute -left-[45px] top-1.5 w-8 h-8 rounded-full bg-jacksonRed text-white flex items-center justify-center text-sm ring-4 ring-white shadow-md">
-                        <i class="fa-solid fa-pen-nib"></i>
+                        <i class="fa-solid fa-chart-line"></i>
                     </div>
-                    <!-- Details Card -->
                     <div class="bg-jacksonBg/50 hover:bg-[#f2f3f7] p-6 sm:p-8 rounded-lg shadow-sm transition duration-300">
-                        <span class="text-xs font-bold text-jacksonRed bg-jacksonRed/10 px-3 py-1 rounded-full uppercase">2017 - 2018</span>
-                        <h3 class="text-xl font-bold text-gray-800 mt-3 font-serif">UI/UX Front-End Designer <span class="font-sans text-sm text-gray-400 font-normal">at Colorlib Studio</span></h3>
+                        <span class="text-xs font-bold text-jacksonRed bg-jacksonRed/10 px-3 py-1 rounded-full uppercase">2025 - 2026</span>
+                        <h3 class="text-xl font-bold text-gray-800 mt-3 font-serif">Digital Marketing Executive <span class="font-sans text-sm text-gray-400 font-normal">at GENESIS</span></h3>
                         <p class="text-sm text-gray-500 mt-4 leading-relaxed">
-                            Formulating spectacular user journeys, creating custom-made graphic layouts, prototyping fluid grids, writing semantic CSS configurations, and validating accessibility markers.
+                            To drive brand growth through data-driven performance marketing, SMM, social media campaigns, and audience segmentation to maximize ROI and increase lead conversion.
                         </p>
                     </div>
                 </div>
 
-                <!-- Timeline item 3: System Analyst -->
+                <!-- Timeline item 3 -->
                 <div class="relative">
-                    <!-- Color circle left indicator -->
                     <div class="absolute -left-[45px] top-1.5 w-8 h-8 rounded-full bg-jacksonYellow text-white flex items-center justify-center text-sm ring-4 ring-white shadow-md">
-                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                        <i class="fa-solid fa-share-nodes"></i>
                     </div>
-                    <!-- Details Card -->
                     <div class="bg-jacksonBg/50 hover:bg-[#f2f3f7] p-6 sm:p-8 rounded-lg shadow-sm transition duration-300">
-                        <span class="text-xs font-bold text-jacksonYellow bg-jacksonYellow/10 px-3 py-1 rounded-full uppercase">2016 - 2017</span>
-                        <h3 class="text-xl font-bold text-gray-800 mt-3 font-serif">Junior System Analyst <span class="font-sans text-sm text-gray-400 font-normal">at MegaSystems Corp</span></h3>
+                        <span class="text-xs font-bold text-jacksonYellow bg-jacksonYellow/10 px-3 py-1 rounded-full uppercase">2021 - 2025</span>
+                        <h3 class="text-xl font-bold text-gray-800 mt-3 font-serif">Social Media Manager <span class="font-sans text-sm text-gray-400 font-normal">at Rajmoni Traders</span></h3>
                         <p class="text-sm text-gray-500 mt-4 leading-relaxed">
-                            Drafting technical design manuals, testing core modular components, compiling performance reports, gathering enterprise stakeholder requirements, and evaluating database integrity layouts.
+                            To develop comprehensive content strategies, managing multi-channel social media campaigns, analyzing audience engagement metrics, fostering community interaction, and optimizing platform performance to drive brand awareness.
                         </p>
                     </div>
                 </div>
@@ -523,176 +525,305 @@
         </section>
 
         <!-- WORK / PORTFOLIO SECTION -->
-        <section id="work" class="py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24">
+        <section class="py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24" id="work">
             <div class="max-w-7xl mx-auto">
-                <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">My Work</span>
-                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-8 uppercase">Recent Work</h2>
+                <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">My Works &amp;</span>
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-8 uppercase">Activities</h2>
 
                 <!-- Category Filtering Tabs -->
                 <div class="flex flex-wrap gap-4 md:gap-8 text-sm font-bold uppercase tracking-wider border-b border-gray-200 pb-4 mb-12">
-                    <button data-filter="all" class="filter-tab pb-2 border-b-2 border-jacksonBlue text-jacksonBlue focus:outline-none transition-all duration-300" onclick="filterPortfolio('all')">All Work</button>
-                    <button data-filter="graphic" class="filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300" onclick="filterPortfolio('graphic')">Graphic Design</button>
-                    <button data-filter="web" class="filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300" onclick="filterPortfolio('web')">Web Design</button>
-                    <button data-filter="software" class="filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300" onclick="filterPortfolio('software')">Software</button>
-                    <button data-filter="apps" class="filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300" onclick="filterPortfolio('apps')">Apps</button>
+                    <button class="filter-tab pb-2 border-b-2 border-jacksonBlue text-jacksonBlue focus:outline-none transition-all duration-300" data-filter="all" onclick="filterPortfolio('all')">All</button>
+                    <button class="filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300" data-filter="Leadership" onclick="filterPortfolio('Leadership')">Leadership</button>
+                    <button class="filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300" data-filter="Conference" onclick="filterPortfolio('Conference')">Conference</button>
+                    <button class="filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300" data-filter="Co-curricular" onclick="filterPortfolio('Co-curricular')">Co-curricular</button>
+                    <button class="filter-tab pb-2 border-b-2 border-transparent text-gray-500 hover:text-jacksonBlue focus:outline-none transition-all duration-300" data-filter="Voluntary" onclick="filterPortfolio('Voluntary')">Voluntary</button>
                 </div>
 
                 <!-- Portfolio items Grid layout -->
-                <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Work Item 1 (Web) -->
-                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="web">
-                        <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=600" alt="Work 1" class="w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolio-grid">
+                    
+                    <!-- Work Item 1 (Conference) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Conference">
+                        <img alt="Work 1" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiLKeIGAQ-qH7TyjRh0Ksj9kZ8IwsE1Ud_Ju-3qK4BC-eEf1orRPaPnalhyCn_4ekKHBlkowm2TjsAIUjB5Lp5x6P-bQ4SOQJ2Frpc4hUHKqPyWbG6ffQ1yOrd3igZdcVQlrb5xAc0TlzeAFK4pdcTlsYA1Kmzl_zMydxaH3RTSV8OitMudfEFdEOEaAY/s16000/photo_2026-06-23_10-18-56.jpg"/>
                         <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                            <span class="text-xs uppercase tracking-widest text-[#2c98f0] font-bold mb-1">Web Design</span>
-                            <h3 class="text-lg font-bold font-serif mb-3">Vibrant Portfolio Layout</h3>
-                            <p class="text-xs text-gray-300 mb-4 font-light">Custom digital resume for branding artists.</p>
+                            <span class="text-xs uppercase tracking-widest text-[#2c98f0] font-bold mb-1">Conference</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">Our Team Presented Poster</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">International Conference on the July Revolution (ICJR-I).</p>
                             <div class="flex gap-3">
-                                <a href="#" onclick="mockZoom(event, 'Vibrant Portfolio Layout')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Zoom image"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
-                                <a href="#" onclick="mockLink(event)" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Visit site"><i class="fa-solid fa-link"></i></a>
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Presented Poster Team')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Work Item 2 (Graphic) -->
-                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="graphic">
-                        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=600" alt="Work 2" class="w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500">
+                    <!-- Work Item 2 (Leadership) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Leadership">
+                        <img alt="Work 2" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiFbhIl5ShnQ9sK0YcFVzm3J36d8aptoNRjsaEmMjXhR6InsKOBpFbYftqAXUEF_SnqhyOGiGaj37jPKKVvJGPWkipTm2sen3ycmCob3i2MfG-42_4PCmVU7PeWKT6IUmz1Ycl6MchdscJ2iNgiTOgAdDQ-u0Xi65PYCzIBvbjZI90kwGAhd94jPmPEmnc/s1280/photo_2026-06-24_11-04-46.jpg"/>
                         <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                            <span class="text-xs uppercase tracking-widest text-[#ec5453] font-bold mb-1">Graphic Design</span>
-                            <h3 class="text-lg font-bold font-serif mb-3">Corporate Identity kit</h3>
-                            <p class="text-xs text-gray-300 mb-4 font-light">Logo system and stationery layout design.</p>
+                            <span class="text-xs uppercase tracking-widest text-[#ec5453] font-bold mb-1">Leadership</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">Training Session</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Half-day training session on Leadership.</p>
                             <div class="flex gap-3">
-                                <a href="#" onclick="mockZoom(event, 'Corporate Identity kit')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Zoom image"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
-                                <a href="#" onclick="mockLink(event)" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Visit site"><i class="fa-solid fa-link"></i></a>
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Training Session')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Work Item 3 (Software) -->
-                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="software">
-                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600" alt="Work 3" class="w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500">
+                    <!-- Work Item 3 (Co-curricular) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Co-curricular">
+                        <img alt="Work 3" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi8jELKX5ELFRQqLEpBYfbOOp575XX-zhrxJ5rwZktMZGVAtN8iKVq2dpGeK29coYzvxVb-zF_WYWSJgpEV41gos-4HOEWBydkIR0CCSuYIX6X7SJg63ZBertXQG_0FQt64ONsstfmijZPvD2JxLz4B8Pfuavub-dCadnDCrqNhT6F407p_-gpoBJJsGnk/s16000/photo_2026-06-22_10-23-35.jpg"/>
                         <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                            <span class="text-xs uppercase tracking-widest text-[#f9bf3f] font-bold mb-1">Software</span>
-                            <h3 class="text-lg font-bold font-serif mb-3">API Schema Integrations</h3>
-                            <p class="text-xs text-gray-300 mb-4 font-light">Highly customized server-side sync endpoints.</p>
+                            <span class="text-xs uppercase tracking-widest text-[#f9bf3f] font-bold mb-1">Co-curricular</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">Academic Achievements</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Developing interdisciplinary frameworks for performance logic.</p>
                             <div class="flex gap-3">
-                                <a href="#" onclick="mockZoom(event, 'API Schema Integrations')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Zoom image"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
-                                <a href="#" onclick="mockLink(event)" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Visit site"><i class="fa-solid fa-link"></i></a>
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Academic Achievements')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Work Item 4 (Apps) -->
-                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="apps">
-                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=600" alt="Work 4" class="w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500">
+                    <!-- Work Item 4 (Voluntary) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Voluntary">
+                        <img alt="Work 6" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSDN_GX7OcuiQv9fOSYmVCk30IsXDN0XE0i0Fgc8khNmjo0VgSu9__neihd2DKLm29nkFHA9C-xAP28l_3jzNdyejy4BgVLv3DThbQIVmwZqwp6LNFzvwh26vsnhf-gXraADKD0GpFx4blLl75YWh_1wkwH5Rxn0hVQaKiphxdgW_vhYF3eeWBL4MTz7E/s16000/2.jpg"/>
                         <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                            <span class="text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1">Apps</span>
-                            <h3 class="text-lg font-bold font-serif mb-3">Fintech Mobile Dashboard</h3>
-                            <p class="text-xs text-gray-300 mb-4 font-light">Beautiful crypto wallets dashboard interface.</p>
+                            <span class="text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1">Voluntary</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">Planting Campaign</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Tree plantation at University of Chittagong.</p>
                             <div class="flex gap-3">
-                                <a href="#" onclick="mockZoom(event, 'Fintech Mobile Dashboard')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Zoom image"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
-                                <a href="#" onclick="mockLink(event)" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Visit site"><i class="fa-solid fa-link"></i></a>
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'CU Planting Campaign')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Work Item 5 (Web) -->
-                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="web">
-                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600" alt="Work 5" class="w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500">
+                    <!-- Work Item 5 (Conference) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Conference">
+                        <img alt="Work 5" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvg_nscwGeZXzrV5D1_ZWhFYpAtesOsGJ3yDlVoUauayXaKNSXmJTnNdootNxR84qBZ9wzjVhe-Ug6FmsWFgS_6EHDpSG2LhK4rw-fvIMUzFgNMBrTl_DOJVLaw9x1A_G28LALAHXwxq_XIHcH4NK-o2WfKbWePRULjVzu5O4Z4SEyP5hxJiNTViDLsjo/s16000/photo_2026-06-23_10-19-09.jpg"/>
                         <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                            <span class="text-xs uppercase tracking-widest text-[#2c98f0] font-bold mb-1">Web Design</span>
-                            <h3 class="text-lg font-bold font-serif mb-3">Modern agency homepage</h3>
-                            <p class="text-xs text-gray-300 mb-4 font-light">Sleek layout for advertising digital studios.</p>
+                            <span class="text-xs uppercase tracking-widest text-[#2c98f0] font-bold mb-1">Conference</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">1st July Conference</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Speech time of Nurul Izzah Anwar.</p>
                             <div class="flex gap-3">
-                                <a href="#" onclick="mockZoom(event, 'Modern agency homepage')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Zoom image"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
-                                <a href="#" onclick="mockLink(event)" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Visit site"><i class="fa-solid fa-link"></i></a>
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Speech at July Conference')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Work Item 6 (Apps) -->
-                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="apps">
-                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=600" alt="Work 6" class="w-full h-full object-cover opacity-80 group-hover:scale-115 group-hover:opacity-30 transition duration-500">
+                    <!-- Work Item 6 (Conference) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Conference">
+                        <img alt="Work 4" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgbvB1xoE5ThMz1blsN2BAvfELLqVxvPkfvDxghMWyir3t69cI1QDj9rdp2WU0sfQg61QotdVHj7ZA09UFa6RNihnBiz6xLic4aJQ7BEbjrAgzet5QYP7ExQ1bfxcGNrjF_3HiHoC4r1WYuze4ebga6WncXc9uofZ7oPWwvF58_F2ehmzLrzlEXfg_xmqw/s16000/photo_2026-06-17_18-42-28.jpg"/>
                         <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                            <span class="text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1">Apps</span>
-                            <h3 class="text-lg font-bold font-serif mb-3">Health & Yoga Tracker</h3>
-                            <p class="text-xs text-gray-300 mb-4 font-light">Interactive tracking app designed in Figma.</p>
+                            <span class="text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1">Conference</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">1st July Conference</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">60 paper &amp; Poster accepted against 400 Applications.</p>
                             <div class="flex gap-3">
-                                <a href="#" onclick="mockZoom(event, 'Health & Yoga Tracker')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Zoom image"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
-                                <a href="#" onclick="mockLink(event)" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" aria-label="Visit site"><i class="fa-solid fa-link"></i></a>
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Applications and Papers July Conference')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Work Item 7 (Voluntary) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Voluntary">
+                        <img alt="Tree Planting Initiative" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjPi8Qz_iYAAHMYtzlN7RJMmuX3s9d0UeqLWWndTtm4tLqY9MEE2coaRYqjJbLlbxCD0XybSaV5bgm92LvV6hwabR_sPGRh3tR0vblLHHK2eA9E3Bnj6jxeZQO0mqOF4fnfAtQdmlYB8hwt7Cj4_SEfMwmbCeMFoX3GV4cEUae6JgZCZBRh69pE4eMY8Sg/s16000/3.jpg"/>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                            <span class="text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1">Voluntary</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">Tree Planting Campaign</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Organizing community tree plantation initiatives for environmental sustainability.</p>
+                            <div class="flex gap-3">
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Tree Planting Campaign')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 8 (Voluntary) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Voluntary">
+                        <img alt="Feni Flood Rescue Operation" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjpoz_AfUQY3li9srMPBirbH9whr4X-5E6wJfyLABEivxVJ4hby6KjbSzFjNxH7hJOJrW62w6c6E_xOAG94n1ZcSlG_cRCIOkfLsqclxaRQWSkjp6ijQCXFqo45diVm9uaUQAEr1C1BKTICsEZfxFAJy6jcHFYlDUoUMvjc-ZOYCgl-UquUORFmalOnDTI/s16000/4.jpg"/>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                            <span class="text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1">Voluntary</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">Feni Flood Rescue</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">On-ground management and emergency rescue operations during severe flood crisis.</p>
+                            <div class="flex gap-3">
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Feni Flood Rescue')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 9 (Voluntary) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Voluntary">
+                        <img alt="Time with street child" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjNkQBQF2F86DRRoMCJLB5DT81V7bUQMpqBSxt_awpjBdfc7uzxyh1WTMmlfh5r9OOtv3upfC0EbWI_CdCLMl_ZwgbcYcAWWwaVTJAewZGZl3bJVvtGmsszqVDS3I2SZhA4TrsajYuxFhpMhVyrdBf84UyHFA09-8dd_Cvo0nhhvNEDKe5LiGx3Cpt-IzQ/s16000/5.jpg"/>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                            <span class="text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1">Voluntary</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">Supporting Street Children</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Spending valuable time and distributing educational gifts to underprivileged youth.</p>
+                            <div class="flex gap-3">
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Supporting Underprivileged Children')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 10 (Voluntary) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Voluntary">
+                        <img alt="Flood Rescue Team Operations" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWQEitYzOB5Kp05zrlAVbDUn1VeOU5RQUD6wVofliz4nBtes908MeI9GI_FG2lGTqaCwTJjmL-gmUQyEmh5yNoPPxMy1YdpEcVJY6EV_R61Bn4PJPYGL5dxhB4M1KlL6HQUGr-DO4YWJAz-EcbCWso7fKwVAmWpKksRoxzN8ESFj-Nt3OW_fuk_-jYV20/s16000/photo_2026-06-23_10-22-28.jpg"/>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                            <span class="text-xs uppercase tracking-widest text-[#a84cb8] font-bold mb-1">Voluntary</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">Flood Relief Support</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Leading operational teams to supply vital food packs and assets to flooded districts.</p>
+                            <div class="flex gap-3">
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Relief Team Logistics')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 11 (Leadership) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Leadership">
+                        <img alt="10 Day Leadership Training Camp" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhc-tkd9G_lW_99bGiLLOWjjsr5m-o-P3t2v9fCJNSSJ0k53OxcICBRaqfEPg2GLB-pgpn6Re4c092qNyE1QdQbkr0HGilQ9pgeDitbLisTDYKYwkUR0p90FslTnNrzDLs4sq5RTG3Nvhu-fPTKHfigtU8GEi5IyKPM_omQCPolA4yaSEIu6ThQzOc-ZLk/s16000/Pre-College.JPG"/>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                            <span class="text-xs uppercase tracking-widest text-[#ec5453] font-bold mb-1">Leadership</span>
+                            <h3 class="text-lg font-bold mb-3 text-white tracking-normal normal-case" style="font-size: 1.125rem !important; font-family: sans-serif !important;">10 Day Leadership Camp</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">An intensive residential boot camp focusing on team building, strategy, and core management skills.</p>
+                            <div class="flex gap-3">
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, '10 Day Leadership Camp')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 12 (Leadership) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Leadership">
+                        <img alt="8th day of Leadership Training Camp" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgFNR86scNu-JYGgc6x8r4yS-9CdHmDfZAO0MFzE-H6Cy_X6rUH_9bF3L-8zRNYCU8CWeRD3R6jp8HOortWDXmnKScvIzgt130zXWIoDFEtpYIwdRSWb5bG-V7xpfKNWmqrK4VWYlkohn1cJ1ANWetQk-mSCP3kfqeMl1_29M2uzchUk24mqPbcZ1oUPeQ/s16000/DSC06359.JPG"/>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                            <span class="text-xs uppercase tracking-widest text-[#ec5453] font-bold mb-1">Leadership</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">Advanced Training Sessions</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Engaging in interactive presentation development and high-level strategy evaluations.</p>
+                            <div class="flex gap-3">
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'Advanced Training Sessions')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 13 (Co-curricular) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Co-curricular">
+                        <img alt="Annual General Meeting of CUDS" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj78JZOF-4K7My5SAOEel2xgqLZFnHfSapzDvrbSmZmEVU1KG_LcvWDqcwk3sv436VUmXDEzB1-2t7e3OKasZV4hWQgZm-lpafRx8A35_GsZJyYX5lPHc6xYATCuiJZ6VVHqXqvJGDYMFiklw8gpg9MVWF03JVFFkkFXFuLASehEfatvXiDEqRmUrOxMl8/s16000/photo_2026-06-23_10-23-20.jpg"/>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                            <span class="text-xs uppercase tracking-widest text-[#f9bf3f] font-bold mb-1">Co-curricular</span>
+                            <h3 class="text-lg font-bold font-serif mb-3">CUDS Annual General Meeting</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Participating in strategic evaluations, policy planning, and formal assembly sessions at Chittagong University Debating Society.</p>
+                            <div class="flex gap-3">
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, 'CUDS Annual General Meeting')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 14 (Co-curricular) -->
+                    <div class="portfolio-item group relative overflow-hidden bg-gray-900 aspect-square rounded-lg shadow-md" data-category="Co-curricular">
+                        <img alt="7 Day BNCC Flotilla Camp" class="w-full h-full object-cover opacity-80 transition duration-500" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjEC-VD7RyBanXO20nXhIoTBsJ3JrC62dIGR4I6LaS16iDr0jiwquvgWxhD9mOctxTusl72eM3To9dSei_ym9A9rDp9mvJm4FM8pfIQnUvxO73OW_KtA9UJxHBlmdR4XP1MZrJjVF94zvZqbJw0W5npnbNS1oE12dAEKAQwbOXot0Ogt6oPScO83nS8JO4/s16000/photo_2026-06-23_10-21-34.jpg"/>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                            <span class="text-xs uppercase tracking-widest text-[#f9bf3f] font-bold mb-1">Co-curricular</span>
+                            <h3 class="text-lg font-bold mb-3 text-white tracking-normal normal-case" style="font-size: 1.125rem !important; font-family: sans-serif !important;">7-Day BNCC Flotilla Camp</h3>
+                            <p class="text-xs text-gray-300 mb-4 font-light">Undergoing disciplined naval training, specialized leadership tasks, and tactical formations during the national flotilla camp assembly.</p>
+                            <div class="flex gap-3">
+                                <a aria-label="Zoom image" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockZoom(event, '7-Day BNCC Flotilla Camp')"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                <a aria-label="Visit site" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-sm" href="#" onclick="mockLink(event)"><i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
         <!-- BLOG SECTION -->
-        <section id="blog" class="py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto">
+        <section class="py-20 px-8 sm:px-16 lg:px-24 max-w-7xl mx-auto" id="blog">
             <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">Read</span>
-            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-12 uppercase">Recent Blog</h2>
+            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-12 uppercase">Blog</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Blog Item 1 -->
-                <article class="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-                    <div class="h-52 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=500" alt="Blog 1" class="w-full h-full object-cover">
-                        <span class="absolute top-4 left-4 bg-jacksonBlue text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm">Design</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex gap-4 text-xs text-gray-400 font-bold uppercase mb-3">
-                            <span><i class="fa-regular fa-calendar-days mr-1.5"></i> June 22, 2026</span>
-                            <span><i class="fa-regular fa-comment mr-1.5"></i> 4 Comments</span>
+                <article class="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex flex-col justify-between h-full">
+                    <div>
+                        <div class="h-52 overflow-hidden relative cursor-pointer" onclick="openFullBlogPost('blog_1')">
+                            <img alt="Why Web Design Matters" class="w-full h-full object-cover hover:scale-105 transition duration-500" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=500"/>
+                            <span class="absolute top-4 left-4 bg-[#2c98f0] text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm">Design</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-800 font-serif leading-snug mb-3 hover:text-jacksonBlue transition"><a href="#" onclick="preventMock(event)">Why Web Design Matters More Than Ever</a></h3>
-                        <p class="text-sm text-gray-500 mb-6 line-clamp-3">Evaluating clean typography parameters, dynamic color combinations, and intuitive touch guidelines to dramatically boost conversions.</p>
-                        <a href="#" onclick="preventMock(event)" class="text-xs font-bold uppercase tracking-wider text-jacksonBlue hover:text-blue-600 flex items-center gap-1.5">
-                            Read More <i class="fa-solid fa-arrow-right-long"></i>
-                        </a>
+                        <div class="p-6">
+                            <div class="flex gap-4 text-xs text-gray-400 font-bold uppercase mb-3">
+                                <span><i class="fa-regular fa-calendar-days mr-1.5"></i> June 22, 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 font-serif leading-snug mb-3 hover:text-[#2c98f0] transition cursor-pointer" onclick="openFullBlogPost('blog_1')">
+                                Why Web Design Matters More Than Ever
+                            </h3>
+                            <p class="text-sm text-gray-500 mb-6 line-clamp-3">Evaluating clean typography parameters, dynamic color combinations, and intuitive touch guidelines to dramatically boost conversions.</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <button class="text-xs font-bold uppercase tracking-wider text-[#ec5453] hover:text-red-600 flex items-center gap-1.5 focus:outline-none" onclick="openFullBlogPost('blog_1')">
+                            See More <i class="fa-solid fa-arrow-right-long"></i>
+                        </button>
                     </div>
                 </article>
 
                 <!-- Blog Item 2 -->
-                <article class="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-                    <div class="h-52 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=500" alt="Blog 2" class="w-full h-full object-cover">
-                        <span class="absolute top-4 left-4 bg-jacksonRed text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm">Tech</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex gap-4 text-xs text-gray-400 font-bold uppercase mb-3">
-                            <span><i class="fa-regular fa-calendar-days mr-1.5"></i> May 18, 2026</span>
-                            <span><i class="fa-regular fa-comment mr-1.5"></i> 10 Comments</span>
+                <article class="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex flex-col justify-between h-full">
+                    <div>
+                        <div class="h-52 overflow-hidden relative cursor-pointer" onclick="openFullBlogPost('blog_2')">
+                            <img alt="The Evolution of Modern Tech Stacks" class="w-full h-full object-cover hover:scale-105 transition duration-500" src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=500"/>
+                            <span class="absolute top-4 left-4 bg-[#ec5453] text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm">Tech</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-800 font-serif leading-snug mb-3 hover:text-jacksonRed transition"><a href="#" onclick="preventMock(event)">The Evolution of Modern Tech Stacks</a></h3>
-                        <p class="text-sm text-gray-500 mb-6 line-clamp-3">A transition analysis comparing modern utility workflows with native semantic components. Why Tailwind delivers cleaner portfolios.</p>
-                        <a href="#" onclick="preventMock(event)" class="text-xs font-bold uppercase tracking-wider text-jacksonRed hover:text-red-600 flex items-center gap-1.5">
-                            Read More <i class="fa-solid fa-arrow-right-long"></i>
-                        </a>
+                        <div class="p-6">
+                            <div class="flex gap-4 text-xs text-gray-400 font-bold uppercase mb-3">
+                                <span><i class="fa-regular fa-calendar-days mr-1.5"></i> May 18, 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 font-serif leading-snug mb-3 hover:text-[#ec5453] transition cursor-pointer" onclick="openFullBlogPost('blog_2')">
+                                The Evolution of Modern Tech Stacks
+                            </h3>
+                            <p class="text-sm text-gray-500 mb-6 line-clamp-3">A transition analysis comparing modern utility workflows with native semantic components. Why Tailwind delivers cleaner portfolios.</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <button class="text-xs font-bold uppercase tracking-wider text-[#ec5453] hover:text-red-600 flex items-center gap-1.5 focus:outline-none" onclick="openFullBlogPost('blog_2')">
+                            See More <i class="fa-solid fa-arrow-right-long"></i>
+                        </button>
                     </div>
                 </article>
 
                 <!-- Blog Item 3 -->
-                <article class="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-                    <div class="h-52 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=500" alt="Blog 3" class="w-full h-full object-cover">
-                        <span class="absolute top-4 left-4 bg-jacksonYellow text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm">Branding</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex gap-4 text-xs text-gray-400 font-bold uppercase mb-3">
-                            <span><i class="fa-regular fa-calendar-days mr-1.5"></i> April 05, 2026</span>
-                            <span><i class="fa-regular fa-comment mr-1.5"></i> 8 Comments</span>
+                <article class="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex flex-col justify-between h-full">
+                    <div>
+                        <div class="h-52 overflow-hidden relative cursor-pointer" onclick="openFullBlogPost('blog_3')">
+                            <img alt="Tips for Beautiful Corporate Portfolios" class="w-full h-full object-cover hover:scale-105 transition duration-500" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=500"/>
+                            <span class="absolute top-4 left-4 text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm" style="background-color: #f2a900;">Branding</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-800 font-serif leading-snug mb-3 hover:text-jacksonYellow transition"><a href="#" onclick="preventMock(event)">Tips for Beautiful Corporate Portfolios</a></h3>
-                        <p class="text-sm text-gray-500 mb-6 line-clamp-3">How choosing color-coded borders, side sticky navigations, and structured timelines triggers instant employer attention.</p>
-                        <a href="#" onclick="preventMock(event)" class="text-xs font-bold uppercase tracking-wider text-jacksonYellow hover:text-yellow-600 flex items-center gap-1.5">
-                            Read More <i class="fa-solid fa-arrow-right-long"></i>
-                        </a>
+                        <div class="p-6">
+                            <div class="flex gap-4 text-xs text-gray-400 font-bold uppercase mb-3">
+                                <span><i class="fa-regular fa-calendar-days mr-1.5"></i> April 05, 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 font-serif leading-snug mb-3 hover:text-yellow-600 transition cursor-pointer" onclick="openFullBlogPost('blog_3')">
+                                Tips for Beautiful Corporate Portfolios
+                            </h3>
+                            <p class="text-sm text-gray-500 mb-6 line-clamp-3">How choosing color-coded borders, side sticky navigations, and structured timelines triggers instant employer attention.</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <button class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 focus:outline-none" onclick="openFullBlogPost('blog_3')" style="color: #f2a900;">
+                            See More <i class="fa-solid fa-arrow-right-long"></i>
+                        </button>
                     </div>
                 </article>
             </div>
         </section>
 
         <!-- CONTACT SECTION -->
-        <section id="contact" class="py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24">
+        <section class="py-20 bg-[#fafafa] px-8 sm:px-16 lg:px-24" id="contact">
             <div class="max-w-7xl mx-auto">
                 <span class="text-xs uppercase tracking-[0.25em] text-gray-400 font-bold block mb-3">Get in Touch</span>
                 <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 tracking-wider mb-12 uppercase">Contact</h2>
@@ -701,58 +832,58 @@
                     <!-- Left Columns: Contact Cards info -->
                     <div class="lg:col-span-2 space-y-6">
                         <!-- Card 1: Email -->
-                        <div class="flex items-center gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+                        <a class="flex items-center gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition" href="mailto:abdullahcu54@gmail.com">
                             <div class="w-12 h-12 rounded-lg bg-jacksonBlue/10 text-jacksonBlue flex items-center justify-center text-xl shrink-0"><i class="fa-regular fa-envelope"></i></div>
                             <div>
                                 <h4 class="text-xs uppercase tracking-widest text-gray-400 font-bold">Email Me</h4>
-                                <p class="text-sm font-bold text-gray-700 mt-1 break-all">jacksonford@example.com</p>
+                                <p class="text-sm font-bold text-gray-700 mt-1">abdullahcu54@gmail.com</p>
                             </div>
-                        </div>
+                        </a>
 
                         <!-- Card 2: Phone -->
-                        <div class="flex items-center gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+                        <a class="flex items-center gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition" href="tel:+8801518962973">
                             <div class="w-12 h-12 rounded-lg bg-jacksonRed/10 text-jacksonRed flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-mobile-screen"></i></div>
                             <div>
                                 <h4 class="text-xs uppercase tracking-widest text-gray-400 font-bold">Call Me</h4>
-                                <p class="text-sm font-bold text-gray-700 mt-1">+123 456 7890</p>
+                                <p class="text-sm font-bold text-gray-700 mt-1">+880 1518 962 973</p>
                             </div>
-                        </div>
+                        </a>
 
                         <!-- Card 3: Address -->
-                        <div class="flex items-center gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+                        <a class="flex items-center gap-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition" href="https://maps.app.goo.gl/TW5GdRVJ1x7BXayw8" target="_blank">
                             <div class="w-12 h-12 rounded-lg bg-jacksonYellow/10 text-jacksonYellow flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-map-location-dot"></i></div>
                             <div>
                                 <h4 class="text-xs uppercase tracking-widest text-gray-400 font-bold">Location</h4>
-                                <p class="text-sm font-bold text-gray-700 mt-1">123 Creative Street, Manila, Philippines</p>
+                                <p class="text-sm font-bold text-gray-700 mt-1">Dhaka, Bangladesh</p>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     <!-- Right Column: Form -->
                     <div class="lg:col-span-3 bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-                        <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-6">
+                        <form class="space-y-6" id="contact-form" onsubmit="handleContactSubmit(event)">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2">Your Name</label>
-                                    <input type="text" required name="name" placeholder="Jackson Ford" class="w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm">
+                                    <input class="w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm" name="name" placeholder="Abdullah Hazari" required="required" type="text"/>
                                 </div>
                                 <div>
                                     <label class="block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2">Your Email</label>
-                                    <input type="email" required name="email" placeholder="jackson@example.com" class="w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm">
+                                    <input class="w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm" name="email" placeholder="abdullahcu54@gmail.com" required="required" type="email"/>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2">Subject</label>
-                                <input type="text" required name="subject" placeholder="Project Inquiry" class="w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm">
+                                <input class="w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm" name="subject" placeholder="Project Inquiry" required="required" type="text"/>
                             </div>
 
                             <div>
                                 <label class="block text-xs uppercase tracking-wider font-bold text-gray-600 mb-2">Message</label>
-                                <textarea required name="message" rows="5" placeholder="Let's build something fantastic together..." class="w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm resize-none"></textarea>
+                                <textarea class="w-full px-4 py-3 bg-jacksonBg/50 border border-gray-200 focus:outline-none focus:border-jacksonBlue focus:bg-white rounded-md transition text-sm resize-none" name="message" placeholder="Let's build something fantastic together..." required="required" rows="5"></textarea>
                             </div>
 
-                            <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-jacksonBlue text-white font-bold text-xs tracking-widest uppercase hover:bg-blue-600 rounded-sm transition duration-300">
+                            <button class="w-full sm:w-auto px-8 py-3.5 bg-jacksonBlue text-white font-bold text-xs tracking-widest uppercase hover:bg-blue-600 rounded-sm transition duration-300" type="submit">
                                 Send Message <i class="fa-solid fa-paper-plane ml-2"></i>
                             </button>
                         </form>
@@ -763,17 +894,71 @@
 
     </main>
 
-    <!-- CUSTOM TOAST / ALERT OVERLAY (Used in place of standard prohibited alert()) -->
-    <div id="toast-message" class="fixed bottom-6 right-6 z-50 bg-gray-900 text-white px-6 py-4 rounded-lg shadow-xl translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-3 max-w-sm">
-        <div id="toast-icon" class="text-jacksonBlue text-lg"><i class="fa-solid fa-circle-check"></i></div>
-        <div id="toast-text" class="text-sm font-semibold tracking-wide">Your message was sent successfully!</div>
+    <!-- TOAST / ALERT OVERLAY -->
+    <div class="fixed bottom-6 right-6 z-50 bg-gray-900 text-white px-6 py-4 rounded-lg shadow-xl translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-3 max-w-sm" id="toast-message">
+        <div class="text-jacksonBlue text-lg" id="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="text-sm font-semibold tracking-wide" id="toast-text">Your message was sent successfully!</div>
     </div>
 
     <!-- MOCK LIGHTBOX FOR VISUAL PORTFOLIO ZOOM -->
-    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden flex-col items-center justify-center p-4" onclick="closeLightbox()">
+    <div class="fixed inset-0 z-50 bg-black/95 hidden flex-col items-center justify-center p-4" id="lightbox" onclick="closeLightbox()">
         <button class="absolute top-6 right-6 text-white text-3xl hover:text-jacksonBlue focus:outline-none" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
-        <img id="lightbox-img" src="" alt="Zoom" class="max-w-full max-h-[80vh] object-contain rounded-md shadow-2xl mb-4">
-        <h3 id="lightbox-title" class="text-white font-serif text-xl font-bold tracking-wider">Project Title</h3>
+        <img alt="Zoom" class="max-w-full max-h-[80vh] object-contain rounded-md shadow-2xl mb-4" id="lightbox-img" src=""/>
+        <h3 class="text-white font-serif text-xl font-bold tracking-wider" id="lightbox-title">Project Title</h3>
+    </div>
+
+    <!-- FULL BLOG POST READER OVERLAY PANEL -->
+    <div id="blog-reader" class="fixed inset-0 bg-white z-50 overflow-y-auto transform translate-x-full transition-transform duration-500 ease-in-out">
+        <!-- Reader Navigation Header -->
+        <header class="sticky top-0 bg-white border-b border-gray-150 py-4 px-6 sm:px-12 flex justify-between items-center z-10 shadow-sm">
+            <button onclick="closeFullBlogPost()" class="flex items-center gap-2 text-gray-600 hover:text-jacksonBlue font-bold text-sm tracking-widest uppercase transition">
+                <i class="fa-solid fa-arrow-left"></i> Back to Portfolio
+            </button>
+            <span class="text-xs font-bold text-gray-400 tracking-widest uppercase hidden sm:inline">Abdullah Hazari Blog Publication</span>
+        </header>
+
+        <!-- Dynamic Post Content Body -->
+        <article class="max-w-4xl mx-auto px-6 sm:px-12 py-12 sm:py-20">
+            <!-- Breadcrumbs -->
+            <div class="text-xs uppercase font-bold tracking-widest text-[#2c98f0] mb-4" id="reader-category">Design</div>
+            <!-- Title -->
+            <h1 class="text-3xl sm:text-5xl font-serif font-bold text-gray-800 leading-tight mb-6" id="reader-title">Why Web Design Matters More Than Ever</h1>
+            
+            <!-- Metadata Row -->
+            <div class="flex items-center gap-4 text-xs text-gray-400 font-bold uppercase pb-8 border-b border-gray-100 mb-8" id="reader-meta">
+                <span><i class="fa-regular fa-calendar-days"></i> June 22, 2026</span>
+                <span>•</span>
+                <span><i class="fa-regular fa-clock"></i> 8 Min Read</span>
+                <span>•</span>
+                <span>By Abdullah Hazari</span>
+            </div>
+
+            <!-- Header Featured Image -->
+            <div class="w-full h-64 sm:h-[400px] rounded-xl overflow-hidden mb-12 shadow-md">
+                <img id="reader-img" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200" alt="Featured Image"/>
+            </div>
+
+            <!-- Rich Body Text -->
+            <div id="reader-content" class="text-gray-600 text-base sm:text-lg leading-relaxed space-y-6 prose prose-blue max-w-none font-medium font-sans">
+                <!-- Content injected dynamically via JavaScript -->
+            </div>
+
+            <!-- Blog Post Footer with Newsletter signup -->
+            <div class="mt-20 pt-12 border-t border-gray-200">
+                <div class="p-8 sm:p-12 bg-jacksonBg rounded-2xl flex flex-col md:flex-row justify-between items-center gap-8">
+                    <div class="max-w-md text-center md:text-left">
+                        <h4 class="text-xl sm:text-2xl font-serif text-gray-800 font-bold mb-2">Subscribe to our publication</h4>
+                        <p class="text-sm text-gray-500">Get the latest analytics strategy, marketing case studies, and corporate designs straight to your inbox.</p>
+                    </div>
+                    <div class="w-full md:w-auto flex flex-col sm:flex-row gap-3">
+                        <input type="email" placeholder="you@example.com" class="px-4 py-3 bg-white border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-jacksonBlue w-full sm:w-64"/>
+                        <button onclick="triggerNewsletterToast()" class="px-6 py-3 bg-jacksonBlue text-white font-bold text-xs tracking-widest uppercase hover:bg-blue-600 rounded-md transition duration-300 shrink-0">
+                            Subscribe
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
     </div>
 
     <!-- INTERACTIVE SCRIPTS -->
@@ -869,7 +1054,7 @@
             const tabs = document.querySelectorAll('.filter-tab');
             
             tabs.forEach(tab => {
-                if (tab.dataset.filter === category) {
+                if (tab.getAttribute('data-filter') === category) {
                     tab.classList.add('border-jacksonBlue', 'text-jacksonBlue');
                     tab.classList.remove('border-transparent', 'text-gray-500');
                 } else {
@@ -879,7 +1064,7 @@
             });
 
             items.forEach(item => {
-                if (category === 'all' || item.dataset.category === category) {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
                     item.style.display = 'block';
                     setTimeout(() => {
                         item.style.opacity = '1';
@@ -930,7 +1115,7 @@
         // Mock download notification
         function triggerCVDownload(event) {
             event.preventDefault();
-            triggerToast("Preparing Jackson_Ford_CV.pdf download package...", "fa-cloud-arrow-down", "#ec5453");
+            triggerToast("Preparing Abdullah_Hazari_CV.pdf download package...", "fa-cloud-arrow-down", "#ec5453");
         }
 
 
@@ -958,16 +1143,123 @@
 
         function mockLink(event) {
             event.preventDefault();
-            triggerToast("Launching portfolio live sandbox link...", "fa-arrow-up-right-from-square", "#2c98f0");
+            triggerToast("Launching portfolio activity details link...", "fa-arrow-up-right-from-square", "#2c98f0");
         }
 
-        function preventMock(event) {
-            event.preventDefault();
-            triggerToast("Redirecting to specific detailed blog content...", "fa-circle-info", "#f9bf3f");
+        // 7. DYNAMIC FULL BLOG POST DATA AND READER CONTROLLER
+        const fullBlogData = {
+            blog_1: {
+                title: "Why Web Design Matters More Than Ever",
+                category: "Design",
+                meta: "<span><i class='fa-regular fa-calendar-days'></i> June 22, 2026</span> <span>•</span> <span><i class='fa-regular fa-clock'></i> 10 Min Read</span> <span>•</span> <span>By Abdullah Hazari</span>",
+                img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200",
+                content: `
+                    <p class="font-semibold text-lg text-gray-800">In the digital landscape of 2026, your website is no longer just a digital brochure; it is the ultimate anchor of your company's identity and visual credibility.</p>
+                    
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mt-10 mb-4">First Impressions Happen in Milliseconds</h2>
+                    <p>Research proves that human brains form layout impressions within 50 milliseconds. A structured, responsive layout utilizing modern visual cues communicates instant trust, professionalism, and industry authority. When prospective users land on a poorly prioritized platform, cognitive friction triggers immediate exits.</p>
+                    
+                    <blockquote class="border-l-4 border-jacksonBlue pl-4 py-2 italic my-8 bg-gray-50 text-gray-700">
+                        "Your layout is the silent representative of your brand. When the design feels effortless, your audience transfers that ease onto your services."
+                    </blockquote>
+
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mt-10 mb-4">Accessibility and Mobile-First Fluidity</h2>
+                    <p>In addition to gorgeous typography, standard compliance is non-negotiable. Over 65% of enterprise traffic originates on touchscreens. Design systems must incorporate touch target layouts with generous spacing (minimally 44x44px padding) and fluid responsive grids ensuring absolute readability at any orientation.</p>
+
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mt-10 mb-4">Conversion-Centered Interface Architecture</h2>
+                    <p>Every pixel of an interaction pathway should logically direct the user towards core objectives. Combining balanced whitespace with high-contrast color choices (such as our premium color accents) isolates the primary Calls To Action (CTAs), leading to exponential jumps in prospective click-through success ratios.</p>
+                `
+            },
+            blog_2: {
+                title: "The Evolution of Modern Tech Stacks",
+                category: "Tech",
+                meta: "<span><i class='fa-regular fa-calendar-days'></i> May 18, 2026</span> <span>•</span> <span><i class='fa-regular fa-clock'></i> 12 Min Read</span> <span>•</span> <span>By Abdullah Hazari</span>",
+                img: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=1200",
+                content: `
+                    <p class="font-semibold text-lg text-gray-800">Building software has shifted from heavy monolithic pipelines to unified, rapid, utility-first ecosystems.</p>
+                    
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mt-10 mb-4">From Legacy Frameworks to Component Driven Logic</h2>
+                    <p>In early eras, web structures relied on fragmented, massive script databases that introduced rendering latency. Today, modular single-file environments allow engineering teams to write isolated, reactive, clean segments of logic which compile instantaneously into ultra-fast user experiences.</p>
+                    
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mt-10 mb-4">The Triumph of Utility-First CSS (Tailwind)</h2>
+                    <p>Why did utility frameworks conquer standard styles? By declaring parameters directly inside responsive elements, you completely eliminate styling duplication, reduce file weight by up to 80%, and force visual consistency across multiple display models.</p>
+
+                    <blockquote class="border-l-4 border-jacksonRed pl-4 py-2 italic my-8 bg-gray-50 text-gray-700">
+                        "Utility classes are more than a technical shortcut; they represent a fundamental paradigm shift towards rapid, maintainable design systems."
+                    </blockquote>
+
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mt-10 mb-4">API Middleware Sync</h2>
+                    <p>In 2026, seamless backend synchronization is expected. Frontends are dynamic templates which render real-time, cached information on the fly via robust API interfaces, assuring maximum offline durability and high-end cybersecurity metrics.</p>
+                `
+            },
+            blog_3: {
+                title: "Tips for Beautiful Corporate Portfolios",
+                category: "Branding",
+                meta: "<span><i class='fa-regular fa-calendar-days'></i> April 05, 2026</span> <span>•</span> <span><i class='fa-regular fa-clock'></i> 10 Min Read</span> <span>•</span> <span>By Abdullah Hazari</span>",
+                img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200",
+                content: `
+                    <p class="font-semibold text-lg text-gray-800">Your professional portfolio is the single most valuable brand asset you own. It sells your capabilities 24 hours a day.</p>
+                    
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mt-10 mb-4">Choosing Structured Visual Chronology</h2>
+                    <p>Modern recruiters spend under 10 seconds reviewing a portfolio. To immediately capture their attention, you must structure experience values. By presenting structured, color-coded markers (like our custom Blue, Red, and Yellow timelines), you lead their eyes through your progression seamlessly.</p>
+                    
+                    <blockquote class="border-l-4 border-jacksonYellow pl-4 py-2 italic my-8 bg-gray-50 text-gray-700" style="border-left-color: #f2a900;">
+                        "A successful portfolio does not just show what you made. It clearly communicates the structural logic behind your solutions."
+                    </blockquote>
+
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mt-10 mb-4">The Magic of Category-Filtered Displays</h2>
+                    <p>Do not throw all projects into a single messy heap. By allowing target viewers to isolate key segments (such as Leadership, Conferences, or Voluntary work) you empower them to find relevant work in single clicks, dramatically increasing hire potential.</p>
+
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mt-10 mb-4">Visual Interactive Lightboxes</h2>
+                    <p>Static screenshots fail to convey depth. Provide zoomed visual overlays (interactive lightboxes) allowing inspectors to study intricate layouts closely without loading heavy third-party assets.</p>
+                `
+            }
+        };
+
+        function openFullBlogPost(postId) {
+            const data = fullBlogData[postId];
+            if (!data) return;
+
+            // Inject the data to our Full-Page Blog Reader
+            document.getElementById('reader-category').textContent = data.category;
+            document.getElementById('reader-title').textContent = data.title;
+            document.getElementById('reader-meta').innerHTML = data.meta;
+            document.getElementById('reader-img').src = data.img;
+            document.getElementById('reader-content').innerHTML = data.content;
+
+            // Apply specific accent colors matching original blog style
+            const catElem = document.getElementById('reader-category');
+            if (data.category === "Design") {
+                catElem.style.color = "#2c98f0";
+            } else if (data.category === "Tech") {
+                catElem.style.color = "#ec5453";
+            } else {
+                catElem.style.color = "#f2a900";
+            }
+
+            // Slide open the reader
+            const reader = document.getElementById('blog-reader');
+            reader.classList.remove('translate-x-full');
+            
+            // Lock body scroll of the background portfolio
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeFullBlogPost() {
+            // Slide close the reader
+            const reader = document.getElementById('blog-reader');
+            reader.classList.add('translate-x-full');
+            
+            // Restore portfolio scroll
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function triggerNewsletterToast() {
+            triggerToast("Thank you! You have successfully subscribed to our newsletter publications.", "fa-circle-check", "#2fa499");
         }
 
 
-        // 7. ACTIVE NAVIGATION HIGHLIGHTER ON SCROLL (Intersection Observer)
+        // 8. ACTIVE NAVIGATION HIGHLIGHTER ON SCROLL (Intersection Observer)
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.nav-link');
 
